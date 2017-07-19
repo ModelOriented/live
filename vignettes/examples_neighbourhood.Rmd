@@ -38,7 +38,7 @@ similar <- generateNeighbourhood(2, 100, actionTimeScoreMathRand1C[,  -1])
 ```
 
 ```{r showCreated}
-kable(similar)
+kable(similar[10,])
 ```
 
 ### Predictions

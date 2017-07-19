@@ -8,6 +8,54 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r libk, echo = FALSE, include = FALSE}
+library(knitr)
+opts_knit$set(message = FALSE, warning = FALSE)
+library(tidyverse)
+library(live)
+library(mlr)
+```
+
 ### Example dataset
 
+The _live_ package contains a subset of data on PISA tests provided by OECD.
+It's called _actionTimeScoreMathRand1C_.
 
+### Simulating datasets for local exploration
+
+LIME method requires creating a new dataset of observations similar in some sense to a given original observation.
+This process is implemented in _generateNeighbourhood_ function.
+We'll use PISA dataset as an example.
+
+Observation of interest:
+
+```{r obsEx}
+kable(actionTimeScoreMathRand1C[2, ])
+```
+
+```{r create}
+similar <- generateNeighbourhood(2, 100, actionTimeScoreMathRand1C[,  -1])
+```
+
+```{r showCreated}
+kable(similar)
+```
+
+### Predictions
+
+First, we'll train a model on original observations using _mlr_ interface.
+For illustration a neural net model will be used.
+
+```{r train}
+library(nnet)
+PISA.task <- makeRegrTask(id = "PISA", data = actionTimeScoreMathRand1C, target = "T", 
+  weights = NULL, blocking = NULL, fixup.data = "warn", check.data = TRUE)
+lrn = makeLearner("regr.nnet")
+nnetTrain <- train(lrn, PISA.task)
+similar <- similar %>%
+  mutate(T = predict(nnetTrain, newdata = similar)[["data"]][["response"]])
+```
+
+```{r newModel}
+
+```

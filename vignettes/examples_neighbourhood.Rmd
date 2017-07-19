@@ -1,0 +1,13 @@
+---
+title: "Creating neighbourhoods and training models"
+author: "Mateusz Staniak"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Creating neighbourhoods and training models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+### Example dataset
+
+

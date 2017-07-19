@@ -14,6 +14,9 @@ excluding the explained variable}
 
 \item{steps}{Number of variables to change}
 }
+\value{
+data.frame
+}
 \description{
 Change value of one variable all rows.
 }

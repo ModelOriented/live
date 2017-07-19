@@ -14,6 +14,9 @@ generateNeighbourhood(observation, noOfNeighbours, originalDataFrame)
 \item{originalDataFrame}{d.f from which observations will be generated
 excluding the explained variable}
 }
+\value{
+data.frame
+}
 \description{
 LIME: sampling for local exploration
 }

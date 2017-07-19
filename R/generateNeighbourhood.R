@@ -1,28 +1,38 @@
+#' Replace one element of a vector with a random element from given d.f
+#' 
+#' @param chosenVariables numbers of columns from d.f to sample from
+#' @param originalDataFrame d.f to sample from
+#' @param newDataFrame d.f in which the replacement is done
+#' 
+#' @return data.frame
+#' 
+
+replaceItems <- function(chosenVariables, originalDataFrame, newDataFrame) {
+  lapply(1:nrow(newDataFrame), function(x) {
+    row <- newDataFrame[x, ]
+    row[1, chosenVariables[x]] <- sample(unlist(originalDataFrame[, chosenVariables[x]]), 1)
+    row
+  })
+}
+
 #' Change value of one variable all rows.
 #'
 #' @param originalDataFrame d.f from which observations will be generated
 #'        excluding the explained variable
 #' @param newDataFrame d.f created by generateNeighbourhood function
 #' @param steps Number of variables to change
+#' 
+#' @return data.frame
+#' 
 
 walkThroughVariables <- function(originalDataFrame, newDataFrame, steps) {
   if(steps == ncol(newDataFrame)) {
-    diag(newDataFrame) <- sapply(originalDataFrame,
-      function(x) x[sample(nrow(originalDataFrame), 1)])
-  } else if(steps < ncol(newDataFrame)) {
-    chosenVariables <- sample(ncol(newDataFrame), steps)
-    colNames <- colnames(newDataFrame)
-    newDataFrame <- lapply(1:nrow(newDataFrame), function(x) {
-      # row <- unlist(newDataFrame[x, ], use.names = F)
-      row <- newDataFrame[x, ]
-      row[1, chosenVariables[x]] <- sample(unlist(originalDataFrame[, chosenVariables[x]]), 1)
-      row
-    })
-    # newDataFrame <- as_tibble(t(as.data.frame(newDataFrame)))
-    # colnames(newDataFrame) <- colNames
-    newDataFrame <- bind_rows(newDataFrame)
+    newDataFrame <- replaceItems(1:ncol(originalDataFrame), originalDataFrame, newDataFrame)
+  } else { # if(steps < ncol(newDataFrame)) 
+    chosenVariables <- sort(sample(ncol(newDataFrame), steps))
+    newDataFrame <- replaceItems(chosenVariables, originalDataFrame, newDataFrame)
   }
-  newDataFrame
+  bind_rows(newDataFrame)
 }
 
 
@@ -32,6 +42,8 @@ walkThroughVariables <- function(originalDataFrame, newDataFrame, steps) {
 #' @param noOfNeighbours number of observations to be generated
 #' @param originalDataFrame d.f from which observations will be generated
 #'        excluding the explained variable
+#'
+#' @return data.frame
 #'
 #' @export
 #'

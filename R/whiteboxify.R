@@ -1,4 +1,5 @@
-setClass("live", contains = "data.frame", slots = list(whiteBoxName = "character"))
+setClass("live", contains = "data.frame", 
+         slots = list(data = "data.frame", whiteBoxName = "character"))
 
 #' Create white box model based on a black box.
 #'
@@ -27,8 +28,6 @@ whiteboxify <- function(originalDataset, observation, explainedVar, blackBox, wh
   lrn <- makeLearner(blackBox)
   blackTrain <- train(lrn, blackTask)
   similar <- generateNeighbourhood(observation, noOfNeighbours, originalDataset)
-  similar <- similar %>%
-    mutate(yWB = predict(blackTrain, newdata = similar)[["data"]][["response"]])
-  colnames(similar)[ncol(similar)] <- explainedVar
-  new("live", similar, whiteBoxName = whiteBox)
+  similar[[explainedVar]] <-  predict(blackTrain, newdata = similar)[["data"]][["response"]]
+  new("live", data = similar, whiteBoxName = whiteBox)
 }

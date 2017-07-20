@@ -50,7 +50,7 @@ walkThroughVariables <- function(originalDataFrame, newDataFrame, steps) {
 
 generateNeighbourhood <- function(observation, noOfNeighbours, originalDataFrame) {
   p <- ncol(originalDataFrame)
-  newDataFrame <- originalDataFrame[rep(observation, noOfNeighbours), ]
+  newDataFrame <- bind_rows(lapply(1:noOfNeighbours, function(x) observation))
   if(noOfNeighbours == p) {
     newDataFrame <- walkThroughVariables(originalDataFrame, newDataFrame, p)
   } else if(noOfNeighbours < p) {

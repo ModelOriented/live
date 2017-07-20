@@ -14,4 +14,6 @@ Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
 Imports: mlr,
-    dplyr
+    dplyr,
+    forestplot,
+    partykit

@@ -14,5 +14,4 @@ Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
 Imports: mlr,
-    dplyr,
-    tibble
+    dplyr

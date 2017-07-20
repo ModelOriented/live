@@ -62,7 +62,7 @@ Linear regression model can be fitted to simulated data as a white box model.
 This can be done via estimateWhiteBoxRegLin function.
 
 ```{r whitebox}
-estimateWhiteBoxRegLin(originalObservation = actionTimeScoreMathRand1C[2, -1],
-                       simulatedData = similar,
-                       explainedVar = similarPred$T)
+# estimateWhiteBoxRegLin(originalObservation = actionTimeScoreMathRand1C[2, -1],
+#                        simulatedData = similar,
+                       # explainedVar = similarPred$T)
 ```

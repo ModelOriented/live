@@ -22,11 +22,11 @@ setClass("live", contains = "data.frame",
 whiteboxify <- function(data, newData, explainedVar, blackBox, whiteBox,  
                            noOfNeighbours, standardise = FALSE, ...) {
   # if(is.character(blackBox)) {  }
-  blackTask <- makeRegrTask(id = "blackTask", data = originalDataset,
+  blackTask <- makeRegrTask(id = "blackTask", data = data,
                       target = explainedVar, ...)
   lrn <- makeLearner(blackBox)
   blackTrain <- train(lrn, blackTask)
-  similar <- generateNeighbourhood(observation, noOfNeighbours, originalDataset)
+  similar <- generateNeighbourhood(newData, noOfNeighbours, data)
   similar[[explainedVar]] <-  predict(blackTrain, newdata = similar)[["data"]][["response"]]
   if(standardise) {
     similar <- similar %>%

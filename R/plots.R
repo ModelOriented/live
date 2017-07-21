@@ -32,4 +32,9 @@ plot.live <- function(liveObject) {
   } else {
     plot(ctree(as.formula(toFormula), data = liveObject@data))
   }
+  # if(grepl("classif", liveObject@blackBoxName)) {
+  #   # ROC curve
+  # } else {
+  #   # ?
+  # }
 }

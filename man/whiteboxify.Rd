@@ -4,13 +4,13 @@
 \alias{whiteboxify}
 \title{Create white box model based on a black box.}
 \usage{
-whiteboxify(originalDataset, observation, explainedVar, blackBox, whiteBox,
-  noOfNeighbours, ...)
+whiteboxify(data, newData, explainedVar, blackBox, whiteBox, noOfNeighbours,
+  standardise = FALSE, ...)
 }
 \arguments{
-\item{originalDataset}{D.f with variables, from which new dataset will be simulated.}
+\item{data}{D.f with variables, from which new dataset will be simulated.}
 
-\item{observation}{One-row d.f with the same variables as in originalDataset argument,
+\item{newData}{One-row d.f with the same variables as in originalDataset argument,
 local exploration will be performed around this observation.}
 
 \item{explainedVar}{Name of a column with the variable to be predicted.}
@@ -21,6 +21,8 @@ with predict interface.}
 \item{whiteBox}{String, "reg" for linear regression or "dtree" for decision tree.}
 
 \item{noOfNeighbours}{Number of similar observations to simulate.}
+
+\item{standardise}{If TRUE, numerical variables will be scaled to have mean 0, var 1.}
 
 \item{...}{Additional parameters to be passed to makeRegrTask function.}
 }

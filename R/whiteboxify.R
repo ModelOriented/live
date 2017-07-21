@@ -32,7 +32,7 @@ whiteboxify <- function(data, newData, explainedVar, blackBox, whiteBox,
   }
   lrn <- makeLearner(blackBox)
   blackTrain <- train(lrn, blackTask)
-  similar <- generateNeighbourhood(newData, noOfNeighbours, data)
+  similar <- generateNeighbourhood(data, newData, noOfNeighbours)
   similar[[explainedVar]] <-  predict(blackTrain, newdata = similar)[["data"]][["response"]]
   if(standardise) {
     similar <- similar %>%

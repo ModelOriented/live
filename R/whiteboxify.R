@@ -1,5 +1,6 @@
 setClass("live", contains = "data.frame", 
-         slots = list(data = "data.frame", whiteBoxName = "character"))
+         slots = list(data = "data.frame", whiteBoxName = "character",
+                      blackBoxName = "character"))
 
 #' Create white box model based on a black box.
 #'
@@ -37,5 +38,5 @@ whiteboxify <- function(data, newData, explainedVar, blackBox, whiteBox,
     similar <- similar %>%
       mutate_if(is.numeric, function(x) as.vector(scale(x)))
   }
-  new("live", data = similar, whiteBoxName = whiteBox)
+  new("live", data = similar, whiteBoxName = whiteBox, blackBoxName = blackBox)
 }

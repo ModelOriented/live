@@ -38,23 +38,23 @@ walkThroughVariables <- function(originalDataFrame, newDataFrame, steps) {
 
 #' LIME: sampling for local exploration
 #'
-#' @param observation a number of row in an original data frame
-#' @param noOfNeighbours number of observations to be generated
-#' @param originalDataFrame d.f from which observations will be generated
+#' @param data d.f from which observations will be generated
 #'        excluding the explained variable
+#' @param newData a number of row in an original data frame
+#' @param noOfNeighbours number of observations to be generated
 #'
 #' @return data.frame
 #'
 #' @export
 #'
 
-generateNeighbourhood <- function(observation, noOfNeighbours, originalDataFrame) {
-  p <- ncol(originalDataFrame)
-  newDataFrame <- bind_rows(lapply(1:noOfNeighbours, function(x) observation))
+generateNeighbourhood <- function(data, newData, noOfNeighbours) {
+  p <- ncol(data)
+  newDataFrame <- bind_rows(lapply(1:noOfNeighbours, function(x) newData))
   if(noOfNeighbours == p) {
-    newDataFrame <- walkThroughVariables(originalDataFrame, newDataFrame, p)
+    newDataFrame <- walkThroughVariables(data, newDataFrame, p)
   } else if(noOfNeighbours < p) {
-    newDataFrame <-walkThroughVariables(originalDataFrame, newDataFrame, noOfNeighbours)
+    newDataFrame <-walkThroughVariables(data, newDataFrame, noOfNeighbours)
   }
   else {
     k = noOfNeighbours %/% p
@@ -62,9 +62,9 @@ generateNeighbourhood <- function(observation, noOfNeighbours, originalDataFrame
     separate <- c(rep(1:k, each = p), rep(k+1, r))
     divided <- split(newDataFrame, separate)
     divided[1:k] <- lapply(divided[1:k], function(x)
-      walkThroughVariables(originalDataFrame, x, p))
+      walkThroughVariables(data, x, p))
     if(r > 0) {
-      divided[[k + 1]] <- walkThroughVariables(originalDataFrame, divided[[k + 1]], r)
+      divided[[k + 1]] <- walkThroughVariables(data, divided[[k + 1]], r)
     }
     newDataFrame <- bind_rows(divided)
   }

@@ -4,15 +4,15 @@
 \alias{generateNeighbourhood}
 \title{LIME: sampling for local exploration}
 \usage{
-generateNeighbourhood(observation, noOfNeighbours, originalDataFrame)
+generateNeighbourhood(data, newData, noOfNeighbours)
 }
 \arguments{
-\item{observation}{a number of row in an original data frame}
+\item{data}{d.f from which observations will be generated
+excluding the explained variable}
+
+\item{newData}{a number of row in an original data frame}
 
 \item{noOfNeighbours}{number of observations to be generated}
-
-\item{originalDataFrame}{d.f from which observations will be generated
-excluding the explained variable}
 }
 \value{
 data.frame

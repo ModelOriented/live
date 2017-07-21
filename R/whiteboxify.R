@@ -22,8 +22,13 @@ setClass("live", contains = "data.frame",
 whiteboxify <- function(data, newData, explainedVar, blackBox, whiteBox,  
                            noOfNeighbours, standardise = FALSE, ...) {
   # if(is.character(blackBox)) {  }
-  blackTask <- makeRegrTask(id = "blackTask", data = data,
-                      target = explainedVar, ...)
+  if(grepl("regr", blackBox)) {
+    blackTask <- makeRegrTask(id = "blackTask", data = data,
+                              target = explainedVar, ...)  
+  } else {
+    blackTask <- makeClassifTask(id = "blackTask", data = data,
+                                 target = explainedVar, ...)
+  }
   lrn <- makeLearner(blackBox)
   blackTrain <- train(lrn, blackTask)
   similar <- generateNeighbourhood(newData, noOfNeighbours, data)

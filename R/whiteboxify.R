@@ -14,6 +14,11 @@ setClass("live", contains = "data.frame",
 #' @param noOfNeighbours Number of similar observations to simulate.
 #' @param standardise If TRUE, numerical variables will be scaled to have mean 0, var 1.
 #' @param regressionFamily Family argument for glm function.
+#' @param predictionFunction Either a "predict" function that returns a vector of the
+#'        same type as response or custom function that takes a model as a first argument,
+#'        new data to base predictions on as a second argument and returns a vector
+#'        of the same type as respone. Will be used only if a model object was provided
+#'        in the blackBox argument.
 #' @param ... Additional parameters to be passed to makeRegrTask function.
 #'
 #' @return 
@@ -23,19 +28,25 @@ setClass("live", contains = "data.frame",
 
 whiteboxify <- function(data, newData, explainedVar, blackBox, whiteBox,  
                         noOfNeighbours, standardise = FALSE,
-                        regressionFamily = "gaussian", ...) {
-  # if(is.character(blackBox)) {  }
-  if(grepl("regr", blackBox)) {
-    blackTask <- makeRegrTask(id = "blackTask", data = data,
-                              target = explainedVar, ...)  
-  } else {
-    blackTask <- makeClassifTask(id = "blackTask", data = data,
-                                 target = explainedVar, ...)
-  }
-  lrn <- makeLearner(blackBox)
-  blackTrain <- train(lrn, blackTask)
+                        regressionFamily = "gaussian",
+                        predictionFunction = predict, ...) {
   similar <- generateNeighbourhood(data, newData, noOfNeighbours)
-  similar[[explainedVar]] <-  predict(blackTrain, newdata = similar)[["data"]][["response"]]
+  if(is.character(blackBox)) {  
+    if(grepl("regr", blackBox)) {
+      blackTask <- makeRegrTask(id = "blackTask", data = data,
+                                target = explainedVar, ...)  
+    } else {
+      blackTask <- makeClassifTask(id = "blackTask", data = data,
+                                   target = explainedVar, ...)
+    }
+    lrn <- makeLearner(blackBox)
+    blackTrain <- train(lrn, blackTask)
+    similar[[explainedVar]] <-  predict(blackTrain, newdata = similar)[["data"]][["response"]]
+  } else {
+    similar[[explainedVar]] <- predictionFunction(blackBox, 
+      newdata = similar[, -which(colnames(similar == explainedVar))])
+  }
+  
   if(standardise) {
     similar <- similar %>%
       mutate_if(is.numeric, function(x) as.vector(scale(x)))

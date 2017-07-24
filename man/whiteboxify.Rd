@@ -5,7 +5,8 @@
 \title{Generate dataset for white box model based on black box model.}
 \usage{
 whiteboxify(data, newData, explainedVar, blackBox, whiteBox, noOfNeighbours,
-  standardise = FALSE, regressionFamily = "gaussian", ...)
+  standardise = FALSE, regressionFamily = "gaussian",
+  predictionFunction = predict, ...)
 }
 \arguments{
 \item{data}{D.f with variables, from which new dataset will be simulated.}
@@ -25,6 +26,12 @@ with predict interface.}
 \item{standardise}{If TRUE, numerical variables will be scaled to have mean 0, var 1.}
 
 \item{regressionFamily}{Family argument for glm function.}
+
+\item{predictionFunction}{Either a "predict" function that returns a vector of the
+same type as response or custom function that takes a model as a first argument,
+new data to base predictions on as a second argument and returns a vector
+of the same type as respone. Will be used only if a model object was provided
+in the blackBox argument.}
 
 \item{...}{Additional parameters to be passed to makeRegrTask function.}
 }

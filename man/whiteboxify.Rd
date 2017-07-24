@@ -2,10 +2,10 @@
 % Please edit documentation in R/whiteboxify.R
 \name{whiteboxify}
 \alias{whiteboxify}
-\title{Create white box model based on a black box.}
+\title{Generate dataset for white box model based on black box model.}
 \usage{
 whiteboxify(data, newData, explainedVar, blackBox, whiteBox, noOfNeighbours,
-  standardise = FALSE, ...)
+  standardise = FALSE, regressionFamily = "gaussian", ...)
 }
 \arguments{
 \item{data}{D.f with variables, from which new dataset will be simulated.}
@@ -24,11 +24,13 @@ with predict interface.}
 
 \item{standardise}{If TRUE, numerical variables will be scaled to have mean 0, var 1.}
 
+\item{regressionFamily}{Family argument for glm function.}
+
 \item{...}{Additional parameters to be passed to makeRegrTask function.}
 }
 \value{
 
 }
 \description{
-Create white box model based on a black box.
+Generate dataset for white box model based on black box model.
 }

@@ -1,8 +1,8 @@
 setClass("live", contains = "data.frame", 
-         slots = list(data = "data.frame", whiteBoxName = "character",
-                      blackBoxName = "character"))
+  slots = list(data = "data.frame", whiteBoxName = "character",
+    blackBoxName = "character", regrFamily = "character"))
 
-#' Create white box model based on a black box.
+#' Generate dataset for white box model based on black box model.
 #'
 #' @param data D.f with variables, from which new dataset will be simulated.
 #' @param newData One-row d.f with the same variables as in originalDataset argument,
@@ -13,6 +13,7 @@ setClass("live", contains = "data.frame",
 #' @param whiteBox String, "reg" for linear regression or "dtree" for decision tree.
 #' @param noOfNeighbours Number of similar observations to simulate.
 #' @param standardise If TRUE, numerical variables will be scaled to have mean 0, var 1.
+#' @param regressionFamily Family argument for glm function.
 #' @param ... Additional parameters to be passed to makeRegrTask function.
 #'
 #' @return 
@@ -21,7 +22,8 @@ setClass("live", contains = "data.frame",
 #'
 
 whiteboxify <- function(data, newData, explainedVar, blackBox, whiteBox,  
-                           noOfNeighbours, standardise = FALSE, ...) {
+                        noOfNeighbours, standardise = FALSE,
+                        regressionFamily = "gaussian", ...) {
   # if(is.character(blackBox)) {  }
   if(grepl("regr", blackBox)) {
     blackTask <- makeRegrTask(id = "blackTask", data = data,
@@ -38,5 +40,6 @@ whiteboxify <- function(data, newData, explainedVar, blackBox, whiteBox,
     similar <- similar %>%
       mutate_if(is.numeric, function(x) as.vector(scale(x)))
   }
-  new("live", data = similar, whiteBoxName = whiteBox, blackBoxName = blackBox)
+  new("live", data = similar, whiteBoxName = whiteBox, 
+      blackBoxName = blackBox, regrFamily = regressionFamily)
 }

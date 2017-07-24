@@ -10,7 +10,8 @@
 plot.live <- function(liveObject) {
   toFormula <- paste(colnames(liveObject@data)[ncol(liveObject@data)], "~", ".")
   if(liveObject@whiteBoxName == "reg") {
-    regModel <- lm(as.formula(toFormula), data = liveObject@data)
+    regModel <- glm(as.formula(toFormula), 
+      data = liveObject@data, family = liveObject@regrFamily)
     src <- summary(regModel)$coefficients
     plotVals <- 
       structure(list(

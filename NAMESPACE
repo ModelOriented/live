@@ -2,4 +2,4 @@
 
 S3method(plot,live)
 export(generateNeighbourhood)
-export(whiteboxify)
+export(simulateSimilar)

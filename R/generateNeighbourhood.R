@@ -28,7 +28,7 @@ replaceItems <- function(chosenVariables, originalDataFrame, newDataFrame) {
 walkThroughVariables <- function(originalDataFrame, newDataFrame, steps) {
   if(steps == ncol(newDataFrame)) {
     newDataFrame <- replaceItems(1:ncol(originalDataFrame), originalDataFrame, newDataFrame)
-  } else { # if(steps < ncol(newDataFrame)) 
+  } else {
     chosenVariables <- sort(sample(ncol(newDataFrame), steps))
     newDataFrame <- replaceItems(chosenVariables, originalDataFrame, newDataFrame)
   }
@@ -50,7 +50,7 @@ walkThroughVariables <- function(originalDataFrame, newDataFrame, steps) {
 
 generateNeighbourhood <- function(data, newData, noOfNeighbours) {
   p <- ncol(data)
-  newDataFrame <- bind_rows(lapply(1:noOfNeighbours, function(x) newData))
+  newDataFrame <- dplyr::bind_rows(lapply(1:noOfNeighbours, function(x) newData))
   if(noOfNeighbours == p) {
     newDataFrame <- walkThroughVariables(data, newDataFrame, p)
   } else if(noOfNeighbours < p) {
@@ -66,7 +66,7 @@ generateNeighbourhood <- function(data, newData, noOfNeighbours) {
     if(r > 0) {
       divided[[k + 1]] <- walkThroughVariables(data, divided[[k + 1]], r)
     }
-    newDataFrame <- bind_rows(divided)
+    newDataFrame <- dplyr::bind_rows(divided)
   }
   newDataFrame
 }

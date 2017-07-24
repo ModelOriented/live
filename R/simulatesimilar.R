@@ -33,15 +33,15 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox, whiteBox,
   similar <- generateNeighbourhood(data, newData, noOfNeighbours)
   if(is.character(blackBox)) {  
     if(grepl("regr", blackBox)) {
-      blackTask <- makeRegrTask(id = "blackTask", data = data,
+      blackTask <- mlr::makeRegrTask(id = "blackTask", data = data,
                                 target = explainedVar, ...)  
     } else {
-      blackTask <- makeClassifTask(id = "blackTask", data = data,
+      blackTask <- mlr::makeClassifTask(id = "blackTask", data = data,
                                    target = explainedVar, ...)
     }
-    lrn <- makeLearner(blackBox)
-    blackTrain <- train(lrn, blackTask)
-    similar[[explainedVar]] <-  predict(blackTrain, newdata = similar)[["data"]][["response"]]
+    lrn <- mlr::makeLearner(blackBox)
+    blackTrain <- mlr::train(lrn, blackTask)
+    similar[[explainedVar]] <-  mlr::predict(blackTrain, newdata = similar)[["data"]][["response"]]
   } else {
     similar[[explainedVar]] <- predictionFunction(blackBox, 
       newdata = similar[, -which(colnames(similar == explainedVar))])
@@ -49,7 +49,7 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox, whiteBox,
   
   if(standardise) {
     similar <- similar %>%
-      mutate_if(is.numeric, function(x) as.vector(scale(x)))
+      dplyr::mutate_if(is.numeric, function(x) as.vector(scale(x)))
   }
   new("live", data = similar, whiteBoxName = whiteBox, 
       blackBoxName = blackBox, regrFamily = regressionFamily)

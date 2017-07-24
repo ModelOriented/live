@@ -26,7 +26,7 @@ setClass("live", contains = "data.frame",
 #' @export
 #'
 
-whiteboxify <- function(data, newData, explainedVar, blackBox, whiteBox,  
+simulateSimilar <- function(data, newData, explainedVar, blackBox, whiteBox,  
                         noOfNeighbours, standardise = FALSE,
                         regressionFamily = "gaussian",
                         predictionFunction = predict, ...) {

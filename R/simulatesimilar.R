@@ -28,7 +28,8 @@ setClass("live", contains = "data.frame",
 simulateSimilar <- function(data, newData, explainedVar, blackBox, whiteBox,  
                         noOfNeighbours, standardise = FALSE,
                         predictionFunction = predict, ...) {
-  similar <- generateNeighbourhood(data, newData, noOfNeighbours)
+  colNum <- which(colnames(data) == explainedVar)
+  similar <- generateNeighbourhood(data[, -colNum], newData[, -colNum], noOfNeighbours)
   if(is.character(blackBox)) {  
     if(grepl("regr", blackBox)) {
       blackTask <- mlr::makeRegrTask(id = "blackTask", data = data,
@@ -85,4 +86,5 @@ trainWhiteBox <- function(liveObject) {
     ctree(as.formula(toFormula), data = liveObject@data)
   }
 }   
+liveObject <- proba
 

@@ -64,21 +64,20 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox,
 #' @param liveObject List return by simulateSimilar function. 
 #' @param whiteBox String, "reg" for linear regression or "dtree" for decision tree.
 #'
-#' @return 
+#' @return lm or party object 
 #' 
 #' @export
 #' 
 
 trainWhiteBox <- function(liveObject, whiteBox) {
-  ourData <- liveObject$data
-  ourData <- ourData %>%
+  liveObject$data <- liveObject$data %>%
     select_if(function(x) {dplyr::n_distinct(x) > 1})
-  if(!grepl(liveObject$target, colnames(ourData))) stop("All predicted values were equal.")
-  ourData <- ourData[is.finite(ourData[[liveObject$target]]), ]
+  if(!grepl(liveObject$target, colnames(liveObject$data))) stop("All predicted values were equal.")
+  liveObject$data <- liveObject$data[is.finite(liveObject$data[[liveObject$target]]), ]
   toFormula <- paste(liveObject@target, "~", ".")
   if(whiteBox == "reg") {
-    lm(as.formula(toFormula), data = ourData)
+    lm(as.formula(toFormula), data = liveObject$data)
   } else {
-    ctree(as.formula(toFormula), data = liveObject@data)
+    ctree(as.formula(toFormula), data = liveObject$data)
   }
 }   

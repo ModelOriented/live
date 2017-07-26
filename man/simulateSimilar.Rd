@@ -4,7 +4,7 @@
 \alias{simulateSimilar}
 \title{Generate dataset for white box model based on black box model.}
 \usage{
-simulateSimilar(data, newData, explainedVar, blackBox, whiteBox, noOfNeighbours,
+simulateSimilar(data, newData, explainedVar, blackBox, noOfNeighbours,
   standardise = FALSE, predictionFunction = predict, ...)
 }
 \arguments{
@@ -17,8 +17,6 @@ local exploration will be performed around this observation.}
 
 \item{blackBox}{String with mlr signature of a learner or a model
 with predict interface.}
-
-\item{whiteBox}{String, "reg" for linear regression or "dtree" for decision tree.}
 
 \item{noOfNeighbours}{Number of similar observations to simulate.}
 
@@ -33,7 +31,7 @@ in the blackBox argument.}
 \item{...}{Additional parameters to be passed to makeRegrTask function.}
 }
 \value{
-
+list
 }
 \description{
 Generate dataset for white box model based on black box model.

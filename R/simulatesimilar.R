@@ -1,7 +1,3 @@
-setClass("live", contains = "data.frame", 
-  slots = list(data = "data.frame", target = "character", whiteBoxName = "character",
-    blackBoxName = "character"))
-
 #' Generate dataset for white box model based on black box model.
 #'
 #' @param data D.f with variables, from which new dataset will be simulated.
@@ -10,7 +6,6 @@ setClass("live", contains = "data.frame",
 #' @param explainedVar Name of a column with the variable to be predicted.
 #' @param blackBox String with mlr signature of a learner or a model
 #'        with predict interface.
-#' @param whiteBox String, "reg" for linear regression or "dtree" for decision tree.
 #' @param noOfNeighbours Number of similar observations to simulate.
 #' @param standardise If TRUE, numerical variables will be scaled to have mean 0, var 1.
 #' @param predictionFunction Either a "predict" function that returns a vector of the
@@ -20,12 +15,12 @@ setClass("live", contains = "data.frame",
 #'        in the blackBox argument.
 #' @param ... Additional parameters to be passed to makeRegrTask function.
 #'
-#' @return 
+#' @return list
 #' 
 #' @export
 #'
 
-simulateSimilar <- function(data, newData, explainedVar, blackBox, whiteBox,  
+simulateSimilar <- function(data, newData, explainedVar, blackBox,  
                         noOfNeighbours, standardise = FALSE,
                         predictionFunction = predict, ...) {
   colNum <- which(colnames(data) == explainedVar)
@@ -60,27 +55,28 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox, whiteBox,
     similar <- similar %>%
       dplyr::mutate_if(is.numeric, function(x) as.vector(scale(x)))
   }
-  new("live", data = similar, target = explainedVar, whiteBoxName = whiteBox,
-      blackBoxName = blackBox)
+  list(data = similar, target = explainedVar, blackBoxName = blackBox)
 }
 
 
 #' Fit white box model to the simulated data.
 #' 
-#' @param liveObject 
+#' @param liveObject List return by simulateSimilar function. 
+#' @param whiteBox String, "reg" for linear regression or "dtree" for decision tree.
 #'
 #' @return 
 #' 
 #' @export
 #' 
 
-trainWhiteBox <- function(liveObject) {
-  ourData <- liveObject@data
+trainWhiteBox <- function(liveObject, whiteBox) {
+  ourData <- liveObject$data
   ourData <- ourData %>%
     select_if(function(x) {dplyr::n_distinct(x) > 1})
-  ourData <- ourData[is.finite(ourData[[liveObject@target]]), ]
+  if(!grepl(liveObject$target, colnames(ourData))) stop("All predicted values were equal.")
+  ourData <- ourData[is.finite(ourData[[liveObject$target]]), ]
   toFormula <- paste(liveObject@target, "~", ".")
-  if(liveObject@whiteBoxName == "reg") {
+  if(whiteBox == "reg") {
     lm(as.formula(toFormula), data = ourData)
   } else {
     ctree(as.formula(toFormula), data = liveObject@data)

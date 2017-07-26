@@ -12,7 +12,7 @@ trainWhiteBox(liveObject, whiteBox)
 \item{whiteBox}{String, "reg" for linear regression or "dtree" for decision tree.}
 }
 \value{
-
+lm or party object
 }
 \description{
 Fit white box model to the simulated data.

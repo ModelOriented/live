@@ -1,13 +1,14 @@
 #' Plotting white box models.
 #' 
 #' @param trainedModel glm object or ctree
+#' @param observation Observation around which model was fitted.
 #' 
 #' @return plot
 #' 
 #' @export
 #' 
 
-plotWhiteBox <- function(trainedModel) {
+plotWhiteBox <- function(trainedModel, observation) {
   if(grepl("lm", class(trainedModel))) {
     src <- summary(trainedModel)$coefficients
     plotVals <- structure(list(
@@ -20,6 +21,7 @@ plotWhiteBox <- function(trainedModel) {
     
     tableText<-cbind(
       c("Variable", as.character(row.names(src))),
+      c("Observed", unlist(observation, use.names = FALSE)), # Przystosować później do faktorów.
       c("Estimate", round(as.numeric(src[, 1]), 2)),
       c("Lower", round(as.numeric(src[, 1] - src[, 2]), 2)),
       c("Upper", round(as.numeric(src[, 1] + src[, 2]), 2)))

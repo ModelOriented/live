@@ -72,9 +72,9 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox,
 trainWhiteBox <- function(liveObject, whiteBox) {
   liveObject$data <- liveObject$data %>%
     select_if(function(x) {dplyr::n_distinct(x) > 1})
-  if(!grepl(liveObject$target, colnames(liveObject$data))) stop("All predicted values were equal.")
+  if(n_distinct(liveObject$data[[liveObject$target]]) == 1) stop("All predicted values were equal.")
   liveObject$data <- liveObject$data[is.finite(liveObject$data[[liveObject$target]]), ]
-  toFormula <- paste(liveObject@target, "~", ".")
+  toFormula <- paste(liveObject$target, "~", ".")
   if(whiteBox == "reg") {
     lm(as.formula(toFormula), data = liveObject$data)
   } else {

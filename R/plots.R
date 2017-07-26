@@ -11,6 +11,8 @@
 plotWhiteBox <- function(trainedModel, observation) {
   if(grepl("lm", class(trainedModel))) {
     src <- summary(trainedModel)$coefficients
+    src <- as.data.frame(src) %>%
+      arrange(desc(abs(`t value`)))
     plotVals <- structure(list(
       mean  = c(NA, src[, 1]), 
       lower = c(NA, src[, 1] - src[, 2]),

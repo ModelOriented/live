@@ -86,5 +86,3 @@ trainWhiteBox <- function(liveObject) {
     ctree(as.formula(toFormula), data = liveObject@data)
   }
 }   
-liveObject <- proba
-

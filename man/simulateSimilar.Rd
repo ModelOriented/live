@@ -5,8 +5,7 @@
 \title{Generate dataset for white box model based on black box model.}
 \usage{
 simulateSimilar(data, newData, explainedVar, blackBox, whiteBox, noOfNeighbours,
-  standardise = FALSE, regressionFamily = "gaussian",
-  predictionFunction = predict, ...)
+  standardise = FALSE, predictionFunction = predict, ...)
 }
 \arguments{
 \item{data}{D.f with variables, from which new dataset will be simulated.}
@@ -24,8 +23,6 @@ with predict interface.}
 \item{noOfNeighbours}{Number of similar observations to simulate.}
 
 \item{standardise}{If TRUE, numerical variables will be scaled to have mean 0, var 1.}
-
-\item{regressionFamily}{Family argument for glm function.}
 
 \item{predictionFunction}{Either a "predict" function that returns a vector of the
 same type as response or custom function that takes a model as a first argument,

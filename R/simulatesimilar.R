@@ -1,6 +1,6 @@
 setClass("live", contains = "data.frame", 
-  slots = list(data = "data.frame", whiteBoxName = "character",
-    blackBoxName = "character", regrFamily = "character"))
+  slots = list(data = "data.frame", target = "character", whiteBoxName = "character",
+    blackBoxName = "character"))
 
 #' Generate dataset for white box model based on black box model.
 #'
@@ -13,7 +13,6 @@ setClass("live", contains = "data.frame",
 #' @param whiteBox String, "reg" for linear regression or "dtree" for decision tree.
 #' @param noOfNeighbours Number of similar observations to simulate.
 #' @param standardise If TRUE, numerical variables will be scaled to have mean 0, var 1.
-#' @param regressionFamily Family argument for glm function.
 #' @param predictionFunction Either a "predict" function that returns a vector of the
 #'        same type as response or custom function that takes a model as a first argument,
 #'        new data to base predictions on as a second argument and returns a vector
@@ -28,7 +27,6 @@ setClass("live", contains = "data.frame",
 
 simulateSimilar <- function(data, newData, explainedVar, blackBox, whiteBox,  
                         noOfNeighbours, standardise = FALSE,
-                        regressionFamily = "gaussian",
                         predictionFunction = predict, ...) {
   similar <- generateNeighbourhood(data, newData, noOfNeighbours)
   if(is.character(blackBox)) {  
@@ -39,9 +37,19 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox, whiteBox,
       blackTask <- mlr::makeClassifTask(id = "blackTask", data = data,
                                    target = explainedVar, ...)
     }
-    lrn <- mlr::makeLearner(blackBox)
+    if(grepl("regr", blackBox)) {
+      lrn <- mlr::makeLearner(blackBox)  
+    } else {
+      lrn <- mlr::makeLearner(blackBox, predict.type = "prob")
+    }
     blackTrain <- mlr::train(lrn, blackTask)
-    similar[[explainedVar]] <-  mlr::predict(blackTrain, newdata = similar)[["data"]][["response"]]
+    pred <-  predict(blackTrain, newdata = similar)
+    if(grepl("regr", blackBox)) {
+      similar[[explainedVar]] <- pred[["data"]][["response"]]
+    } else {
+      probs <- pred$data
+      similar[explainedVar] <- log(probs[, 2]/probs[, 3])
+    }
   } else {
     similar[[explainedVar]] <- predictionFunction(blackBox, 
       newdata = similar[, -which(colnames(similar == explainedVar))])
@@ -51,6 +59,30 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox, whiteBox,
     similar <- similar %>%
       dplyr::mutate_if(is.numeric, function(x) as.vector(scale(x)))
   }
-  new("live", data = similar, whiteBoxName = whiteBox, 
-      blackBoxName = blackBox, regrFamily = regressionFamily)
+  new("live", data = similar, target = explainedVar, whiteBoxName = whiteBox,
+      blackBoxName = blackBox)
 }
+
+
+#' Fit white box model to the simulated data.
+#' 
+#' @param liveObject 
+#'
+#' @return 
+#' 
+#' @export
+#' 
+
+trainWhiteBox <- function(liveObject) {
+  ourData <- liveObject@data
+  ourData <- ourData %>%
+    select_if(function(x) {dplyr::n_distinct(x) > 1})
+  ourData <- ourData[is.finite(ourData[[liveObject@target]]), ]
+  toFormula <- paste(liveObject@target, "~", ".")
+  if(liveObject@whiteBoxName == "reg") {
+    lm(as.formula(toFormula), data = ourData)
+  } else {
+    ctree(as.formula(toFormula), data = liveObject@data)
+  }
+}   
+

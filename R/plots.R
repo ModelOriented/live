@@ -8,7 +8,7 @@
 #' 
 
 plotWhiteBox <- function(trainedModel) {
-  if(class(trainedModel) == "lm") {
+  if(grepl("lm", class(trainedModel))) {
     src <- summary(trainedModel)$coefficients
     plotVals <- structure(list(
       mean  = c(NA, src[, 1]), 

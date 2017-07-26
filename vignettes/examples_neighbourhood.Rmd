@@ -38,23 +38,32 @@ kable(Boston[10, ])
 ### Predictions
 
 First, we'll train a model on original observations using _mlr_ interface.
-For illustration a neural net model will be used.
-Package _nnet_ needs to be loaded first.
+For illustration a SVM model will be used.
+Package _kernlab_ needs to be loaded first.
 
 ```{r train}
-library(nnet)
-ex <- whiteboxify(data = Boston,
-                  newData = Boston[10, ],
+library(kernlab)
+ex <- simulateSimilar(data = Boston,
+                  newData = Boston[20, ],
                   explainedVar = "medv",
-                  blackBox = "regr.nnet",
-                  whiteBox = "dtree",
-                  noOfNeighbours = 100)
+                  blackBox = "regr.ksvm",
+                  whiteBox = "reg",
+                  noOfNeighbours = 1000)
 ```
 
-This function returns a _live_ object which inherits from data.frame.
-Calling _plot()_ with objects of this type gives a forest plot for linear regression white box and _ctree_ plot for decision tree.
+This function returns a _list_, which contains generated dataset, name of the explained variable and a name of used black box model. 
+Now predictions from the black box model can be approximated locally by a simpler model, in this case,linear regression.
+This is done by _exTrain_ function.
 
-```{r plotResult}
-plot(ex)
+```{r trainWhite}
+exTrain <- trainWhiteBox(liveObject = ex,
+			 whiteBox = "reg")
+```
+
+This function returns a _lm_ object if linear regression was chosen and _party_ object, if decision tree was the white box.
+This simpler model can be plotted using plotWhiteBox function.
+
+```{r plotWhite}
+plotWhiteBox(exTrain)
 ```
 

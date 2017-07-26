@@ -47,7 +47,6 @@ ex <- simulateSimilar(data = Boston,
                   newData = Boston[20, ],
                   explainedVar = "medv",
                   blackBox = "regr.ksvm",
-                  whiteBox = "reg",
                   noOfNeighbours = 1000)
 ```
 

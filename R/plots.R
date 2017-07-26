@@ -9,7 +9,7 @@
 
 plotWhiteBox <- function(trainedModel) {
   if(class(trainedModel) == "lm") {
-    src <- summary(regModel)$coefficients
+    src <- summary(trainedModel)$coefficients
     plotVals <- structure(list(
       mean  = c(NA, src[, 1]), 
       lower = c(NA, src[, 1] - src[, 2]),

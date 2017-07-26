@@ -11,6 +11,7 @@
 plotWhiteBox <- function(trainedModel, observation) {
   if(grepl("lm", class(trainedModel))) {
     src <- summary(trainedModel)$coefficients
+    varNames <- row.names(src)
     src <- as.data.frame(src) %>%
       arrange(desc(abs(`t value`)))
     plotVals <- structure(list(
@@ -22,14 +23,13 @@ plotWhiteBox <- function(trainedModel, observation) {
       class = "data.frame")
     
     tableText<-cbind(
-      c("Variable", as.character(row.names(src))),
+      c("Variable", varNames),
       c("Observed", unlist(observation, use.names = FALSE)), # Przystosować później do faktorów.
       c("Estimate", round(as.numeric(src[, 1]), 2)),
       c("Lower", round(as.numeric(src[, 1] - src[, 2]), 2)),
       c("Upper", round(as.numeric(src[, 1] + src[, 2]), 2)))
     
-    forestplot(tableText,
-               plotVals)
+    forestplot(tableText, plotVals, boxsize = 0.4)
   } else {
     plot(trainedModel)
   }

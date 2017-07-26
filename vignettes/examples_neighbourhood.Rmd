@@ -63,6 +63,6 @@ This function returns a _lm_ object if linear regression was chosen and _party_ 
 This simpler model can be plotted using plotWhiteBox function.
 
 ```{r plotWhite}
-plotWhiteBox(exTrain)
+plotWhiteBox(exTrain, Boston[20, ])
 ```
 

@@ -8,8 +8,8 @@
 #' @export
 #' 
 
-plotWhiteBox <- function(trainedModel, observation) {
-  if(grepl("lm", class(trainedModel))) {
+plotWhiteBox <- function(trainedModel, observation = NULL) {
+  if(any(grepl("lm", class(trainedModel)))) {
     src <- summary(trainedModel)$coefficients
     varNames <- row.names(src)
     src <- as.data.frame(src) %>%

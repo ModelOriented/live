@@ -4,10 +4,12 @@
 \alias{plotWhiteBox}
 \title{Plotting white box models.}
 \usage{
-plotWhiteBox(trainedModel)
+plotWhiteBox(trainedModel, observation = NULL)
 }
 \arguments{
 \item{trainedModel}{glm object or ctree}
+
+\item{observation}{Observation around which model was fitted.}
 }
 \value{
 plot

@@ -4,12 +4,14 @@
 \alias{trainWhiteBox}
 \title{Fit white box model to the simulated data.}
 \usage{
-trainWhiteBox(liveObject, whiteBox)
+trainWhiteBox(liveObject, whiteBox, maxDepth = Inf)
 }
 \arguments{
 \item{liveObject}{List return by simulateSimilar function.}
 
 \item{whiteBox}{String, "reg" for linear regression or "dtree" for decision tree.}
+
+\item{maxDepth}{Maximum depth of tree, argument passed to ctree().}
 }
 \value{
 lm or party object

@@ -6,7 +6,7 @@
 #' @param explainedVar Name of a column with the variable to be predicted.
 #' @param blackBox String with mlr signature of a learner or a model
 #'        with predict interface.
-#' @param noOfNeighbours Number of similar observations to simulate.
+#' @param size Number of observations is a simulated dataset.
 #' @param standardise If TRUE, numerical variables will be scaled to have mean 0, var 1.
 #' @param predictionFunction Either a "predict" function that returns a vector of the
 #'        same type as response or custom function that takes a model as a first argument,
@@ -21,10 +21,10 @@
 #'
 
 simulateSimilar <- function(data, newData, explainedVar, blackBox,  
-                        noOfNeighbours, standardise = FALSE,
+                        size, standardise = FALSE,
                         predictionFunction = predict, ...) {
   colNum <- which(colnames(data) == explainedVar)
-  similar <- generateNeighbourhood(data[, -colNum], newData[, -colNum], noOfNeighbours)
+  similar <- generateNeighbourhood(data[, -colNum], newData[, -colNum], size)
   if(is.character(blackBox)) {  
     if(grepl("regr", blackBox)) {
       blackTask <- mlr::makeRegrTask(id = "blackTask", data = data,

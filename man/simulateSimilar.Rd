@@ -4,7 +4,7 @@
 \alias{simulateSimilar}
 \title{Generate dataset for white box model based on black box model.}
 \usage{
-simulateSimilar(data, newData, explainedVar, blackBox, noOfNeighbours,
+simulateSimilar(data, newData, explainedVar, blackBox, size,
   standardise = FALSE, predictionFunction = predict, ...)
 }
 \arguments{
@@ -18,7 +18,7 @@ local exploration will be performed around this observation.}
 \item{blackBox}{String with mlr signature of a learner or a model
 with predict interface.}
 
-\item{noOfNeighbours}{Number of similar observations to simulate.}
+\item{size}{Number of observations is a simulated dataset.}
 
 \item{standardise}{If TRUE, numerical variables will be scaled to have mean 0, var 1.}
 

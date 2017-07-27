@@ -33,24 +33,15 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox,
       blackTask <- mlr::makeClassifTask(id = "blackTask", data = data,
                                    target = explainedVar, ...)
     }
-    if(grepl("regr", blackBox)) {
-      lrn <- mlr::makeLearner(blackBox)  
-    } else {
-      lrn <- mlr::makeLearner(blackBox, predict.type = "prob")
-    }
+    lrn <- mlr::makeLearner(blackBox)  
     blackTrain <- mlr::train(lrn, blackTask)
-    pred <-  predict(blackTrain, newdata = similar)
-    if(grepl("regr", blackBox)) {
-      similar[[explainedVar]] <- pred[["data"]][["response"]]
-    } else {
-      probs <- pred$data
-      similar[explainedVar] <- log(probs[, 2]/probs[, 3])
-    }
+    pred <-  predict(blackTrain, 
+		     newdata = similar)
+    similar[[explainedVar]] <- pred[["data"]][["response"]]
   } else {
     similar[[explainedVar]] <- predictionFunction(blackBox, 
-      newdata = similar[, -which(colnames(similar == explainedVar))])
+      newdata = similar)
   }
-  
   if(standardise) {
     similar <- similar %>%
       dplyr::mutate_if(is.numeric, function(x) as.vector(scale(x)))
@@ -62,7 +53,7 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox,
 #' Fit white box model to the simulated data.
 #' 
 #' @param liveObject List return by simulateSimilar function. 
-#' @param whiteBox String, "reg" for linear regression or "dtree" for decision tree.
+#' @param whiteBox String, learner name recognized by mlr package.
 #' @param ... Additional arguments passedto makeLearner function.
 #'
 #' @return mlr object returned by train function.

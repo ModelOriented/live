@@ -35,12 +35,11 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox,
     }
     lrn <- mlr::makeLearner(blackBox)  
     blackTrain <- mlr::train(lrn, blackTask)
-    pred <-  predict(blackTrain, 
-		     newdata = similar)
+    pred <-  predict(blackTrain, newdata = similar)
     similar[[explainedVar]] <- pred[["data"]][["response"]]
   } else {
     similar[[explainedVar]] <- predictionFunction(blackBox, 
-      newdata = similar)
+						  newdata = similar)
   }
   if(standardise) {
     similar <- similar %>%
@@ -61,13 +60,14 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox,
 #' @export
 #' 
 
-trainWhiteBox <- function(liveObject, whiteBox, ...) {
+trainWhiteBox <- function(liveObject, whiteBox, maxDepth = 0) {
   if(n_distinct(liveObject$data[[liveObject$target]]) == 1) stop("All predicted values were equal.")
   if(grepl("regr", whiteBox)) {
     whiteTask <- mlr::makeRegrTask(id = "whiteTask", data = liveObject$data, target = liveObject$target)
+    lrn <- mlr::makeLearner(whiteBox)
   } else {
     whiteTask <- mlr::makeClassifTask(id = "whiteTask", data = liveObject$data, target = liveObject$target)
+    lrn <- mlr::makeLearner(whiteBox, maxdepth = maxDepth)
   }
-  lrn <- mlr::makeLearner(whiteBox, ...)
   mlr::train(lrn, whiteTask)
 }   

@@ -47,7 +47,7 @@ ex <- simulateSimilar(data = Boston,
                   newData = Boston[20, ],
                   explainedVar = "medv",
                   blackBox = "regr.ksvm",
-                  noOfNeighbours = 1000)
+                  noOfNeighbours = 500)
 ```
 
 This function returns a _list_, which contains generated dataset, name of the explained variable and a name of used black box model. 
@@ -66,3 +66,19 @@ This simpler model can be plotted using plotWhiteBox function.
 plotWhiteBox(exTrain, Boston[20, ])
 ```
 
+The same can be done with decision tree serving as a white box.
+We need to modify the call to _trainWhiteBox_:
+
+```{r trainTree}
+exTree <- trainWhiteBox(liveObject = ex,
+			whiteBox = "dtree",
+			maxDepth = 7)
+```
+
+
+The _maxDepth_ argument controls the size of tree.
+Now the tree can be plotted.
+
+```{r plotTree}
+plotWhiteBox(exTree)
+```

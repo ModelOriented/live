@@ -67,11 +67,17 @@ plotWhiteBox(exTrain, Boston[20, ])
 ```
 
 The same can be done with decision tree serving as a white box.
-We need to modify the call to _trainWhiteBox_:
+We'll use _Iris_ dataset for illustration.
+We need to modify the call to _simulateSimilar_ and _trainWhiteBox_ functions:
 
 ```{r trainTree}
-# exTree <- trainWhiteBox(liveObject = ex,
-# 			whiteBox = "dtree")
+data(iris)
+exClassif <- simulateSimilar(data = iris,
+				newData = iris[20, ],
+				explainedVar = "Species",
+				blackBox = "classif.ksvm",
+				size = 500)
+exClassifWB <- trainWhiteBox(exClassif, "classif.ctree", 6)
 ```
 
 
@@ -79,5 +85,5 @@ The _maxDepth_ argument controls the size of tree.
 Now the tree can be plotted.
 
 ```{r plotTree}
-# plotWhiteBox(exTree)
+plotWhiteBox(exClassifWB)
 ```

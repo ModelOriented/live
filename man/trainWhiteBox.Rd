@@ -4,12 +4,12 @@
 \alias{trainWhiteBox}
 \title{Fit white box model to the simulated data.}
 \usage{
-trainWhiteBox(liveObject, whiteBox, ...)
+trainWhiteBox(liveObject, whiteBox, maxDepth = 0)
 }
 \arguments{
 \item{liveObject}{List return by simulateSimilar function.}
 
-\item{whiteBox}{String, "reg" for linear regression or "dtree" for decision tree.}
+\item{whiteBox}{String, learner name recognized by mlr package.}
 
 \item{...}{Additional arguments passedto makeLearner function.}
 }

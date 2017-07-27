@@ -1,6 +1,6 @@
 #' Plotting white box models.
 #' 
-#' @param trainedModel glm object or ctree
+#' @param whiteBox object returned by mlr::train function.
 #' @param observation Observation around which model was fitted.
 #' 
 #' @return plot
@@ -8,7 +8,8 @@
 #' @export
 #' 
 
-plotWhiteBox <- function(trainedModel, observation = NULL) {
+plotWhiteBox <- function(whiteBox, observation = NULL) {
+  trainedModel <- getLearnerModel(whiteBox)
   if(any(grepl("lm", class(trainedModel)))) {
     src <- summary(trainedModel)$coefficients
     varNames <- row.names(src)

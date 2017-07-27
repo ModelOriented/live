@@ -63,22 +63,20 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox,
 #' 
 #' @param liveObject List return by simulateSimilar function. 
 #' @param whiteBox String, "reg" for linear regression or "dtree" for decision tree.
-#' @param maxDepth Maximum depth of tree, argument passed to ctree().
+#' @param ... Additional arguments passedto makeLearner function.
 #'
-#' @return lm or party object 
+#' @return mlr object returned by train function.
 #' 
 #' @export
 #' 
 
-trainWhiteBox <- function(liveObject, whiteBox, maxDepth = Inf) {
-  liveObject$data <- liveObject$data %>%
-    select_if(function(x) {dplyr::n_distinct(x) > 1})
+trainWhiteBox <- function(liveObject, whiteBox, ...) {
   if(n_distinct(liveObject$data[[liveObject$target]]) == 1) stop("All predicted values were equal.")
-  liveObject$data <- liveObject$data[is.finite(liveObject$data[[liveObject$target]]), ]
-  toFormula <- paste(liveObject$target, "~", ".")
-  if(whiteBox == "reg") {
-    lm(as.formula(toFormula), data = liveObject$data)
+  if(grepl("regr", whiteBox)) {
+    whiteTask <- mlr::makeRegrTask(id = "whiteTask", data = liveObject$data, target = liveObject$target)
   } else {
-    ctree(as.formula(toFormula), data = liveObject$data, maxdepth = maxDepth)
+    whiteTask <- mlr::makeClassifTask(id = "whiteTask", data = liveObject$data, target = liveObject$target)
   }
+  lrn <- mlr::makeLearner(whiteBox, ...)
+  mlr::train(lrn, whiteTask)
 }   

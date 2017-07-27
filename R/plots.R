@@ -34,9 +34,4 @@ plotWhiteBox <- function(whiteBox, observation = NULL) {
   } else {
     plot(trainedModel)
   }
-  # if(grepl("classif", liveObject@blackBoxName)) {
-  #   # ROC curve
-  # } else {
-  #   # ?
-  # }
 }

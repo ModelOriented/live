@@ -63,13 +63,14 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox,
 #' 
 #' @param liveObject List return by simulateSimilar function. 
 #' @param whiteBox String, "reg" for linear regression or "dtree" for decision tree.
+#' @param maxDepth Maximum depth of tree, argument passed to ctree().
 #'
 #' @return lm or party object 
 #' 
 #' @export
 #' 
 
-trainWhiteBox <- function(liveObject, whiteBox) {
+trainWhiteBox <- function(liveObject, whiteBox, maxDepth = Inf) {
   liveObject$data <- liveObject$data %>%
     select_if(function(x) {dplyr::n_distinct(x) > 1})
   if(n_distinct(liveObject$data[[liveObject$target]]) == 1) stop("All predicted values were equal.")
@@ -78,6 +79,6 @@ trainWhiteBox <- function(liveObject, whiteBox) {
   if(whiteBox == "reg") {
     lm(as.formula(toFormula), data = liveObject$data)
   } else {
-    ctree(as.formula(toFormula), data = liveObject$data)
+    ctree(as.formula(toFormula), data = liveObject$data, maxdepth = maxDepth)
   }
 }   

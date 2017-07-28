@@ -27,12 +27,12 @@ For illustration we'll use _Boston_ dataset from _MASS_ package.
 ### Simulating datasets for local exploration
 
 LIME method requires creating a new dataset of observations similar in some sense to a given original observation.
-This process is implemented in _generateNeighbourhood_ function, which is called by _whiteBoxify_ function, but can be also used separately.
+This process is implemented in _generateNeighbourhood_ function, which is called by _simulateSimilar_ function, but can be also used separately.
 
 Observation of interest:
 
 ```{r obsEx}
-kable(Boston[10, ])
+kable(Boston[20, ])
 ```
 
 ### Predictions
@@ -51,7 +51,7 @@ ex <- simulateSimilar(data = Boston,
 ```
 
 This function returns a _list_, which contains generated dataset, name of the explained variable and a name of used black box model. 
-Now predictions from the black box model can be approximated locally by a simpler model, in this case,linear regression.
+Now predictions from the black box model can be approximated locally by a simpler model, in this case, linear regression.
 This is done by _exTrain_ function.
 
 ```{r trainWhite}

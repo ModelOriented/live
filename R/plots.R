@@ -11,26 +11,28 @@
 plotWhiteBox <- function(whiteBox, observation = NULL) {
   trainedModel <- getLearnerModel(whiteBox)
   if(any(grepl("lm", class(trainedModel)))) {
-    src <- summary(trainedModel)$coefficients
-    varNames <- row.names(src)
-    src <- as.data.frame(src) %>%
-      arrange(desc(abs(`t value`)))
-    plotVals <- structure(list(
-      mean  = c(NA, src[, 1]), 
-      lower = c(NA, src[, 1] - src[, 2]),
-      upper = c(NA, src[, 1] + src[, 2])),
-      .Names = c("mean", "lower", "upper"), 
-      row.names = c(NA, -11L),
-      class = "data.frame")
-    
-    tableText<-cbind(
-      c("Variable", varNames),
-      c("Observed", unlist(observation, use.names = FALSE)), # Przystosować później do faktorów.
-      c("Estimate", round(as.numeric(src[, 1]), 2)),
-      c("Lower", round(as.numeric(src[, 1] - src[, 2]), 2)),
-      c("Upper", round(as.numeric(src[, 1] + src[, 2]), 2)))
-    
-    forestplot(tableText, plotVals, boxsize = 0.4)
+    srcM <- summary(trainedModel)$coefficients
+    varNames <- row.names(srcM)
+    src <- as.data.frame(srcM) %>%
+      mutate(lower = Estimate - `Std. Error`,
+	     upper = Estimate + `Std. Error`,
+	     variable = varNames) %>%
+    arrange(desc(abs(`t value`))) %>%
+    filter(variable != "(Intercept)") %>%
+    select(Estimate, lower, upper, variable)
+  varNames <- src$variable
+  plotVals <- structure(list(mean = c(NA, src$Estimate),
+			     lower = c(NA, src$lower),
+			     upper = c(NA, src$upper)),
+			.Names = c("mean", "lower", "upper"),
+			row.names = c(NA, -11L),
+			class = "data.frame")
+  tableText <- cbind(c("Variable", varNames),
+		     c("Observed", unlist(Boston[20, ])[varNames]),
+		     c("Estimate", round(src$Estimate, 2)),
+		     c("Lower", round(src$lower, 2)),
+		     c("Upper", round(src$upper, 2)))
+  forestplot(tableText, plotVals, boxsize = 0.4)
   } else {
     plot(trainedModel)
   }

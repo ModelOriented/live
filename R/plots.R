@@ -20,20 +20,20 @@ plotWhiteBox <- function(whiteBox, observation = NULL) {
     arrange(desc(abs(`t value`))) %>%
     filter(variable != "(Intercept)") %>%
     select(Estimate, lower, upper, variable)
-  varNames <- src$variable
-  plotVals <- structure(list(mean = c(NA, src$Estimate),
-			     lower = c(NA, src$lower),
-			     upper = c(NA, src$upper)),
-			.Names = c("mean", "lower", "upper"),
-			row.names = c(NA, -11L),
-			class = "data.frame")
-  tableText <- cbind(c("Variable", varNames),
-		     c("Observed", unlist(Boston[20, ])[varNames]),
-		     c("Estimate", round(src$Estimate, 2)),
-		     c("Lower", round(src$lower, 2)),
-		     c("Upper", round(src$upper, 2)))
-  forestplot(tableText, plotVals, boxsize = 0.4)
+    varNames <- src$variable
+    plotVals <- structure(list(mean = c(NA, src$Estimate),
+			       lower = c(NA, src$lower),
+			       upper = c(NA, src$upper)),
+			  .Names = c("mean", "lower", "upper"),
+			  row.names = c(NA, -11L),
+			  class = "data.frame")
+    tableText <- cbind(c("Variable", varNames),
+		       c("Observed", round(unlist(observation)[varNames], 2)),
+		       c("Estimate", round(src$Estimate, 2)),
+		       c("Lower", round(src$lower, 2)),
+		       c("Upper", round(src$upper, 2)))
+    forestplot(tableText, plotVals, boxsize = 0.4)
   } else {
-    plot(trainedModel)
+      plot(trainedModel)
   }
 }

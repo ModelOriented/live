@@ -14,12 +14,12 @@ plotWhiteBox <- function(whiteBox, observation = NULL) {
     srcM <- summary(trainedModel)$coefficients
     varNames <- row.names(srcM)
     src <- as.data.frame(srcM) %>%
-      mutate(lower = Estimate - `Std. Error`,
+      dplyr::mutate(lower = Estimate - `Std. Error`,
 	     upper = Estimate + `Std. Error`,
 	     variable = varNames) %>%
-    arrange(desc(abs(`t value`))) %>%
-    filter(variable != "(Intercept)") %>%
-    select(Estimate, lower, upper, variable)
+    dplyr::arrange(desc(abs(`t value`))) %>%
+    dplyr::filter(variable != "(Intercept)") %>%
+    dplyr::select(Estimate, lower, upper, variable)
     varNames <- src$variable
     plotVals <- structure(list(mean = c(NA, src$Estimate),
 			       lower = c(NA, src$lower),

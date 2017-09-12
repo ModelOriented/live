@@ -53,9 +53,8 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox,
 #' 
 #' @param liveObject List return by simulateSimilar function. 
 #' @param whiteBox String, learner name recognized by mlr package.
-#' @param select If TRUE, variable selection based on AIC will be performed.
+#' @param selection If TRUE, variable selection based on AIC will be performed.
 #' @param maxDepth maximum depth of a tree (when decision tree is used).
-#' @param ... Additional arguments passed to makeLearner function.
 #'
 #' @return mlr object returned by train function.
 #' 
@@ -63,14 +62,23 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox,
 #' 
 
 
-trainWhiteBox <- function(liveObject, whiteBox, maxDepth = 0, ...) {
-  if(n_distinct(liveObject$data[[liveObject$target]]) == 1) stop("All predicted values were equal.")
-  if(grepl("regr", whiteBox)) {
-    whiteTask <- mlr::makeRegrTask(id = "whiteTask", data = liveObject$data, target = liveObject$target)
-    lrn <- mlr::makeLearner(whiteBox, ...)
-  } else {
-    whiteTask <- mlr::makeClassifTask(id = "whiteTask", data = liveObject$data, target = liveObject$target)
-    lrn <- mlr::makeLearner(whiteBox, maxdepth = maxDepth, ...)
-  }
-  mlr::train(lrn, whiteTask)
+trainWhiteBox <- function(liveObject, whiteBox, selection = FALSE, maxDepth = 0) {
+    if(n_distinct(liveObject$data[[liveObject$target]]) == 1) stop("All predicted values were equal.")
+    if(selection) {
+        colNumber <- which(colnames(liveObject$data) == liveObject$target)
+        selectedVariables <- selectModel(as.data.frame(liveObject$data[, -colNumber]), 
+                                         unlist(liveObject$data[, colNumber]), crit = aic)
+    } else {
+        selectedVariables <- colnames(liveObject$data)
+    }
+    if(grepl("regr", whiteBox)) {
+        whiteTask <- mlr::makeRegrTask(id = "whiteTask", 
+                                       data = liveObject$data[, unique(c(selectedVariables, liveObject$target))],
+                                       target = liveObject$target)
+        lrn <- mlr::makeLearner(whiteBox)
+    } else {
+        whiteTask <- mlr::makeClassifTask(id = "whiteTask", data = liveObject$data, target = liveObject$target)
+        lrn <- mlr::makeLearner(whiteBox, maxdepth = maxDepth)
+    }
+    mlr::train(lrn, whiteTask)
 }   

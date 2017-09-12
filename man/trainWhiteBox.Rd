@@ -4,14 +4,18 @@
 \alias{trainWhiteBox}
 \title{Fit white box model to the simulated data.}
 \usage{
-trainWhiteBox(liveObject, whiteBox, maxDepth = 0)
+trainWhiteBox(liveObject, whiteBox, selection = FALSE, maxDepth = 0, ...)
 }
 \arguments{
 \item{liveObject}{List return by simulateSimilar function.}
 
 \item{whiteBox}{String, learner name recognized by mlr package.}
 
-\item{...}{Additional arguments passedto makeLearner function.}
+\item{selection}{If TRUE, variable selection based on AIC will be performed.}
+
+\item{maxDepth}{maximum depth of a tree (when decision tree is used).}
+
+\item{...}{Additional arguments passed to makeLearner function.}
 }
 \value{
 mlr object returned by train function.

@@ -25,10 +25,10 @@ plotWhiteBox <- function(whiteBox, observation = NULL) {
 			       lower = c(NA, src$lower),
 			       upper = c(NA, src$upper)),
 			  .Names = c("mean", "lower", "upper"),
-			  row.names = c(NA, -11L),
+			  row.names = c(NA, -(length(varNames) + 1)),
 			  class = "data.frame")
     tableText <- cbind(c("Variable", varNames),
-		       c("Observed", round(unlist(observation)[varNames], 2)),
+		       c("Observed", round(unlist(observation)[varNames], 2)), # Do poprawy
 		       c("Estimate", round(src$Estimate, 2)),
 		       c("Lower", round(src$lower, 2)),
 		       c("Upper", round(src$upper, 2)))

@@ -8,7 +8,7 @@
 #' @section Important function:
 #' \code{\link{simulateSimilar}} generates a dataset that will be used for local eploration.
 #' \code{\link{trainWhiteBox}} fits a chosen model to simulated dataset.
-#' \code{\link{plotWhiteBOx}} visualizes fitted model.
+#' \code{\link{plotWhiteBox}} visualizes fitted model.
 #'
 #' @section Example datasets:
 #'

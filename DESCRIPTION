@@ -8,7 +8,7 @@ Authors@R: c(
   person("Mateusz", "Staniak", role = "cre",
     email = "mateusz.staniak@math.uni.wroc.pl")
   )
-Maintainer: mateusz.staniak@math.uni.wroc.pl
+Maintainer: Mateusz Staniak <mateusz.staniak@math.uni.wroc.pl>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: MIT
@@ -17,7 +17,9 @@ LazyData: true
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown,
-    testthat
+    testthat,
+    kernlab,
+    bigstep
 VignetteBuilder: knitr
 Imports: mlr,
     dplyr,

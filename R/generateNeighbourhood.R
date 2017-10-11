@@ -32,7 +32,7 @@ walkThroughVariables <- function(originalDataFrame, newDataFrame, steps) {
     chosenVariables <- sort(sample(ncol(newDataFrame), steps))
     newDataFrame <- replaceItems(chosenVariables, originalDataFrame, newDataFrame)
   }
-  bind_rows(newDataFrame)
+  dplyr::bind_rows(newDataFrame)
 }
 
 

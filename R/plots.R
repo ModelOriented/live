@@ -9,7 +9,7 @@
 #' 
 
 plotWhiteBox <- function(whiteBox, observation = NULL) {
-  trainedModel <- getLearnerModel(whiteBox)
+  trainedModel <- mlr::getLearnerModel(whiteBox)
   if(any(grepl("lm", class(trainedModel)))) {
     srcM <- summary(trainedModel)$coefficients
     varNames <- row.names(srcM)
@@ -22,17 +22,17 @@ plotWhiteBox <- function(whiteBox, observation = NULL) {
     dplyr::select(Estimate, lower, upper, variable)
     varNames <- src$variable
     plotVals <- structure(list(mean = c(NA, src$Estimate),
-			       lower = c(NA, src$lower),
-			       upper = c(NA, src$upper)),
-			  .Names = c("mean", "lower", "upper"),
-			  row.names = c(NA, -(length(varNames) + 1)),
-			  class = "data.frame")
+			                   lower = c(NA, src$lower),
+			                   upper = c(NA, src$upper)),
+			              .Names = c("mean", "lower", "upper"),
+			              row.names = c(NA, -(length(varNames) + 1)),
+			              class = "data.frame")
     tableText <- cbind(c("Variable", varNames),
 		       c("Observed", round(unlist(observation)[varNames], 2)), # Do poprawy
 		       c("Estimate", round(src$Estimate, 2)),
 		       c("Lower", round(src$lower, 2)),
 		       c("Upper", round(src$upper, 2)))
-    forestplot(tableText, plotVals, boxsize = 0.4)
+    forestplot::forestplot(tableText, plotVals, boxsize = 0.4)
   } else {
       plot(trainedModel)
   }

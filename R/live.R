@@ -11,6 +11,7 @@
 #' \code{\link{plotWhiteBox}} visualizes fitted model.
 #'
 #' @section Example datasets:
+#' \code{wine_quality} Data on wine quality taken from DODAC CYTOWANIE
 #'
 #' 
 #' @docType package

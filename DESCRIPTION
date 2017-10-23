@@ -15,14 +15,13 @@ License: MIT
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+Depends: R (>= 3.0.2), mlr, dplyr
 Suggests: knitr,
     rmarkdown,
     testthat,
     kernlab,
     bigstep
 VignetteBuilder: knitr
-Imports: mlr,
-    dplyr,
-    forestplot,
+Imports: forestplot,
     partykit,
     party

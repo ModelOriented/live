@@ -5,7 +5,8 @@ X2 <- X1[, c(1, 2, 5)] # Case n > p
 X3 <- dplyr::bind_rows(X1, tibble::tibble(a = 16:20, b = letters[11:15])) # Case n < p
 
 test_that("Any changes are made", {
-
+  expect_lte(
+    live::simulateSimilar(X1, X1[3, ], "y", blackBox = "regr.glm", size = 100)) 
 })
 
 test_that("Not more than one change is made per row", {

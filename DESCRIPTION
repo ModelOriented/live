@@ -1,16 +1,19 @@
 Package: live
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Local Interpretable (Model-Agnostic) Visual Explanations
 Version: 0.1.0
 Authors@R: c(
+  person("Mateusz", "Staniak", role = c("cre","aut"),
+    email = "mateusz.staniak@math.uni.wroc.pl").
   person("Przemysław", "Biecek", role = "aut",
-    email = "przemyslaw.biecek@gmail.com"),
-  person("Mateusz", "Staniak", role = "cre",
-    email = "mateusz.staniak@math.uni.wroc.pl")
+    email = "przemyslaw.biecek@gmail.com")
   )
 Maintainer: Mateusz Staniak <mateusz.staniak@math.uni.wroc.pl>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: This package helps to understand key factors that drive the 
+    decision made by complicated predictive model (so called black box model). 
+    This is achieved through local approximations that are either based on 
+    additive regression like model or CART like model that allows for 
+    higher interactions.
 License: MIT
 Encoding: UTF-8
 LazyData: true

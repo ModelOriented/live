@@ -17,7 +17,10 @@ library(bigstep)
 
 ### About the data 
 
-Wine quality is a well-known dataset which was an object of study in . <!-- dodać cytowanie -->
+Wine quality is a well-known dataset which was an object of study in Paulo Cortez, University of Minho, Guimarães, Portugal, http://www3.dsi.uminho.pt/pcortez A. Cerdeira, F. Almeida, T. Matos and J. Reis, Viticulture Commission of the Vinho Verde Region(CVRVV), Porto, Portugal 2009. Lichman, M. (2013).
+
+The dataset contains variuos properties of a set of wines. For each wine there is 11 features based on physicochemical tests like density or pH and also and outcome variable: a score that describes the wine’s quality. The score is based on evaluations made by wine experts. 
+
 According to the results from the original article, Support Vector Machine model is better than other models, including linear regression, for prediction purposes.
 In this section we will show how `live` package can be used to fit linear regression model locally and generate a visual explanation for the black box model.
 

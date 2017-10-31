@@ -39,7 +39,7 @@ simulateSimilar <- function(data, newData, explainedVar, blackBox,
     similar[[explainedVar]] <- pred[["data"]][["response"]]
   } else {
     similar[[explainedVar]] <- predictionFunction(blackBox, 
-						  newdata = similar)
+						  newdata = similar, ...)
   }
   if(standardise) {
     similar <- similar %>%

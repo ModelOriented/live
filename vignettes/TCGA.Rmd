@@ -1,0 +1,43 @@
+---
+title: "Case study: The Cancer Genome Atlas"
+author: "Przemyslaw Biecek"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r libs, echo = FALSE, warning = FALSE, message = FALSE}
+library(mlr)
+library(live)
+library(tidyverse)
+library(ranger)
+library(MLExpRessoData)
+
+# very basic normalisation
+BRCA <- MLExpRessoData::BRCA_mRNAseq_all_surv
+BRCA[,-(1:2)] <- 1000000*BRCA[,-(1:2)]/rowSums(BRCA[,-(1:2)])
+
+options(expressions = 500000)
+
+colnames(BRCA) <- make.names(colnames(BRCA))
+
+# try first 10000 variables
+nData <- BRCA[,2:10000]
+trees <- ranger(survival_status~., data = nData)
+
+similar <- simulateSimilar(data = nData,
+                           newData = nData[1,], 
+                           blackBox = trees, 
+                           explainedVar = "survival_status", 
+                           size = 50)
+
+trained <- trainWhiteBox(liveObject = similar, 
+                         whiteBox = "regr.lm", 
+                         selection = TRUE)
+
+plotWhiteBox(whiteBox = trained,
+             observation = nData[1,])
+
+```

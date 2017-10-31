@@ -15,6 +15,8 @@ library(tidyverse)
 library(ranger)
 library(MLExpRessoData)
 
+set.seed(1)
+
 # very basic normalisation
 BRCA <- MLExpRessoData::BRCA_mRNAseq_all_surv
 BRCA[,-(1:2)] <- 1000000*BRCA[,-(1:2)]/rowSums(BRCA[,-(1:2)])
@@ -24,14 +26,21 @@ options(expressions = 500000)
 colnames(BRCA) <- make.names(colnames(BRCA))
 
 # try first 10000 variables
-nData <- BRCA[,2:10000]
-trees <- ranger(survival_status~., data = nData)
+nData <- BRCA[,-1]
+pvals <- sapply(3:ncol(BRCA), function(i) wilcox.test(BRCA[,i]~BRCA[,2])$p.value)
+nData <- BRCA[,c(2,2 + which(pvals < 0.001))]
+
+trees <- randomForest(survival_status~., data = nData, ntree=10000)
+
+nind1 <- sample(which(nData$survival_status == 1), 100, replace = TRUE)
+nind2 <- sample(which(nData$survival_status == 0), 100, replace = TRUE)
+nData <- nData[c(nind1, nind2),]
 
 similar <- simulateSimilar(data = nData,
-                           newData = nData[1,], 
+                           newData = nData[2,], 
                            blackBox = trees, 
                            explainedVar = "survival_status", 
-                           size = 50)
+                           size = 2000)
 
 trained <- trainWhiteBox(liveObject = similar, 
                          whiteBox = "regr.lm", 

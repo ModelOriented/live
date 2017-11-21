@@ -43,11 +43,9 @@ similar <- simulateSimilar(data = nData,
                            explainedVar = "survival_status", 
                            size = 2000)
 
-trained <- trainWhiteBox(liveObject = similar, 
-                         whiteBox = "regr.lm", 
-                         selection = TRUE)
-
+# trained <- trainWhiteBox(liveObject = similar, 
+#                          whiteBox = "regr.lm", 
+#                          selection = TRUE)
+# All predicted values were equal.
 # plotWhiteBox(whiteBox = trained,
 #              observation = nData[1,])
-# All predicted values were equal.
-```

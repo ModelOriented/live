@@ -47,7 +47,7 @@ trained <- trainWhiteBox(liveObject = similar,
                          whiteBox = "regr.lm", 
                          selection = TRUE)
 
-plotWhiteBox(whiteBox = trained,
-             observation = nData[1,])
-
+# plotWhiteBox(whiteBox = trained,
+#              observation = nData[1,])
+# All predicted values were equal.
 ```

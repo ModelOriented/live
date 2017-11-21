@@ -4,7 +4,7 @@ Title: Local Interpretable (Model-Agnostic) Visual Explanations
 Version: 0.1.0
 Authors@R: c(
   person("Mateusz", "Staniak", role = c("cre","aut"),
-    email = "mateusz.staniak@math.uni.wroc.pl").
+    email = "mateusz.staniak@math.uni.wroc.pl"),
   person("Przemysław", "Biecek", role = "aut",
     email = "przemyslaw.biecek@gmail.com")
   )

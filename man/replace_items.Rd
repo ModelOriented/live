@@ -4,14 +4,14 @@
 \alias{replace_items}
 \title{Replace one element of a vector with a random element from given data frame.}
 \usage{
-replace_items(chosen_vars, data, new_data)
+replace_items(chosen_vars, data, target)
 }
 \arguments{
 \item{chosen_vars}{Columns to sample from [as positions/numbers].}
 
 \item{data}{Data frame to sample from.}
 
-\item{new_data}{Data frame in which the replacement is done.}
+\item{target}{Data frame in which the replacement is done.}
 }
 \value{
 data.frame

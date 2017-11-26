@@ -2,17 +2,18 @@
 #' 
 #' @param chosen_vars Columns to sample from [as positions/numbers].
 #' @param data Data frame to sample from.
-#' @param new_data Data frame in which the replacement is done.
+#' @param target Data frame in which the replacement is done.
 #' 
 #' @return data.frame
 #' 
 
-replace_items <- function(chosen_vars, data, new_data) {
+replace_items <- function(chosen_vars, data, target) {
   lapply(seq_along(chosen_vars), function(x) {
-    row <- new_data[x, ]
+    row <- target[x, ]
     row[1, chosen_vars[x]] <- sample(unlist(data[, chosen_vars[x]]), 1)
     row
-  })
+  }) %>%
+    dplyr::bind_rows()
 }
 
 #' Change value of one variable all rows.
@@ -26,12 +27,12 @@ replace_items <- function(chosen_vars, data, new_data) {
 
 walk_through_vars <- function(data, new_data, steps) {
   if(steps == ncol(new_data)) {
-    new_data <- replace_items(1:ncol(data), data, new_data)
+    modified <- replace_items(1:ncol(data), data, new_data)
   } else {
     chosen_vars <- sort(sample(ncol(new_data), steps))
-    new_data <- replace_items(chosen_vars, data, new_data)
+    modified <- replace_items(chosen_vars, data, new_data)
   }
-  dplyr::bind_rows(new_data)
+  modified
 }
 
 

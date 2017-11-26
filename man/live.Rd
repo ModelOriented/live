@@ -13,12 +13,14 @@ them.
 }
 \section{Important function}{
 
-\code{\link{simulateSimilar}} generates a dataset that will be used for local eploration.
-\code{\link{trainWhiteBox}} fits a chosen model to simulated dataset.
-\code{\link{plotWhiteBox}} visualizes fitted model.
+\code{\link{simulate_similar}} generates a dataset that will be used for local eploration.
+\code{\link{train_white_box}} fits a chosen model to simulated dataset.
+\code{\link{plot_white_box}} visualizes fitted model.
 }
 
 \section{Example datasets}{
 
+\code{wine_quality} Data on wine quality taken from 
+Modeling wine preferences by data mining from physicochemical properties
 }
 

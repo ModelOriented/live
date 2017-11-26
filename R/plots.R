@@ -11,7 +11,7 @@
 #' plotwhite_box()
 #' 
 
-plot_white_box <- function(white_box, observation = NULL) {
+plot_explanation <- function(white_box, observation = NULL) {
   trained_model <- mlr::getLearnerModel(white_box)
   if(any(grepl("lm", class(trained_model)))) {
     model_summary <- summary(trained_model)$coefficients %>%

@@ -47,5 +47,5 @@ similar <- simulate_similar(data = nData,
 #                            white_box = "regr.lm", 
 #                            selection = TRUE)
 # All predicted values were equal.
-# plot_white_box(white_box = trained,
+# plot_explanation(white_box = trained,
 #                observation = nData[1,])

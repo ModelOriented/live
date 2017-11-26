@@ -9,9 +9,9 @@
 #' @param standardise If TRUE, numerical variables will be scaled to have mean 0, var 1.
 #' @param predict_function Either a "predict" function that returns a vector of the
 #'        same type as response or custom function that takes a model as a first argument,
-#'        new data to base predictions on as a second argument and returns a vector
-#'        of the same type as respone. Will be used only if a model object was provided
-#'        in the black_box argument.
+#'        new data used to calculate predictions as a second argument called "newdata"
+#'        and returns a vector of the same type as respone. 
+#'        Will be used only if a model object was provided in the black_box argument.
 #' @param ... Additional parameters to be passed to makeRegrTask function.
 #'
 #' @return list
@@ -36,7 +36,7 @@ simulate_similar <- function(data, explained_instance, explained_var, black_box,
     pred <-  predict(trained_model, newdata = as.data.frame(similar))
     similar[[explained_var]] <- pred[["data"]][["response"]]
   } else {
-    similar[[explainedVar]] <- prediction_function(blackBox, 
+    similar[[explained_var]] <- predict_function(black_box, 
 						  newdata = similar, ...)
   }
   if(standardise) {

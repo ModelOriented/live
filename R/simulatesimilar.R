@@ -49,6 +49,7 @@ simulate_similar <- function(data, explained_instance, explained_var, black_box,
     similar <- similar %>%
       dplyr::mutate_if(is.numeric, function(x) as.vector(scale(x)))
   }
+  
   if(is.character(black_box)) {  
     mlr_task <- create_task(black_box, as.data.frame(data), explained_var)
     pred <- mlr::makeLearner(black_box) %>% 
@@ -59,6 +60,7 @@ simulate_similar <- function(data, explained_instance, explained_var, black_box,
     similar[[explained_var]] <- predict_function(black_box, 
 						  newdata = similar, ...)
   }
+  
   list(data = similar, target = explained_var, black_box_model = black_box)
 }
 
@@ -79,6 +81,7 @@ simulate_similar <- function(data, explained_instance, explained_var, black_box,
 train_white_box <- function(live_object, white_box, selection = FALSE, maximum_depth = 0) {
   if(n_distinct(live_object$data[[live_object$target]]) == 1) 
     stop("All predicted values were equal.")
+  
   if(selection) {
     explained_var_col <- which(colnames(live_object$data) == live_object$target)
     selected_vars <- selectModel(as.data.frame(live_object$data[, -explained_var_col]), 
@@ -86,13 +89,16 @@ train_white_box <- function(live_object, white_box, selection = FALSE, maximum_d
   } else {
     selected_vars <- colnames(live_object$data)
   }
+  
   mlr_task <- create_task(white_box, 
                           live_object$data[, unique(c(selected_vars, live_object$target))],
                           live_object$target)
+  
   if(grepl("regr", white_box)) {
     lrn <- mlr::makeLearner(white_box)
   } else {
     lrn <- mlr::makeLearner(white_box, max_depth = maximum_depth)
   }
+  
   mlr::train(lrn, mlr_task)
 }   

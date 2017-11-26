@@ -27,12 +27,11 @@ replace_items <- function(chosen_vars, data, target) {
 
 walk_through_vars <- function(data, new_data, steps) {
   if(steps == ncol(new_data)) {
-    modified <- replace_items(1:ncol(data), data, new_data)
+    replace_items(1:ncol(data), data, new_data)
   } else {
     chosen_vars <- sort(sample(ncol(new_data), steps))
-    modified <- replace_items(chosen_vars, data, new_data)
+    replace_items(chosen_vars, data, new_data)
   }
-  modified
 }
 
 
@@ -50,8 +49,9 @@ walk_through_vars <- function(data, new_data, steps) {
 generate_neighbourhood <- function(data, explained_instance, size) {
   dimension <- ncol(data)
   neighbourhood <- dplyr::bind_rows(lapply(1:size, function(x) explained_instance))
+  
   if(size <= dimension) {
-     new_data <- walk_through_vars(data, neighbourhood, size)
+     neighbourhood <- walk_through_vars(data, neighbourhood, size)
   } else {
     k = size %/% dimension
     r = size %% dimension

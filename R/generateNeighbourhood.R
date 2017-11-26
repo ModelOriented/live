@@ -1,72 +1,67 @@
-#' Replace one element of a vector with a random element from given d.f
+#' Replace one element of a vector with a random element from given data frame.
 #' 
-#' @param chosenVariables numbers of columns from d.f to sample from
-#' @param originalDataFrame d.f to sample from
-#' @param newDataFrame d.f in which the replacement is done
+#' @param chosen_vars Columns to sample from [as positions/numbers].
+#' @param data Data frame to sample from.
+#' @param new_data Data frame in which the replacement is done.
 #' 
 #' @return data.frame
 #' 
 
-replaceItems <- function(chosenVariables, originalDataFrame, newDataFrame) {
-  lapply(1:nrow(newDataFrame), function(x) {
-    row <- newDataFrame[x, ]
-    row[1, chosenVariables[x]] <- sample(unlist(originalDataFrame[, chosenVariables[x]]), 1)
+replace_items <- function(chosen_vars, data, new_data) {
+  lapply(seq_along(chosen_vars), function(x) {
+    row <- new_data[x, ]
+    row[1, chosen_vars[x]] <- sample(unlist(data[, chosen_vars[x]]), 1)
     row
   })
 }
 
 #' Change value of one variable all rows.
 #'
-#' @param originalDataFrame d.f from which observations will be generated
-#'        excluding the explained variable
-#' @param newDataFrame d.f created by generateNeighbourhood function
-#' @param steps Number of variables to change
+#' @param data Data frame from which observations will be generated.
+#' @param new_data Data frame created by generate_neighbourhood function.
+#' @param steps Number of variables to change.
 #' 
 #' @return data.frame
 #' 
 
-walkThroughVariables <- function(originalDataFrame, newDataFrame, steps) {
-  if(steps == ncol(newDataFrame)) {
-    newDataFrame <- replaceItems(1:ncol(originalDataFrame), originalDataFrame, newDataFrame)
+walk_through_vars <- function(data, new_data, steps) {
+  if(steps == ncol(new_data)) {
+    new_data <- replace_items(1:ncol(data), data, new_data)
   } else {
-    chosenVariables <- sort(sample(ncol(newDataFrame), steps))
-    newDataFrame <- replaceItems(chosenVariables, originalDataFrame, newDataFrame)
+    chosen_vars <- sort(sample(ncol(new_data), steps))
+    new_data <- replace_items(chosen_vars, data, new_data)
   }
-  dplyr::bind_rows(newDataFrame)
+  dplyr::bind_rows(new_data)
 }
 
 
 #' LIME: sampling for local exploration
 #'
-#' @param data d.f from which observations will be generated
-#'        excluding the explained variable
-#' @param newData a number of row in an original data frame
-#' @param noOfNeighbours number of observations to be generated
+#' @param data Data frame from which observations will be generated.
+#' @param explained_instance A row in an original data frame (as a data.frame).
+#' @param size Number of observations to be generated.
 #'
 #' @return data.frame
 #'
 #' @export
 #'
 
-generateNeighbourhood <- function(data, newData, noOfNeighbours) {
+generate_neighbourhood <- function(data, explained_instance, size) {
   p <- ncol(data)
-  newDataFrame <- dplyr::bind_rows(lapply(1:noOfNeighbours, function(x) newData))
-  if(noOfNeighbours == p) {
-    newDataFrame <- walkThroughVariables(data, newDataFrame, p)
-  } else if(noOfNeighbours < p) {
-    newDataFrame <-walkThroughVariables(data, newDataFrame, noOfNeighbours)
-  }
-  else {
-    k = noOfNeighbours %/% p
-    r = noOfNeighbours %% p
-    separate <- c(rep(1:k, each = p), rep(k+1, r))
-    divided <- split(newDataFrame, separate)
+  new_data <- dplyr::bind_rows(lapply(1:size, function(x) explained_instance))
+  if(size <= p) {
+     new_data <- walk_through_vars(data, new_data, size)
+  } else {
+    k = size %/% p
+    r = size %% p
+    separate <- c(rep(1:k, each = p), rep(k + 1, r))
+    divided <- split(new_data, separate)
     divided[1:k] <- lapply(divided[1:k], function(x)
-      walkThroughVariables(data, x, p))
+      walk_through_vars(data, x, p))
     if(r > 0) {
-      divided[[k + 1]] <- walkThroughVariables(data, divided[[k + 1]], r)
+      divided[[k + 1]] <- walk_through_vars(data, divided[[k + 1]], r)
     }
-    newDataFrame <- dplyr::bind_rows(divided)
+      new_data <- dplyr::bind_rows(divided)
   }
-  newDataFrame
+  new_data
 }

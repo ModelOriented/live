@@ -37,15 +37,15 @@ nind1 <- sample(which(nData$survival_status == 1), 100, replace = TRUE)
 nind2 <- sample(which(nData$survival_status == 0), 100, replace = TRUE)
 nData <- nData[c(nind1, nind2),]
 
-similar <- simulateSimilar(data = nData,
-                           newData = nData[2,], 
-                           blackBox = trees, 
-                           explainedVar = "survival_status", 
-                           size = 2000)
+similar <- simulate_similar(data = nData,
+                            explained_instance = nData[2,], 
+                            black_box = trees, 
+                            explained_var = "survival_status", 
+                            size = 2000)
 
-# trained <- trainWhiteBox(liveObject = similar, 
-#                          whiteBox = "regr.lm", 
-#                          selection = TRUE)
+# trained <- train_white_box(live_object = similar, 
+#                            white_box = "regr.lm", 
+#                            selection = TRUE)
 # All predicted values were equal.
-# plotWhiteBox(whiteBox = trained,
-#              observation = nData[1,])
+# plot_white_box(white_box = trained,
+#                observation = nData[1,])

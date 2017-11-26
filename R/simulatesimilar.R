@@ -36,7 +36,7 @@ simulate_similar <- function(data, explained_instance, explained_var, black_box,
     pred <-  predict(trained_model, newdata = as.data.frame(similar))
     similar[[explained_var]] <- pred[["data"]][["response"]]
   } else {
-    similar[[explainedVar]] <- predictionFunction(blackBox, 
+    similar[[explainedVar]] <- prediction_function(blackBox, 
 						  newdata = similar, ...)
   }
   if(standardise) {

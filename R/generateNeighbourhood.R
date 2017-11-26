@@ -47,21 +47,21 @@ walk_through_vars <- function(data, new_data, steps) {
 #'
 
 generate_neighbourhood <- function(data, explained_instance, size) {
-  p <- ncol(data)
-  new_data <- dplyr::bind_rows(lapply(1:size, function(x) explained_instance))
-  if(size <= p) {
-     new_data <- walk_through_vars(data, new_data, size)
+  dimension <- ncol(data)
+  neighbourhood <- dplyr::bind_rows(lapply(1:size, function(x) explained_instance))
+  if(size <= dimension) {
+     new_data <- walk_through_vars(data, neighbourhood, size)
   } else {
-    k = size %/% p
-    r = size %% p
-    separate <- c(rep(1:k, each = p), rep(k + 1, r))
-    divided <- split(new_data, separate)
+    k = size %/% dimension
+    r = size %% dimension
+    separate <- c(rep(1:k, each = dimension), rep(k + 1, r))
+    divided <- split(neighbourhood, separate)
     divided[1:k] <- lapply(divided[1:k], function(x)
-      walk_through_vars(data, x, p))
+      walk_through_vars(data, x, dimension))
     if(r > 0) {
       divided[[k + 1]] <- walk_through_vars(data, divided[[k + 1]], r)
     }
-      new_data <- dplyr::bind_rows(divided)
+    neighbourhood <- dplyr::bind_rows(divided)
   }
-  new_data
+  neighbourhood
 }

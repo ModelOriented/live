@@ -37,7 +37,6 @@ Generate dataset for local exploration.
 }
 \examples{
 \dontrun{
-data(winequality_red)
 # Train model inside the function.
 dataset_for_local_exploration <- sample_locally(data = winequality_red,
                                                explained_instance = winequality_red[5, ], 

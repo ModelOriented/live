@@ -9,6 +9,18 @@
 #' 
 #' @export
 #' 
+#' @examples
+#' \dontrun{
+#' data(winequality_red)
+#' dataset_for_local_exploration <- sample_locally(data = winequality_red,
+#'                                                explained_instance = winequality_red[5, ], 
+#'                                                black_box = "regr.svm", 
+#'                                                explained_var = "quality", 
+#'                                                size = 50,
+#'                                                standardise = TRUE)
+#' fitted_explanation <- fit_explanation(dataset_for_local_exploration, "regr.lm", selection = TRUE)
+#' }
+#' 
 
 
 fit_explanation <- function(live_object, white_box, selection = FALSE, maximum_depth = 0) {
@@ -77,13 +89,28 @@ prepareForestplot <- function(coefficients, explained_instance) {
 #' 
 #' @param white_box object returned by mlr::train function.
 #' @param observation Observation around which model was fitted.
+#'                    Needed only if forest plot is drawn.
 #' 
 #' @return plot
 #' 
 #' @export
 #' 
 #' @examples
-#' plotwhite_box()
+#' \dontrun{
+#' data(winequality_red)
+#' dataset_for_local_exploration <- sample_locally(data = winequality_red,
+#'                                                explained_instance = winequality_red[5, ], 
+#'                                                black_box = "regr.svm", 
+#'                                                explained_var = "quality", 
+#'                                                size = 50,
+#'                                                standardise = TRUE)
+#' fitted_explanation1 <- fit_explanation(dataset_for_local_exploration, "regr.lm", selection = TRUE)
+#' fitted_explanation2 <- fit_explanation(dataset_for_local_exploration, "regr.ctree")
+#' # Forest plot for regression
+#' plot_explanation(fitted_explanation1, winequality_red[5, ])
+#' }
+#' # Plot decision tree
+#' plot_explanation(fitted_explanation2)
 #' 
 
 plot_explanation <- function(white_box, observation = NULL) {

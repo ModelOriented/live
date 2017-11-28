@@ -120,7 +120,28 @@ give_predictions <- function(black_box, explained_var, similar, predict_function
 #' @return list
 #' 
 #' @export
-#'
+#' 
+#' @examples 
+#' \dontrun{
+#' data(winequality_red)
+#' # Train model inside the function.
+#' dataset_for_local_exploration <- sample_locally(data = winequality_red,
+#'                                                explained_instance = winequality_red[5, ], 
+#'                                                black_box = "regr.svm", 
+#'                                                explained_var = "quality", 
+#'                                                size = 50,
+#'                                                standardise = TRUE)
+#' # Pass trained model to the function. 
+#' library(e1071)
+#' svm_model <- svm(quality ~., data = winequality_red)
+#' dataset_for_local_exploration2 <- sample_locally(data = winequality_red,
+#'                                                explained_instance = winequality_red[5, ], 
+#'                                                black_box = svm_model, 
+#'                                                explained_var = "quality", 
+#'                                                size = 50,
+#'                                                standardise = TRUE)
+#' }
+#'                                                                                         
 
 sample_locally <- function(data, explained_instance, explained_var, black_box,  
                             size, standardise = FALSE,

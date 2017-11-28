@@ -56,7 +56,7 @@ fit_explanation <- function(live_object, white_box, selection = FALSE, maximum_d
 #' @return NULL
 #' 
 
-prepareForestplot <- function(coefficients, explained_instance) {
+prepare_forestplot <- function(coefficients, explained_instance) {
   model_summary <- coefficients %>%
     as.data.frame() %>%
     rownames_to_column() %>%
@@ -114,7 +114,7 @@ prepareForestplot <- function(coefficients, explained_instance) {
 plot_explanation <- function(white_box, observation = NULL) {
   trained_model <- mlr::getLearnerModel(white_box)
   if(any(grepl("lm", class(trained_model)))) {
-    prepareForestplot(summary(trained_model)$coefficients, observation)
+    prepare_forestplot(summary(trained_model)$coefficients, observation)
   } else {
     plot(trained_model)
   }

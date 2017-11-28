@@ -51,6 +51,7 @@ generate_neighbourhood <- function(data, explained_instance, size) {
   neighbourhood
 }
 
+
 #' Create regression or classification task.
 #'
 #' @param model Name of a used model in mlr format.
@@ -72,6 +73,7 @@ create_task <- function(model, dataset, target_var) {
   }
 }
 
+
 #' Add predictions to generated dataset.
 #' 
 #' @param black_box String with mlr signature of a learner or a model with predict interface.
@@ -87,7 +89,7 @@ create_task <- function(model, dataset, target_var) {
 #' @return Vector of model predictions.
 #' 
 
-give_predictions <- function(black_box, explained_var, similar, predict_function, ...){
+give_predictions <- function(black_box, explained_var, similar, predict_function, ...) {
   if(is.character(black_box)) {  
     mlr_task <- create_task(black_box, as.data.frame(similar), explained_var)
     pred <- mlr::makeLearner(black_box) %>% 
@@ -107,7 +109,6 @@ give_predictions <- function(black_box, explained_var, similar, predict_function
 #' @param explained_instance One row data frame with the same variables 
 #'        as in data argument. Local exploration will be performed around this observation.
 #' @param explained_var Name of a column with the variable to be predicted.
-#' @param black_box String with mlr signature of a learner or a model with predict interface.
 #' @param size Number of observations is a simulated dataset.
 #' @param standardise If TRUE, numerical variables will be scaled to have mean 0, var 1.
 #' @param predict_function Either a "predict" function that returns a vector of the
@@ -126,7 +127,6 @@ give_predictions <- function(black_box, explained_var, similar, predict_function
 #' # Train model inside the function.
 #' dataset_for_local_exploration <- sample_locally(data = winequality_red,
 #'                                                explained_instance = winequality_red[5, ], 
-#'                                                black_box = "regr.svm", 
 #'                                                explained_var = "quality", 
 #'                                                size = 50,
 #'                                                standardise = TRUE)
@@ -135,23 +135,46 @@ give_predictions <- function(black_box, explained_var, similar, predict_function
 #' svm_model <- svm(quality ~., data = winequality_red)
 #' dataset_for_local_exploration2 <- sample_locally(data = winequality_red,
 #'                                                explained_instance = winequality_red[5, ], 
-#'                                                black_box = svm_model, 
 #'                                                explained_var = "quality", 
 #'                                                size = 50,
 #'                                                standardise = TRUE)
 #' }
 #'                                                                                         
 
-sample_locally <- function(data, explained_instance, explained_var, black_box,  
-                            size, standardise = FALSE,
-                            predict_function = predict, ...) {
-  similar <- generate_neighbourhood(data, explained_instance, size)
+sample_locally <- function(data, explained_instance, explained_var, size, standardise = FALSE) {
+  explained_var_col <- which(colnames(data) == explained_var)
+  similar <- generate_neighbourhood(data[, -explained_var_col], 
+                                    explained_instance[, -explained_var_col], size)
   if(standardise) {
     similar <- similar %>%
       dplyr::mutate_if(is.numeric, function(x) as.vector(scale(x)))
   }
   
-  similar[[explained_var]] <- give_predictions(black_box, explained_var, similar, predict_function, ...)
-  
-  list(data = similar, target = explained_var, black_box_model = black_box)
+  list(data = similar, target = explained_var)
+}
+
+
+#' Add black box predictions to generated dataset
+#'
+#' @param to_explain List return by sample_locally function.
+#' @param black_box_model String with mlr signature of a learner or a model with predict interface.
+#' @param predict_function Either a "predict" function that returns a vector of the
+#'        same type as response or custom function that takes a model as a first argument,
+#'        new data used to calculate predictions as a second argument called "newdata"
+#'        and returns a vector of the same type as respone. 
+#'        Will be used only if a model object was provided in the black_box argument.
+#' @param ... Additional parameters to be passed to predict function.
+#' 
+#' @return list
+#' 
+#' @export
+#' 
+
+add_predictions <- function(to_explain, black_box_model, predict_fun = predict, ...) {
+  to_explain$data[[explained_var]] <- give_predictions(black_box = black_box_model,
+                                                       explained_var = to_explain$explained_var,
+                                                       similar = to_explain$data, 
+                                                       predict_function = predict_fun, 
+                                                       ...)
+  list(data = to_explain$data, target = to_explain$explained_var)
 }

@@ -89,7 +89,7 @@ create_task <- function(model, dataset, target_var) {
 
 give_predictions <- function(black_box, explained_var, similar, predict_function, ...){
   if(is.character(black_box)) {  
-    mlr_task <- create_task(black_box, as.data.frame(data), explained_var)
+    mlr_task <- create_task(black_box, as.data.frame(similar), explained_var)
     pred <- mlr::makeLearner(black_box) %>% 
       mlr::train(mlr_task) %>%
       predict(newdata = as.data.frame(similar))
@@ -123,7 +123,6 @@ give_predictions <- function(black_box, explained_var, similar, predict_function
 #' 
 #' @examples 
 #' \dontrun{
-#' data(winequality_red)
 #' # Train model inside the function.
 #' dataset_for_local_exploration <- sample_locally(data = winequality_red,
 #'                                                explained_instance = winequality_red[5, ], 

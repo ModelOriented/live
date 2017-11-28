@@ -11,7 +11,6 @@
 #' 
 #' @examples
 #' \dontrun{
-#' data(winequality_red)
 #' dataset_for_local_exploration <- sample_locally(data = winequality_red,
 #'                                                explained_instance = winequality_red[5, ], 
 #'                                                black_box = "regr.svm", 
@@ -97,7 +96,6 @@ prepareForestplot <- function(coefficients, explained_instance) {
 #' 
 #' @examples
 #' \dontrun{
-#' data(winequality_red)
 #' dataset_for_local_exploration <- sample_locally(data = winequality_red,
 #'                                                explained_instance = winequality_red[5, ], 
 #'                                                black_box = "regr.svm", 

@@ -27,11 +27,33 @@ new data used to calculate predictions as a second argument called "newdata"
 and returns a vector of the same type as respone. 
 Will be used only if a model object was provided in the black_box argument.}
 
-\item{...}{Additional parameters to be passed to makeRegrTask function.}
+\item{...}{Additional parameters to be passed to predict function.}
 }
 \value{
 list
 }
 \description{
 Generate dataset for local exploration.
+}
+\examples{
+\dontrun{
+data(winequality_red)
+# Train model inside the function.
+dataset_for_local_exploration <- sample_locally(data = winequality_red,
+                                               explained_instance = winequality_red[5, ], 
+                                               black_box = "regr.svm", 
+                                               explained_var = "quality", 
+                                               size = 50,
+                                               standardise = TRUE)
+# Pass trained model to the function. 
+library(e1071)
+svm_model <- svm(quality ~., data = winequality_red)
+dataset_for_local_exploration2 <- sample_locally(data = winequality_red,
+                                               explained_instance = winequality_red[5, ], 
+                                               black_box = svm_model, 
+                                               explained_var = "quality", 
+                                               size = 50,
+                                               standardise = TRUE)
+}
+                                                                                        
 }

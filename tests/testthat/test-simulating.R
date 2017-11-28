@@ -1,24 +1,51 @@
 context("Creating simulated dataset of similar observations")
 
-X1 <- tibble::tibble(x = 1:5, y = 6:10, z = 11:15, r = letters[1:5], s = letters[6:10]) # Case n = p
-X2 <- X1[, c(1, 2, 5)] # Case n > p
-X3 <- dplyr::bind_rows(X1, tibble::tibble(a = 16:20, b = letters[11:15])) # Case n < p
+set.seed(1)
+X <- tibble::as_tibble(MASS::mvrnorm(50, rep(0, 20), diag(1, 20)))
+
+count_diffs_in_rows <- function(table, row, explained_var) {
+  col_no <- which(colnames(row) == explained_var)
+  lapply(1:nrow(table), function(x) {
+    row_of_table <- table[x, ]
+    sum(row_of_table != row[, -col_no])
+  }) %>%
+    unlist() %>%
+    sum()
+}
 
 test_that("Any changes are made", {
-  expect_lte(
-    live::simulateSimilar(X1, X1[3, ], "y", blackBox = "regr.glm", size = 100)) 
+  expect_gt(
+    count_diffs_in_rows((live::sample_locally(data = X,
+                                              explained_instance = X[3, ], 
+                                              explained_var = "V1",
+                                              size = 50)$data), X[3, ], "V1"), 0) 
 })
 
-test_that("Not more than one change is made per row", {
-
-}) # Zależy od przypadku
-
-test_that("Factors are treated correctly", {
+test_that("Not too many changes are made", {
+  expect_lte(
+    count_diffs_in_rows((live::sample_locally(data = X,
+                                             explained_instance = X[3, ], 
+                                             explained_var = "V1",
+                                             size = 50)$data), X[3, ], "V1"), 50)
+  expect_lte(
+    count_diffs_in_rows((live::sample_locally(data = X,
+                                              explained_instance = X[3, ], 
+                                              explained_var = "V1", 
+                                              size = 100)$data), X[3, ], "V1"), 100)
+  expect_lte(
+    count_diffs_in_rows((live::sample_locally(data = X,
+                                              explained_instance = X[3, ], 
+                                              explained_var = "V1", 
+                                              size = 20)$data), X[3, ], "V1"), 100)
   
 })
 
-test_that("Missing data are detected and treated properly", {
-
-})
+# test_that("Factors are treated correctly", {
+#   
+# })
+# 
+# test_that("Missing data are detected and treated properly", {
+# 
+# })
 
 

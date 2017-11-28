@@ -106,9 +106,9 @@ prepareForestplot <- function(coefficients, explained_instance) {
 #' fitted_explanation2 <- fit_explanation(dataset_for_local_exploration, "regr.ctree")
 #' # Forest plot for regression
 #' plot_explanation(fitted_explanation1, winequality_red[5, ])
-#' }
 #' # Plot decision tree
 #' plot_explanation(fitted_explanation2)
+#' }
 #' 
 
 plot_explanation <- function(white_box, observation = NULL) {

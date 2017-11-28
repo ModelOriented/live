@@ -14,7 +14,6 @@
 #' \code{wine_quality} Data on wine quality taken from 
 #' Modeling wine preferences by data mining from physicochemical properties
 #'
-#' 
 #' @docType package
 #' @name live
 NULL

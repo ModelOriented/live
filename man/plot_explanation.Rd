@@ -30,8 +30,8 @@ fitted_explanation1 <- fit_explanation(dataset_for_local_exploration, "regr.lm",
 fitted_explanation2 <- fit_explanation(dataset_for_local_exploration, "regr.ctree")
 # Forest plot for regression
 plot_explanation(fitted_explanation1, winequality_red[5, ])
-}
 # Plot decision tree
 plot_explanation(fitted_explanation2)
+}
 
 }

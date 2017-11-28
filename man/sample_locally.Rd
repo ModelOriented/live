@@ -4,8 +4,8 @@
 \alias{sample_locally}
 \title{Generate dataset for local exploration.}
 \usage{
-sample_locally(data, explained_instance, explained_var, black_box, size,
-  standardise = FALSE, predict_function = predict, ...)
+sample_locally(data, explained_instance, explained_var, size,
+  standardise = FALSE)
 }
 \arguments{
 \item{data}{Data frame from which new dataset will be simulated.}
@@ -14,8 +14,6 @@ sample_locally(data, explained_instance, explained_var, black_box, size,
 as in data argument. Local exploration will be performed around this observation.}
 
 \item{explained_var}{Name of a column with the variable to be predicted.}
-
-\item{black_box}{String with mlr signature of a learner or a model with predict interface.}
 
 \item{size}{Number of observations is a simulated dataset.}
 
@@ -40,7 +38,6 @@ Generate dataset for local exploration.
 # Train model inside the function.
 dataset_for_local_exploration <- sample_locally(data = winequality_red,
                                                explained_instance = winequality_red[5, ], 
-                                               black_box = "regr.svm", 
                                                explained_var = "quality", 
                                                size = 50,
                                                standardise = TRUE)
@@ -49,7 +46,6 @@ library(e1071)
 svm_model <- svm(quality ~., data = winequality_red)
 dataset_for_local_exploration2 <- sample_locally(data = winequality_red,
                                                explained_instance = winequality_red[5, ], 
-                                               black_box = svm_model, 
                                                explained_var = "quality", 
                                                size = 50,
                                                standardise = TRUE)

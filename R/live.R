@@ -6,7 +6,7 @@
 #' them. 
 #'
 #' @section Important function:
-#' \code{\link{explore_locally}} generates a dataset that will be used for local eploration.
+#' \code{\link{sample_locally}} generates a dataset that will be used for local eploration.
 #' \code{\link{fit_explanation}} fits a chosen model to simulated dataset.
 #' \code{\link{plot_explanation}} visualizes fitted model.
 #'

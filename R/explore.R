@@ -74,34 +74,6 @@ create_task <- function(model, dataset, target_var) {
 }
 
 
-#' Add predictions to generated dataset.
-#' 
-#' @param black_box String with mlr signature of a learner or a model with predict interface.
-#' @param explained_var Name of a column with the variable to be predicted.
-#' @param similar Dataset created for local exploration.
-#' @param predict_function Either a "predict" function that returns a vector of the
-#'        same type as response or custom function that takes a model as a first argument,
-#'        new data used to calculate predictions as a second argument called "newdata"
-#'        and returns a vector of the same type as respone. 
-#'        Will be used only if a model object was provided in the black_box argument.
-#' @param ... Additional parameters to be passed to predict function.
-#' 
-#' @return Vector of model predictions.
-#' 
-
-give_predictions <- function(black_box, explained_var, similar, predict_function, ...) {
-  if(is.character(black_box)) {  
-    mlr_task <- create_task(black_box, as.data.frame(similar), explained_var)
-    pred <- mlr::makeLearner(black_box) %>% 
-      mlr::train(mlr_task) %>%
-      predict(newdata = as.data.frame(similar))
-    pred[["data"]][["response"]]
-  } else {
-    predict_function(black_box, 
-                     newdata = similar, ...)
-  }
-}
-
 
 #' Generate dataset for local exploration.
 #'
@@ -142,6 +114,35 @@ sample_locally <- function(data, explained_instance, explained_var, size, standa
   }
   
   list(data = similar, target = explained_var)
+}
+
+
+#' Add predictions to generated dataset.
+#' 
+#' @param black_box String with mlr signature of a learner or a model with predict interface.
+#' @param explained_var Name of a column with the variable to be predicted.
+#' @param similar Dataset created for local exploration.
+#' @param predict_function Either a "predict" function that returns a vector of the
+#'        same type as response or custom function that takes a model as a first argument,
+#'        new data used to calculate predictions as a second argument called "newdata"
+#'        and returns a vector of the same type as respone. 
+#'        Will be used only if a model object was provided in the black_box argument.
+#' @param ... Additional parameters to be passed to predict function.
+#' 
+#' @return Vector of model predictions.
+#' 
+
+give_predictions <- function(black_box, explained_var, similar, predict_function, ...) {
+  if(is.character(black_box)) {  
+    mlr_task <- create_task(black_box, as.data.frame(similar), explained_var)
+    pred <- mlr::makeLearner(black_box) %>% 
+      mlr::train(mlr_task) %>%
+      predict(newdata = as.data.frame(similar))
+    pred[["data"]][["response"]]
+  } else {
+    predict_function(black_box, 
+                     newdata = similar, ...)
+  }
 }
 
 

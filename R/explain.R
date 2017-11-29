@@ -51,10 +51,11 @@ fit_explanation <- function(live_object, white_box, selection = FALSE, maximum_d
 #' 
 
 prepare_forestplot <- function(coefficients, explained_instance) {
+  if(is.null(observation)) stop("Explained instance needs to be provided")
   model_summary <- coefficients %>%
     as.data.frame() %>%
-    rownames_to_column() %>%
-    rename(vars_names = rowname) %>%
+    tibble::rownames_to_column() %>%
+    dplyr::rename(vars_names = rowname) %>%
     dplyr::mutate(lower = Estimate - `Std. Error`,
                   upper = Estimate + `Std. Error`,
                   variable = vars_names) %>%

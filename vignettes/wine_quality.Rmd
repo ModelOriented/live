@@ -49,7 +49,7 @@ similar <- sample_locally(data = winequality_red,
                             explained_var = "quality", 
                             size = 100,
                             standardise = TRUE)
-similar <- add_predictions(similar, "regr.svm")
+similar <- add_predictions(winequality_red, similar, "regr.svm")
 ```
 
 #### Training white box model

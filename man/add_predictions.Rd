@@ -25,3 +25,15 @@ list
 \description{
 Add black box predictions to generated dataset
 }
+\examples{
+\dontrun{
+dataset_for_local_exploration1 <- add_predictions(dataset_for_local_exploration,
+                                                 black_box_model = "regr.svm")
+# Pass trained model to the function. 
+library(e1071)
+svm_model <- svm(quality ~., data = winequality_red)
+dataset_for_local_exploration2 <- add_predictions(dataset_for_local_exploration,
+                                                  black_box_model = svm_model)                                                 
+}
+
+}

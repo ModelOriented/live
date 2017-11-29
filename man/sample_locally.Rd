@@ -35,16 +35,7 @@ Generate dataset for local exploration.
 }
 \examples{
 \dontrun{
-# Train model inside the function.
 dataset_for_local_exploration <- sample_locally(data = winequality_red,
-                                               explained_instance = winequality_red[5, ], 
-                                               explained_var = "quality", 
-                                               size = 50,
-                                               standardise = TRUE)
-# Pass trained model to the function. 
-library(e1071)
-svm_model <- svm(quality ~., data = winequality_red)
-dataset_for_local_exploration2 <- sample_locally(data = winequality_red,
                                                explained_instance = winequality_red[5, ], 
                                                explained_var = "quality", 
                                                size = 50,

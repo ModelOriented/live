@@ -11,12 +11,6 @@
 #' 
 #' @examples
 #' \dontrun{
-#' dataset_for_local_exploration <- sample_locally(data = winequality_red,
-#'                                                explained_instance = winequality_red[5, ], 
-#'                                                black_box = "regr.svm", 
-#'                                                explained_var = "quality", 
-#'                                                size = 50,
-#'                                                standardise = TRUE)
 #' fitted_explanation <- fit_explanation(dataset_for_local_exploration, "regr.lm", selection = TRUE)
 #' }
 #' 
@@ -96,14 +90,6 @@ prepare_forestplot <- function(coefficients, explained_instance) {
 #' 
 #' @examples
 #' \dontrun{
-#' dataset_for_local_exploration <- sample_locally(data = winequality_red,
-#'                                                explained_instance = winequality_red[5, ], 
-#'                                                black_box = "regr.svm", 
-#'                                                explained_var = "quality", 
-#'                                                size = 50,
-#'                                                standardise = TRUE)
-#' fitted_explanation1 <- fit_explanation(dataset_for_local_exploration, "regr.lm", selection = TRUE)
-#' fitted_explanation2 <- fit_explanation(dataset_for_local_exploration, "regr.ctree")
 #' # Forest plot for regression
 #' plot_explanation(fitted_explanation1, winequality_red[5, ])
 #' # Plot decision tree

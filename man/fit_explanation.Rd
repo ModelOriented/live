@@ -24,12 +24,6 @@ Fit white box model to the simulated data.
 }
 \examples{
 \dontrun{
-dataset_for_local_exploration <- sample_locally(data = winequality_red,
-                                               explained_instance = winequality_red[5, ], 
-                                               black_box = "regr.svm", 
-                                               explained_var = "quality", 
-                                               size = 50,
-                                               standardise = TRUE)
 fitted_explanation <- fit_explanation(dataset_for_local_exploration, "regr.lm", selection = TRUE)
 }
 

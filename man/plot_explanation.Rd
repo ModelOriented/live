@@ -4,12 +4,12 @@
 \alias{plot_explanation}
 \title{Plotting white box models.}
 \usage{
-plot_explanation(white_box, observation = NULL)
+plot_explanation(white_box, explained_instance = NULL)
 }
 \arguments{
 \item{white_box}{object returned by mlr::train function.}
 
-\item{observation}{Observation around which model was fitted.
+\item{explained_instance}{Observation around which model was fitted.
 Needed only if forest plot is drawn.}
 }
 \value{

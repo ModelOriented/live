@@ -51,7 +51,7 @@ fit_explanation <- function(live_object, white_box, selection = FALSE, maximum_d
 #' 
 
 prepare_forestplot <- function(coefficients, explained_instance) {
-  if(is.null(observation)) stop("Explained instance needs to be provided")
+  if(is.null(explained_instance)) stop("Explained instance needs to be provided")
   model_summary <- coefficients %>%
     as.data.frame() %>%
     tibble::rownames_to_column() %>%
@@ -82,7 +82,7 @@ prepare_forestplot <- function(coefficients, explained_instance) {
 #' Plotting white box models.
 #' 
 #' @param white_box object returned by mlr::train function.
-#' @param observation Observation around which model was fitted.
+#' @param explained_instance Observation around which model was fitted.
 #'                    Needed only if forest plot is drawn.
 #' 
 #' @return plot
@@ -98,10 +98,10 @@ prepare_forestplot <- function(coefficients, explained_instance) {
 #' }
 #' 
 
-plot_explanation <- function(white_box, observation = NULL) {
+plot_explanation <- function(white_box, explained_instance = NULL) {
   trained_model <- mlr::getLearnerModel(white_box)
   if(any(grepl("lm", class(trained_model)))) {
-    prepare_forestplot(summary(trained_model)$coefficients, observation)
+    prepare_forestplot(summary(trained_model)$coefficients, explained_instance)
   } else {
     plot(trained_model)
   }

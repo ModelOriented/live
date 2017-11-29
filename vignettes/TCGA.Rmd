@@ -12,7 +12,6 @@ vignette: >
 library(mlr)
 library(live)
 library(tidyverse)
-library(ranger)
 library(MLExpRessoData)
 library(randomForest)
 
@@ -41,7 +40,7 @@ similar <- sample_locally(data = nData,
                           explained_instance = nData[2,],
                           explained_var = "survival_status", 
                           size = 2000)
-similar <- add_predictions(nData, similar, black_box_model = trees,)
+similar <- add_predictions(nData, similar, black_box_model = trees)
 
 # trained <- fit_explanation(live_object = similar, 
 #                            white_box = "regr.lm", 

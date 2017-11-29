@@ -22,8 +22,8 @@ fit_explanation <- function(live_object, white_box, selection = FALSE, maximum_d
   
   if(selection) {
     explained_var_col <- which(colnames(live_object$data) == live_object$target)
-    selected_vars <- selectModel(as.data.frame(live_object$data[, -explained_var_col]), 
-                                 unlist(live_object$data[, explained_var_col]), crit = aic)
+    selected_vars <- bigstep::selectModel(as.data.frame(live_object$data[, -explained_var_col]), 
+                                          unlist(live_object$data[, explained_var_col]), crit = bigstep::aic)
   } else {
     selected_vars <- colnames(live_object$data)
   }

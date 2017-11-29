@@ -15,7 +15,7 @@ test_that("White box model is fitted correctly", {
 })
 
 test_that("Plots are created without problems", {
-  expect_output(live::plot_explanation(local_explained, X[3, ]), regexp = NA)
-  expect_output(live::plot_explanation(local_explained))
+  expect_error(live::plot_explanation(local_explained, X[3, ]), regexp = NA)
+  expect_error(live::plot_explanation(local_explained))
 })
 

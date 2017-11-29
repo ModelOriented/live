@@ -4,9 +4,11 @@
 \alias{add_predictions}
 \title{Add black box predictions to generated dataset}
 \usage{
-add_predictions(to_explain, black_box_model, predict_fun = predict, ...)
+add_predictions(data, to_explain, black_box_model, predict_fun = predict, ...)
 }
 \arguments{
+\item{data}{Original data frame used to generate new dataset.}
+
 \item{to_explain}{List return by sample_locally function.}
 
 \item{black_box_model}{String with mlr signature of a learner or a model with predict interface.}

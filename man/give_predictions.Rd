@@ -4,9 +4,11 @@
 \alias{give_predictions}
 \title{Add predictions to generated dataset.}
 \usage{
-give_predictions(black_box, explained_var, similar, predict_function, ...)
+give_predictions(data, black_box, explained_var, similar, predict_function, ...)
 }
 \arguments{
+\item{data}{Original data frame used to generate new dataset.}
+
 \item{black_box}{String with mlr signature of a learner or a model with predict interface.}
 
 \item{explained_var}{Name of a column with the variable to be predicted.}

@@ -46,7 +46,7 @@ check_for_na <- function(data, explained_instance) {
 
 generate_neighbourhood <- function(data, explained_instance, size) {
   dimension <- ncol(data)
-  check_data(data, explained_instance)
+  check_for_na(data, explained_instance)
   neighbourhood <- dplyr::bind_rows(lapply(1:size, function(x) explained_instance))
   
   if(size <= dimension) {
@@ -136,6 +136,7 @@ sample_locally <- function(data, explained_instance, explained_var, size, standa
 
 #' Add predictions to generated dataset.
 #' 
+#' @param data Original data frame used to generate new dataset.
 #' @param black_box String with mlr signature of a learner or a model with predict interface.
 #' @param explained_var Name of a column with the variable to be predicted.
 #' @param similar Dataset created for local exploration.
@@ -149,9 +150,9 @@ sample_locally <- function(data, explained_instance, explained_var, size, standa
 #' @return Vector of model predictions.
 #' 
 
-give_predictions <- function(black_box, explained_var, similar, predict_function, ...) {
+give_predictions <- function(data, black_box, explained_var, similar, predict_function, ...) {
   if(is.character(black_box)) {  
-    mlr_task <- create_task(black_box, as.data.frame(similar), explained_var)
+    mlr_task <- create_task(black_box, as.data.frame(data), explained_var)
     pred <- mlr::makeLearner(black_box) %>% 
       mlr::train(mlr_task) %>%
       predict(newdata = as.data.frame(similar))
@@ -165,6 +166,7 @@ give_predictions <- function(black_box, explained_var, similar, predict_function
 
 #' Add black box predictions to generated dataset
 #'
+#' @param data Original data frame used to generate new dataset.
 #' @param to_explain List return by sample_locally function.
 #' @param black_box_model String with mlr signature of a learner or a model with predict interface.
 #' @param predict_function Either a "predict" function that returns a vector of the
@@ -190,11 +192,12 @@ give_predictions <- function(black_box, explained_var, similar, predict_function
 #' }
 #' 
 
-add_predictions <- function(to_explain, black_box_model, predict_fun = predict, ...) {
-  to_explain$data[[explained_var]] <- give_predictions(black_box = black_box_model,
-                                                       explained_var = to_explain$explained_var,
-                                                       similar = to_explain$data, 
-                                                       predict_function = predict_fun, 
-                                                       ...)
-  list(data = to_explain$data, target = to_explain$explained_var)
+add_predictions <- function(data, to_explain, black_box_model, predict_fun = predict, ...) {
+  to_explain$data[[to_explain$target]] <- give_predictions(data,
+                                                           black_box = black_box_model,
+                                                           explained_var = to_explain$target,
+                                                           similar = to_explain$data, 
+                                                           predict_function = predict_fun, 
+                                                           ...)
+  list(data = to_explain$data, target = to_explain$target)
 }

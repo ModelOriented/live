@@ -27,4 +27,7 @@ Suggests: knitr,
 VignetteBuilder: knitr
 Imports: forestplot,
     partykit,
-    party
+    party,
+    tidyverse
+Enhances: MLExpRessoData,
+    randomForest

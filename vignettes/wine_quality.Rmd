@@ -46,10 +46,10 @@ We use `simulateSimilar` function from `live` package.
 ```{r similar, message = F, warning = F}
 similar <- sample_locally(data = winequality_red,
                             explained_instance = winequality_red[5, ], 
-                            black_box = "regr.svm", 
                             explained_var = "quality", 
                             size = 100,
                             standardise = TRUE)
+similar <- add_predictions(similar, "regr.svm")
 ```
 
 #### Training white box model

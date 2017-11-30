@@ -18,14 +18,6 @@ as in data argument. Local exploration will be performed around this observation
 \item{size}{Number of observations is a simulated dataset.}
 
 \item{standardise}{If TRUE, numerical variables will be scaled to have mean 0, var 1.}
-
-\item{predict_function}{Either a "predict" function that returns a vector of the
-same type as response or custom function that takes a model as a first argument,
-new data used to calculate predictions as a second argument called "newdata"
-and returns a vector of the same type as respone. 
-Will be used only if a model object was provided in the black_box argument.}
-
-\item{...}{Additional parameters to be passed to predict function.}
 }
 \value{
 list

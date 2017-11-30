@@ -14,7 +14,7 @@ create_task(model, dataset, target_var)
 \item{target_var}{Name of column in dataset containing explained variable.}
 }
 \value{
-
+mlr task object
 }
 \description{
 Create regression or classification task.

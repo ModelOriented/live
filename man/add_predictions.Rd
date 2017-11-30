@@ -13,13 +13,13 @@ add_predictions(data, to_explain, black_box_model, predict_fun = predict, ...)
 
 \item{black_box_model}{String with mlr signature of a learner or a model with predict interface.}
 
-\item{...}{Additional parameters to be passed to predict function.}
-
-\item{predict_function}{Either a "predict" function that returns a vector of the
+\item{predict_fun}{Either a "predict" function that returns a vector of the
 same type as response or custom function that takes a model as a first argument,
 new data used to calculate predictions as a second argument called "newdata"
 and returns a vector of the same type as respone. 
 Will be used only if a model object was provided in the black_box argument.}
+
+\item{...}{Additional parameters to be passed to predict function.}
 }
 \value{
 list
@@ -29,13 +29,13 @@ Add black box predictions to generated dataset
 }
 \examples{
 \dontrun{
-dataset_for_local_exploration1 <- add_predictions(dataset_for_local_exploration,
-                                                 black_box_model = "regr.svm")
+local_exploration1 <- add_predictions(dataset_for_local_exploration,
+                                      black_box_model = "regr.svm")
 # Pass trained model to the function. 
 library(e1071)
 svm_model <- svm(quality ~., data = winequality_red)
-dataset_for_local_exploration2 <- add_predictions(dataset_for_local_exploration,
-                                                  black_box_model = svm_model)                                                 
+local_exploration2 <- add_predictions(dataset_for_local_exploration,
+                                      black_box_model = svm_model)                                                 
 }
 
 }

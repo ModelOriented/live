@@ -75,7 +75,7 @@ generate_neighbourhood <- function(data, explained_instance, size) {
 #' @param dataset Data frame on which model will be trained.
 #' @param target_var Name of column in dataset containing explained variable.
 #' 
-#' @return 
+#' @return mlr task object
 #'
 
 create_task <- function(model, dataset, target_var) {
@@ -100,12 +100,6 @@ create_task <- function(model, dataset, target_var) {
 #' @param explained_var Name of a column with the variable to be predicted.
 #' @param size Number of observations is a simulated dataset.
 #' @param standardise If TRUE, numerical variables will be scaled to have mean 0, var 1.
-#' @param predict_function Either a "predict" function that returns a vector of the
-#'        same type as response or custom function that takes a model as a first argument,
-#'        new data used to calculate predictions as a second argument called "newdata"
-#'        and returns a vector of the same type as respone. 
-#'        Will be used only if a model object was provided in the black_box argument.
-#' @param ... Additional parameters to be passed to predict function.
 #'
 #' @return list
 #' 
@@ -169,7 +163,7 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 #' @param data Original data frame used to generate new dataset.
 #' @param to_explain List return by sample_locally function.
 #' @param black_box_model String with mlr signature of a learner or a model with predict interface.
-#' @param predict_function Either a "predict" function that returns a vector of the
+#' @param predict_fun Either a "predict" function that returns a vector of the
 #'        same type as response or custom function that takes a model as a first argument,
 #'        new data used to calculate predictions as a second argument called "newdata"
 #'        and returns a vector of the same type as respone. 
@@ -182,13 +176,13 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 #' 
 #' @examples
 #' \dontrun{
-#' dataset_for_local_exploration1 <- add_predictions(dataset_for_local_exploration,
-#'                                                  black_box_model = "regr.svm")
+#' local_exploration1 <- add_predictions(dataset_for_local_exploration,
+#'                                       black_box_model = "regr.svm")
 #' # Pass trained model to the function. 
 #' library(e1071)
 #' svm_model <- svm(quality ~., data = winequality_red)
-#' dataset_for_local_exploration2 <- add_predictions(dataset_for_local_exploration,
-#'                                                   black_box_model = svm_model)                                                 
+#' local_exploration2 <- add_predictions(dataset_for_local_exploration,
+#'                                       black_box_model = svm_model)                                                 
 #' }
 #' 
 

@@ -28,6 +28,7 @@ VignetteBuilder: knitr
 Imports: forestplot,
     partykit,
     party,
-    tidyverse
+    tidyverse,
+    tibble
 Enhances: MLExpRessoData,
     randomForest

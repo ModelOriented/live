@@ -11,7 +11,7 @@
 #' 
 #' @examples
 #' \dontrun{
-#' fitted_explanation <- fit_explanation(dataset_for_local_exploration, "regr.lm", selection = TRUE)
+#' fitted_explanation <- fit_explanation(local_exploration1, "regr.lm", selection = TRUE)
 #' }
 #' 
 

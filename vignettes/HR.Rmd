@@ -31,8 +31,6 @@ trained <- fit_explanation(live_object = similar,
                            white_box = "regr.lm", 
                            selection = FALSE)
 # trained
-
-# All predicted values were equal.
 plot_explanation(trained,
                  explained_instance = HR_data[1,])
 ```

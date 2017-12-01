@@ -32,10 +32,10 @@ fit_explanation <- function(live_object, white_box, selection = FALSE, maximum_d
                           live_object$data[, unique(c(selected_vars, live_object$target))],
                           live_object$target)
   
-  if(grepl("regr", white_box)) {
-    lrn <- mlr::makeLearner(white_box)
-  } else {
+  if(grepl("ctree", white_box)) {
     lrn <- mlr::makeLearner(white_box, max_depth = maximum_depth)
+  } else {
+    lrn <- mlr::makeLearner(white_box)
   }
   
   mlr::train(lrn, mlr_task)

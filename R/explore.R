@@ -91,7 +91,6 @@ create_task <- function(model, dataset, target_var) {
 }
 
 
-
 #' Generate dataset for local exploration.
 #'
 #' @param data Data frame from which new dataset will be simulated.
@@ -179,7 +178,6 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 #' local_exploration1 <- add_predictions(dataset_for_local_exploration,
 #'                                       black_box_model = "regr.svm")
 #' # Pass trained model to the function. 
-#' library(e1071)
 #' svm_model <- svm(quality ~., data = winequality_red)
 #' local_exploration2 <- add_predictions(dataset_for_local_exploration,
 #'                                       black_box_model = svm_model)                                                 

@@ -9,6 +9,7 @@ vignette: >
 ---
 
 ```{r,   warning = FALSE, message = FALSE}
+# devtools::install_packages("pbiecek/breakDown")
 library(live)
 library(breakDown)
 library(randomForest)

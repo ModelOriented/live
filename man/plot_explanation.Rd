@@ -4,16 +4,20 @@
 \alias{plot_explanation}
 \title{Plotting white box models.}
 \usage{
-plot_explanation(white_box, explained_instance = NULL)
+plot_explanation(model, regr_plot_type = NULL, explained_instance = NULL)
 }
 \arguments{
-\item{white_box}{object returned by mlr::train function.}
+\item{model}{object returned by mlr::train function.}
+
+\item{regr_plot_type}{Chr, "forestplot" or "waterfallplot" depending 
+on which type of plot is to be created
+if lm/glm model is used as interpretable approximation.}
 
 \item{explained_instance}{Observation around which model was fitted.
-Needed only if forest plot is drawn.}
+Needed only if forest plot/waterfall plot is drawn.}
 }
 \value{
-plot
+plot (ggplot2 or base)
 }
 \description{
 Plotting white box models.
@@ -21,7 +25,9 @@ Plotting white box models.
 \examples{
 \dontrun{
 # Forest plot for regression
-plot_explanation(fitted_explanation1, winequality_red[5, ])
+plot_explanation(fitted_explanation1, "forestplot", winequality_red[5, ])
+# Waterfall plot
+plot_explanation(fitted_explanation1, "waterfallplot", winequality_red[5, ])
 # Plot decision tree
 plot_explanation(fitted_explanation2)
 }

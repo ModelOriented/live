@@ -78,29 +78,46 @@ prepare_forestplot <- function(coefficients, explained_instance) {
 }
 
 
+#' Watefall plot or forestplot for lm/glm explanations.
+#' 
+#' @param plot_type 
+#' 
+plot_regression <- function(plot_type, fitted_model, explained_instance) {
+  if(plot_type == "foresplot") {
+    prepare_forestplot(summary(fitted_model)$coefficients, explained_instance)
+  } else {
+    plot(breakDown::broken(fitted_model, explained_instance))
+  }
+}
+
 #' Plotting white box models.
 #' 
-#' @param white_box object returned by mlr::train function.
+#' @param model object returned by mlr::train function.
+#' @param regr_plot_type Chr, "forestplot" or "waterfallplot" depending 
+#'                       on which type of plot is to be created
+#'                       if lm/glm model is used as interpretable approximation.
 #' @param explained_instance Observation around which model was fitted.
-#'                    Needed only if forest plot is drawn.
+#'                           Needed only if forest plot/waterfall plot is drawn.
 #' 
-#' @return plot
+#' @return plot (ggplot2 or base)
 #' 
 #' @export
 #' 
 #' @examples
 #' \dontrun{
 #' # Forest plot for regression
-#' plot_explanation(fitted_explanation1, winequality_red[5, ])
+#' plot_explanation(fitted_explanation1, "forestplot", winequality_red[5, ])
+#' # Waterfall plot
+#' plot_explanation(fitted_explanation1, "waterfallplot", winequality_red[5, ])
 #' # Plot decision tree
 #' plot_explanation(fitted_explanation2)
 #' }
 #' 
 
-plot_explanation <- function(white_box, explained_instance = NULL) {
-  trained_model <- mlr::getLearnerModel(white_box)
+plot_explanation <- function(model, regr_plot_type = NULL, explained_instance = NULL) {
+  trained_model <- mlr::getLearnerModel(model)
   if(any(grepl("lm", class(trained_model)))) {
-    prepare_forestplot(summary(trained_model)$coefficients, explained_instance)
+    plot_regression(regr_plot_type, trained_model, explained_instance)
   } else {
     plot(trained_model)
   }

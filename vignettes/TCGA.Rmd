@@ -46,5 +46,6 @@ similar <- add_predictions(nData, similar, black_box_model = trees)
 #                            white_box = "regr.lm", 
 #                            selection = TRUE)
 # All predicted values were equal.
-# plot_explanation(white_box = trained,
-#                observation = nData[1,])
+# plot_explanation(trained,
+#                  regr_plot_type = "forestplot",
+#                  observation = nData[1,])

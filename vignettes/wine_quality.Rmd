@@ -71,6 +71,7 @@ By setting \texttt{selection = TRUE} we choose to perform variable selection usi
 Now we can visualize fitted model by calling \texttt{plotWhiteBox} function.
 ```{r plot, message = F, warning = F}
 plot_explanation(white_box = trained,
+                 regr_plot_type = "forestplot",
                  explained_instance = winequality_red[5, ])
 ```
 

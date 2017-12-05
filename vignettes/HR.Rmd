@@ -9,14 +9,12 @@ vignette: >
 ---
 
 ```{r,   warning = FALSE, message = FALSE}
-# devtools::install_packages("pbiecek/breakDown")
 library(live)
 library(breakDown)
 library(randomForest)
 
 HR_data$left <- as.numeric(HR_data$left)
 trees <- randomForest(left~., data = HR_data, ntree=1000)
-# trees
 
 similar <- sample_locally(data = HR_data,
                           explained_instance = HR_data[2,],
@@ -31,6 +29,6 @@ trained <- fit_explanation(live_object = similar,
                            white_box = "regr.lm", 
                            selection = FALSE)
 # trained
-plot_explanation(trained,
+plot_explanation(trained, "waterfallplot", 
                  explained_instance = HR_data[1,])
 ```

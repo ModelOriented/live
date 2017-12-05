@@ -80,7 +80,13 @@ prepare_forestplot <- function(coefficients, explained_instance) {
 
 #' Watefall plot or forestplot for lm/glm explanations.
 #' 
-#' @param plot_type 
+#' @param plot_type Chr, "forestplot" or "waterfallplot" depending 
+#'                  on which type of plot is to be created.
+#' @param fitted_model glm or lm object.
+#' @param explained_instance Observation around which model was fitted.
+#' 
+#' 
+#' @return plot (ggplot2 or base)
 #' 
 plot_regression <- function(plot_type, fitted_model, explained_instance) {
   if(plot_type == "foresplot") {
@@ -94,7 +100,7 @@ plot_regression <- function(plot_type, fitted_model, explained_instance) {
 #' 
 #' @param model object returned by mlr::train function.
 #' @param regr_plot_type Chr, "forestplot" or "waterfallplot" depending 
-#'                       on which type of plot is to be created
+#'                       on which type of plot is to be created.
 #'                       if lm/glm model is used as interpretable approximation.
 #' @param explained_instance Observation around which model was fitted.
 #'                           Needed only if forest plot/waterfall plot is drawn.

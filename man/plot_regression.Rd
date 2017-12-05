@@ -7,7 +7,15 @@
 plot_regression(plot_type, fitted_model, explained_instance)
 }
 \arguments{
-\item{plot_type}{}
+\item{plot_type}{Chr, "forestplot" or "waterfallplot" depending 
+on which type of plot is to be created.}
+
+\item{fitted_model}{glm or lm object.}
+
+\item{explained_instance}{Observation around which model was fitted.}
+}
+\value{
+plot (ggplot2 or base)
 }
 \description{
 Watefall plot or forestplot for lm/glm explanations.

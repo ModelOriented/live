@@ -164,7 +164,7 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 #' @param black_box_model String with mlr signature of a learner or a model with predict interface.
 #' @param predict_fun Either a "predict" function that returns a vector of the
 #'        same type as response or custom function that takes a model as a first argument,
-#'        new data used to calculate predictions as a second argument called "newdata"
+#'        and data used to calculate predictions as a second argument called "newdata"
 #'        and returns a vector of the same type as respone. 
 #'        Will be used only if a model object was provided in the black_box argument.
 #' @param ... Additional parameters to be passed to predict function.

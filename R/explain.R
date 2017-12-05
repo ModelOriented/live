@@ -17,7 +17,7 @@
 
 
 fit_explanation <- function(live_object, white_box, selection = FALSE, maximum_depth = 0) {
-  if(n_distinct(live_object$data[[live_object$target]]) == 1) 
+  if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1) 
     stop("All predicted values were equal.")
   
   if(selection) {

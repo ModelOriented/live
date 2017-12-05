@@ -25,7 +25,9 @@ Suggests: knitr,
     kernlab,
     bigstep
 VignetteBuilder: knitr
-Imports: forestplot,
+Imports: mlr,
+    dplyr,
+    forestplot,
     partykit,
     party,
     tidyverse,

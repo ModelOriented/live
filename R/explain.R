@@ -92,7 +92,7 @@ plot_regression <- function(plot_type, fitted_model, explained_instance) {
   if(plot_type == "forestplot") {
     prepare_forestplot(summary(fitted_model)$coefficients, explained_instance)
   } else {
-    plot(breakDown::broken(fitted_model, explained_instance))
+    plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"))
   }
 }
 

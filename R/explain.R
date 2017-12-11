@@ -52,13 +52,17 @@ fit_explanation <- function(live_object, white_box, selection = FALSE, maximum_d
 
 prepare_forestplot <- function(coefficients, explained_instance) {
   if(is.null(explained_instance)) stop("Explained instance needs to be provided")
+  
+  test_col <- grep("[z|t] value", colnames(coefficients))
+  colnames(coefficients)[test_col] <- "test_val"
+  
   model_summary <- coefficients %>%
     as.data.frame() %>%
     tibble::rownames_to_column(var = "vars_names") %>%
     dplyr::mutate(lower = Estimate - `Std. Error`,
                   upper = Estimate + `Std. Error`,
                   variable = vars_names) %>%
-    dplyr::arrange(desc(abs(`t value`))) %>%
+    dplyr::arrange(desc(abs(test_val))) %>%
     dplyr::filter(variable != "(Intercept)") %>%
     dplyr::select(Estimate, lower, upper, variable)
 

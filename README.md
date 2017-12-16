@@ -17,6 +17,9 @@ devtools::install_github("MI2DataLab/live")
 
 Website: https://mi2datalab.github.io/live/
 
+Conference talk on live: https://github.com/mstaniak/Berlin_2017
+
+
 Cheatsheet:
 
 ![cheatsheet](https://raw.githubusercontent.com/MI2DataLab/live/master/cheatsheets/liveCheatsheet.png)

@@ -8,7 +8,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r libs, echo = FALSE, warning = FALSE, message = FALSE}
+```{r libs, warning = FALSE, message = FALSE}
 library(mlr)
 library(live)
 library(tidyverse)
@@ -40,12 +40,26 @@ similar <- sample_locally(data = nData,
                           explained_instance = nData[2,],
                           explained_var = "survival_status", 
                           size = 2000)
-similar <- add_predictions(nData, similar, black_box_model = trees)
 
-# trained <- fit_explanation(live_object = similar, 
-#                            white_box = "regr.lm", 
-#                            selection = TRUE)
+# homemade functions
+predfun <- function(model, newdata, ...) {
+   randomForest:::predict.randomForest(model, newdata = newdata, type = "prob")[,1]
+}
+
+similar <- add_predictions(nData, similar, 
+                           black_box_model = trees, 
+                           predict_fun = predfun)
+
+trained <- fit_explanation(live_object = similar, 
+                            white_box = "regr.lm", 
+                            selection = TRUE)
 # All predicted values were equal.
-# plot_explanation(trained,
-#                  regr_plot_type = "forestplot",
-#                  observation = nData[1,])
+ plot_explanation(trained,
+                  regr_plot_type = "forestplot",
+                  explained_instance = nData[1,])
+
+ plot_explanation(trained,
+                  regr_plot_type = "waterfallplot",
+                  explained_instance = nData[1,])
+
+```

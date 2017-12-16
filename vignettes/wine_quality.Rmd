@@ -43,7 +43,7 @@ To do this, we need to generate observations for local exploration.
 
 We use `simulateSimilar` function from `live` package.
 `standardise` is set to `TRUE`, so all variables will be normalized.
-```{r similar, message = F, warning = F}
+```{r similar, message = FALSE, warning = FALSE}
 similar <- sample_locally(data = winequality_red,
                             explained_instance = winequality_red[5, ], 
                             explained_var = "quality", 
@@ -69,9 +69,12 @@ By setting \texttt{selection = TRUE} we choose to perform variable selection usi
 #### Model visualization
 
 Now we can visualize fitted model by calling \texttt{plotWhiteBox} function.
-```{r plot, message = F, warning = F}
+```{r plot, message = FALSE, warning = FALSE}
 plot_explanation(trained,
                  regr_plot_type = "forestplot",
+                 explained_instance = winequality_red[5, ])
+plot_explanation(trained,
+                 regr_plot_type = "waterfall",
                  explained_instance = winequality_red[5, ])
 ```
 

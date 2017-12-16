@@ -76,7 +76,64 @@
     
     
 <div class="contents">
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mlr)
+<span class="kw">library</span>(live)
+<span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(MLExpRessoData)
+<span class="kw">library</span>(randomForest)
 
+<span class="kw">set.seed</span>(<span class="dv">1</span>)
+
+<span class="co"># very basic normalisation</span>
+BRCA &lt;-<span class="st"> </span>MLExpRessoData<span class="op">::</span>BRCA_mRNAseq_all_surv
+BRCA[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)] &lt;-<span class="st"> </span><span class="dv">1000000</span><span class="op">*</span>BRCA[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)]<span class="op">/</span><span class="kw">rowSums</span>(BRCA[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)])
+
+<span class="kw">options</span>(<span class="dt">expressions =</span> <span class="dv">500000</span>)
+
+<span class="kw">colnames</span>(BRCA) &lt;-<span class="st"> </span><span class="kw">make.names</span>(<span class="kw">colnames</span>(BRCA))
+
+<span class="co"># try first 10000 variables</span>
+nData &lt;-<span class="st"> </span>BRCA[,<span class="op">-</span><span class="dv">1</span>]
+pvals &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">3</span><span class="op">:</span><span class="kw">ncol</span>(BRCA), <span class="cf">function</span>(i) <span class="kw">wilcox.test</span>(BRCA[,i]<span class="op">~</span>BRCA[,<span class="dv">2</span>])<span class="op">$</span>p.value)
+nData &lt;-<span class="st"> </span>BRCA[,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="kw">which</span>(pvals <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.001</span>))]
+
+trees &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/randomForest/topics/randomForest">randomForest</a></span>(survival_status<span class="op">~</span>., <span class="dt">data =</span> nData, <span class="dt">ntree=</span><span class="dv">10000</span>)
+
+nind1 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">which</span>(nData<span class="op">$</span>survival_status <span class="op">==</span><span class="st"> </span><span class="dv">1</span>), <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+nind2 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">which</span>(nData<span class="op">$</span>survival_status <span class="op">==</span><span class="st"> </span><span class="dv">0</span>), <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+nData &lt;-<span class="st"> </span>nData[<span class="kw">c</span>(nind1, nind2),]
+
+similar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sample_locally.html">sample_locally</a></span>(<span class="dt">data =</span> nData,
+                          <span class="dt">explained_instance =</span> nData[<span class="dv">2</span>,],
+                          <span class="dt">explained_var =</span> <span class="st">"survival_status"</span>, 
+                          <span class="dt">size =</span> <span class="dv">2000</span>)
+
+<span class="co"># homemade functions</span>
+predfun &lt;-<span class="st"> </span><span class="cf">function</span>(model, newdata, ...) {
+   randomForest<span class="op">:::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/randomForest/topics/predict.randomForest">predict.randomForest</a></span>(model, <span class="dt">newdata =</span> newdata, <span class="dt">type =</span> <span class="st">"prob"</span>)[,<span class="dv">1</span>]
+}
+
+similar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/add_predictions.html">add_predictions</a></span>(nData, similar, 
+                           <span class="dt">black_box_model =</span> trees, 
+                           <span class="dt">predict_fun =</span> predfun)
+
+trained &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_explanation.html">fit_explanation</a></span>(<span class="dt">live_object =</span> similar, 
+                            <span class="dt">white_box =</span> <span class="st">"regr.lm"</span>, 
+                            <span class="dt">selection =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## 
+  |                                                                       
+  |                                                                 |   0%
+  |                                                                       
+  |=================================================================| 100%</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># All predicted values were equal.</span>
+ <span class="kw"><a href="../reference/plot_explanation.html">plot_explanation</a></span>(trained,
+                  <span class="dt">regr_plot_type =</span> <span class="st">"forestplot"</span>,
+                  <span class="dt">explained_instance =</span> nData[<span class="dv">1</span>,])</code></pre></div>
+<p><img src="TCGA_files/figure-html/libs-1.png" width="672"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> <span class="kw"><a href="../reference/plot_explanation.html">plot_explanation</a></span>(trained,
+                  <span class="dt">regr_plot_type =</span> <span class="st">"waterfallplot"</span>,
+                  <span class="dt">explained_instance =</span> nData[<span class="dv">1</span>,])</code></pre></div>
+<p><img src="TCGA_files/figure-html/libs-2.png" width="672"></p>
 </div>
   </div>
 

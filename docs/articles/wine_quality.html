@@ -76,8 +76,6 @@
     
     
 <div class="contents">
-<pre><code>## Warning: replacing previous import 'BBmisc::isFALSE' by
-## 'backports::isFALSE' when loading 'mlr'</code></pre>
 <div id="about-the-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#about-the-data" class="anchor"></a>About the data</h3>
@@ -142,6 +140,11 @@ similar2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ad
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_explanation.html">plot_explanation</a></span>(trained,
                  <span class="dt">regr_plot_type =</span> <span class="st">"forestplot"</span>,
                  <span class="dt">explained_instance =</span> winequality_red[<span class="dv">5</span>, ])</code></pre></div>
+<p><img src="wine_quality_files/figure-html/plot-1.png" width="672"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_explanation.html">plot_explanation</a></span>(trained,
+                 <span class="dt">regr_plot_type =</span> <span class="st">"waterfall"</span>,
+                 <span class="dt">explained_instance =</span> winequality_red[<span class="dv">5</span>, ])</code></pre></div>
+<p><img src="wine_quality_files/figure-html/plot-2.png" width="672"></p>
 <p>Only variables chosen in the selection step are displayed. They are sorted according to the absolute value of t-test statistic. In the <code>Observed</code> column predictor values for case given in observation} argument are displayed. <code>Estimate</code> column gives fitted parameter values, while <code>Lower</code> and <code>Upper</code> give lower and upper bounds of 95% confidence interval, respectively. The plot show <code>Estimate</code> value on x axis. From the signs of the parameters and their magnitude wee can see how variables influence predictions.</p>
 </div>
 </div>

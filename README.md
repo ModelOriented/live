@@ -1,4 +1,5 @@
 # live
+
 Local Interpretable (Model-agnostic) Visual Explanations
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/live)](https://cran.r-project.org/package=live)
@@ -6,8 +7,19 @@ Local Interpretable (Model-agnostic) Visual Explanations
 [![Pending Pull-Requests](http://githubbadges.herokuapp.com/MI2DataLab/live/pulls.svg)](https://github.com/MI2DataLab/live/pulls)
 [![Github Issues](http://githubbadges.herokuapp.com/MI2DataLab/live/issues.svg)](https://github.com/MI2DataLab/live/issues)
 
+## Installation
+
 To get started, install the latest version of live package from GitHub:
 
 ```
 devtools::install_github("MI2DataLab/live")
 ```
+
+## Materials
+
+Website: https://mi2datalab.github.io/live/
+
+Cheatsheet:
+
+![cheatsheet](https://raw.githubusercontent.com/MI2DataLab/live/master/cheatsheets/liveCheatsheet.png)
+

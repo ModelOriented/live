@@ -13,6 +13,8 @@ library(live)
 library(breakDown)
 library(randomForest)
 
+head(HR_data)
+
 HR_data$left <- as.numeric(HR_data$left)
 trees <- randomForest(left~., data = HR_data, ntree=1000)
 
@@ -30,5 +32,7 @@ trained <- fit_explanation(live_object = similar,
                            selection = FALSE)
 # trained
 plot_explanation(trained, "waterfallplot", 
+                 explained_instance = HR_data[1,])
+plot_explanation(trained, "forestplot", 
                  explained_instance = HR_data[1,])
 ```

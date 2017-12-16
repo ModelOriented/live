@@ -104,10 +104,10 @@ similar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sam
                           <span class="dt">size =</span> <span class="dv">2000</span>)
 <span class="kw">head</span>(similar<span class="op">$</span>data)</code></pre></div>
 <pre><code>##   satisfaction_level last_evaluation number_project average_montly_hours
-## 1               0.92            0.86              5                  262
-## 2               0.80            0.48              5                  262
-## 3               0.80            0.86              4                  262
-## 4               0.80            0.86              5                  251
+## 1               0.85            0.86              5                  262
+## 2               0.80            0.51              5                  262
+## 3               0.80            0.86              2                  262
+## 4               0.80            0.86              5                  189
 ## 5               0.80            0.86              5                  262
 ## 6               0.80            0.86              5                  262
 ##   time_spend_company Work_accident promotion_last_5years sales salary
@@ -115,15 +115,15 @@ similar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sam
 ## 2                  6             0                     0 sales medium
 ## 3                  6             0                     0 sales medium
 ## 4                  6             0                     0 sales medium
-## 5                  3             0                     0 sales medium
+## 5                  2             0                     0 sales medium
 ## 6                  6             0                     0 sales medium</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">similar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/add_predictions.html">add_predictions</a></span>(HR_Data, similar, <span class="dt">black_box_model =</span> trees)
 <span class="kw">head</span>(similar<span class="op">$</span>data)</code></pre></div>
 <pre><code>##   satisfaction_level last_evaluation number_project average_montly_hours
-## 1               0.92            0.86              5                  262
-## 2               0.80            0.48              5                  262
-## 3               0.80            0.86              4                  262
-## 4               0.80            0.86              5                  251
+## 1               0.85            0.86              5                  262
+## 2               0.80            0.51              5                  262
+## 3               0.80            0.86              2                  262
+## 4               0.80            0.86              5                  189
 ## 5               0.80            0.86              5                  262
 ## 6               0.80            0.86              5                  262
 ##   time_spend_company Work_accident promotion_last_5years sales salary
@@ -131,15 +131,15 @@ similar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sam
 ## 2                  6             0                     0 sales medium
 ## 3                  6             0                     0 sales medium
 ## 4                  6             0                     0 sales medium
-## 5                  3             0                     0 sales medium
+## 5                  2             0                     0 sales medium
 ## 6                  6             0                     0 sales medium
-##          left
-## 1 0.921479143
-## 2 0.030776581
-## 3 0.934988457
-## 4 0.974659630
-## 5 0.008748898
-## 6 0.983079786</code></pre>
+##         left
+## 1 0.96808467
+## 2 0.03214039
+## 3 0.07656249
+## 4 0.03929444
+## 5 0.02242086
+## 6 0.98827646</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trained &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_explanation.html">fit_explanation</a></span>(<span class="dt">live_object =</span> similar, 
                            <span class="dt">white_box =</span> <span class="st">"regr.lm"</span>, 
                            <span class="dt">selection =</span> <span class="ot">FALSE</span>)

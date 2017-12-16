@@ -119,8 +119,8 @@ sample_locally <- function(data, explained_instance, explained_var, size, standa
   similar <- generate_neighbourhood(data[, -explained_var_col], 
                                     explained_instance[, -explained_var_col], size)
   if(standardise) {
-    similar <- similar %>%
-      dplyr::mutate_if(is.numeric, function(x) as.vector(scale(x)))
+    vscale <- function(x) as.vector(scale(x))
+    similar <- dplyr::mutate_if(similar, is.numeric, vscale)
   }
   
   list(data = similar, target = explained_var)

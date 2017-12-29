@@ -16,7 +16,7 @@ add_predictions(data, to_explain, black_box_model, predict_fun = predict, ...)
 \item{predict_fun}{Either a "predict" function that returns a vector of the
 same type as response or custom function that takes a model as a first argument,
 and data used to calculate predictions as a second argument called "newdata"
-and returns a vector of the same type as respone. 
+and returns a vector of the same type as respone.
 Will be used only if a model object was provided in the black_box argument.}
 
 \item{...}{Additional parameters to be passed to predict function.}
@@ -31,10 +31,10 @@ Add black box predictions to generated dataset
 \dontrun{
 local_exploration1 <- add_predictions(dataset_for_local_exploration,
                                       black_box_model = "regr.svm")
-# Pass trained model to the function. 
+# Pass trained model to the function.
 svm_model <- svm(quality ~., data = winequality_red)
 local_exploration2 <- add_predictions(dataset_for_local_exploration,
-                                      black_box_model = svm_model)                                                 
+                                      black_box_model = svm_model)
 }
 
 }

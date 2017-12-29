@@ -9,7 +9,7 @@ plot_explanation(model, regr_plot_type = NULL, explained_instance = NULL)
 \arguments{
 \item{model}{object returned by mlr::train function.}
 
-\item{regr_plot_type}{Chr, "forestplot" or "waterfallplot" depending 
+\item{regr_plot_type}{Chr, "forestplot" or "waterfallplot" depending
 on which type of plot is to be created.
 if lm/glm model is used as interpretable approximation.}
 

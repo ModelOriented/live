@@ -10,7 +10,7 @@ sample_locally(data, explained_instance, explained_var, size,
 \arguments{
 \item{data}{Data frame from which new dataset will be simulated.}
 
-\item{explained_instance}{One row data frame with the same variables 
+\item{explained_instance}{One row data frame with the same variables
 as in data argument. Local exploration will be performed around this observation.}
 
 \item{explained_var}{Name of a column with the variable to be predicted.}
@@ -28,10 +28,10 @@ Generate dataset for local exploration.
 \examples{
 \dontrun{
 dataset_for_local_exploration <- sample_locally(data = winequality_red,
-                                               explained_instance = winequality_red[5, ], 
-                                               explained_var = "quality", 
+                                               explained_instance = winequality_red[5, ],
+                                               explained_var = "quality",
                                                size = 50,
                                                standardise = TRUE)
 }
-                                                                                        
+
 }

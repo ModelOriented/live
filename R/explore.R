@@ -24,10 +24,10 @@ check_for_na <- function(data, explained_instance) {
 #'
 
 generate_neighbourhood <- function(data, explained_instance, size) {
-  neighbourhood <- data.table::rbindlist(lapply(1:size, function(x) data[1, ]))
+  neighbourhood <- data.table::rbindlist(lapply(1:size, function(x) explained_instance))
   for(k in 1:nrow(neighbourhood)) {
-    picked_var <- (k %% ncol(neighbourhood)) + 1
-    data.table::set(neighbourhood, i = as.integer(k), j = picked_var,
+    picked_var <- sample(1:ncol(data), 1)
+    data.table::set(neighbourhood, i = as.integer(k), j = as.integer(picked_var),
         sample(data[, picked_var], 1))
   }
   as.data.frame(neighbourhood)

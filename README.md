@@ -5,8 +5,6 @@
 [![Pending Pull-Requests](http://githubbadges.herokuapp.com/MI2DataLab/live/pulls.svg)](https://github.com/MI2DataLab/live/pulls)
 [![Github Issues](http://githubbadges.herokuapp.com/MI2DataLab/live/issues.svg)](https://github.com/MI2DataLab/live/issues)
 
-[NEWS](https://github.com/MI2DataLab/live/blob/master/NEWS.md)
-
 ## Installation
 
 To get started, install the latest version of live package from GitHub:
@@ -14,6 +12,9 @@ To get started, install the latest version of live package from GitHub:
 ```
 devtools::install_github("MI2DataLab/live")
 ```
+
+[NEWS](https://github.com/MI2DataLab/live/blob/master/NEWS.md)
+
 
 ## Materials
 

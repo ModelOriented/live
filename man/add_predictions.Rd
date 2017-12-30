@@ -15,7 +15,7 @@ add_predictions(data, to_explain, black_box_model, predict_fun = predict, ...)
 
 \item{predict_fun}{Either a "predict" function that returns a vector of the
 same type as response or custom function that takes a model as a first argument,
-and data used to calculate predictions as a second argument called "newdata"
+and data used to calculate predictions as a second argument
 and returns a vector of the same type as respone.
 Will be used only if a model object was provided in the black_box argument.}
 

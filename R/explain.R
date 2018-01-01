@@ -19,6 +19,8 @@
 fit_explanation <- function(live_object, white_box, selection = FALSE, maximum_depth = 0) {
   if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1)
     stop("All predicted values were equal.")
+  if(!(any(colnames(live_object$data) == live_object$target)))
+    stop("First call add_predictions function to add black box predictions.")
 
   if(selection) {
     explained_var_col <- which(colnames(live_object$data) == live_object$target)
@@ -52,10 +54,10 @@ fit_explanation <- function(live_object, white_box, selection = FALSE, maximum_d
 
 prepare_forestplot <- function(coefficients, explained_instance) {
   if(is.null(explained_instance)) stop("Explained instance needs to be provided")
-  
+
   test_col <- grep("[z|t] value", colnames(coefficients))
   colnames(coefficients)[test_col] <- "test_val"
-  
+
   model_summary <- coefficients %>%
     as.data.frame() %>%
     tibble::rownames_to_column(var = "vars_names") %>%

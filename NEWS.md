@@ -1,3 +1,8 @@
+# live 1.1.2
+
+* date variables will now be hold constant while performing local exploration
+* improved performance
+
 # live 1.1.1
 
 * `add_predictions` improved to handle more learners (for example ranger).

@@ -11,7 +11,28 @@ check_for_na <- function(data, explained_instance) {
   if(any(is.na(data))) warning("Missing values present in dataset. NAs will be omitted while sampling.")
 }
 
+#' Set date values to one value 
+#' 
+#' @param data Data frame to change.
+#' @param explained_instance 1-row data frame with instance of interest.
+#' 
 
+set_constant_dates <- function(data, explained_instance) {
+  date_cols <- (1:ncol(data))[unlist(lapply(data, 
+                               function(x) lubridate::is.Date(x) | lubridate::is.POSIXt(x)),
+                        use.names = FALSE)]
+  if(length(date_cols) == 0) {
+    return(data)
+  } else {
+    for(k in date_cols) {
+      data.table::set(data, j = as.integer(k), 
+                      value = explained_instance[1, as.integer(k)])
+    }
+    data
+  }
+}
+
+(1:10)[FALSE] 
 #' LIME: sampling for local exploration
 #'
 #' @param data Data frame from which observations will be generated.
@@ -24,13 +45,14 @@ check_for_na <- function(data, explained_instance) {
 #'
 
 generate_neighbourhood <- function(data, explained_instance, size) {
+  data <- data.table::as.data.table(data)
   neighbourhood <- data.table::rbindlist(lapply(1:size, function(x) explained_instance))
   for(k in 1:nrow(neighbourhood)) {
     picked_var <- sample(1:ncol(data), 1)
     data.table::set(neighbourhood, i = as.integer(k), j = as.integer(picked_var),
-        sample(data[, picked_var], 1))
+                    data[sample(1:nrow(data), 1), picked_var, with = FALSE])
   }
-  as.data.frame(neighbourhood)
+  as.data.frame(set_constant_dates(neighbourhood, explained_instance))
 }
 
 

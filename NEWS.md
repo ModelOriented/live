@@ -1,7 +1,11 @@
+# live 1.2.0
+
+* Now using forestmodel package for better factor handling.
+
 # live 1.1.2
 
-* date variables will now be hold constant while performing local exploration
-* improved performance
+* Date variables will now be hold constant while performing local exploration.
+* Improved performance.
 
 # live 1.1.1
 

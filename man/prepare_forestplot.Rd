@@ -4,12 +4,10 @@
 \alias{prepare_forestplot}
 \title{Draw a forest plot with proper annotations.}
 \usage{
-prepare_forestplot(coefficients, explained_instance)
+prepare_forestplot(model)
 }
 \arguments{
-\item{coefficients}{Matrix of regression coefficients (from summary).}
-
-\item{explained_instance}{Instance which is being explained (as a row).}
+\item{model}{lm/glm object}
 }
 \description{
 Draw a forest plot with proper annotations.

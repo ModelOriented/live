@@ -46,41 +46,13 @@ fit_explanation <- function(live_object, white_box, selection = FALSE, maximum_d
 
 #' Draw a forest plot with proper annotations.
 #'
-#' @param coefficients Matrix of regression coefficients (from summary).
-#' @param explained_instance Instance which is being explained (as a row).
+#' @param model lm/glm object
 #'
 #' @return NULL
 #'
 
-prepare_forestplot <- function(coefficients, explained_instance) {
-  if(is.null(explained_instance)) stop("Explained instance needs to be provided")
-
-  test_col <- grep("[z|t] value", colnames(coefficients))
-  colnames(coefficients)[test_col] <- "test_val"
-
-  model_summary <- coefficients %>%
-    as.data.frame() %>%
-    tibble::rownames_to_column(var = "vars_names") %>%
-    dplyr::mutate(lower = Estimate - `Std. Error`,
-                  upper = Estimate + `Std. Error`,
-                  variable = vars_names) %>%
-    dplyr::arrange(desc(abs(test_val))) %>%
-    dplyr::filter(variable != "(Intercept)") %>%
-    dplyr::select(Estimate, lower, upper, variable)
-
-  plot_values <- structure(list(mean = c(NA, model_summary$Estimate),
-                                lower = c(NA, model_summary$lower),
-                                upper = c(NA, model_summary$upper)),
-                           .Names = c("mean", "lower", "upper"),
-                           row.names = c(NA, -(length(model_summary$variable) + 1)),
-                           class = "data.frame")
-  plot_text <- cbind(c("Variable", model_summary$variable),
-                     c("Observed", round(unlist(explained_instance)[model_summary$variable], 2)),
-                     c("Estimate", round(model_summary$Estimate, 2)),
-                     c("Lower", round(model_summary$lower, 2)),
-                     c("Upper", round(model_summary$upper, 2)))
-
-  forestplot::forestplot(plot_text, plot_values, boxsize = 0.4)
+prepare_forestplot <- function(model) {
+  forestmodel::forest_model(model)
 }
 
 
@@ -96,7 +68,7 @@ prepare_forestplot <- function(coefficients, explained_instance) {
 #'
 plot_regression <- function(plot_type, fitted_model, explained_instance) {
   if(plot_type == "forestplot") {
-    prepare_forestplot(summary(fitted_model)$coefficients, explained_instance)
+    prepare_forestplot(fitted_model)
   } else {
     plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"))
   }
@@ -110,7 +82,7 @@ plot_regression <- function(plot_type, fitted_model, explained_instance) {
 #'                       on which type of plot is to be created.
 #'                       if lm/glm model is used as interpretable approximation.
 #' @param explained_instance Observation around which model was fitted.
-#'                           Needed only if forest plot/waterfall plot is drawn.
+#'                           Needed only if waterfall plot is drawn.
 #'
 #' @return plot (ggplot2 or base)
 #'

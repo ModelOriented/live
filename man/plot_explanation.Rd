@@ -14,7 +14,7 @@ on which type of plot is to be created.
 if lm/glm model is used as interpretable approximation.}
 
 \item{explained_instance}{Observation around which model was fitted.
-Needed only if forest plot/waterfall plot is drawn.}
+Needed only if waterfall plot is drawn.}
 }
 \value{
 plot (ggplot2 or base)

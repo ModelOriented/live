@@ -101,7 +101,8 @@ create_task <- function(model, dataset, target_var) {
 #' }
 #'
 
-sample_locally <- function(data, explained_instance, explained_var, size, standardise = FALSE) {
+sample_locally <- function(data, explained_instance, explained_var, size, 
+                           standardise = FALSE) {
   explained_var_col <- which(colnames(data) == explained_var)
   similar <- generate_neighbourhood(data[, -explained_var_col],
                                     explained_instance[, -explained_var_col], size)

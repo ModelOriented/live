@@ -66,11 +66,18 @@ prepare_forestplot <- function(model) {
 #'
 #' @return plot (ggplot2 or base)
 #'
-plot_regression <- function(plot_type, fitted_model, explained_instance) {
+plot_regression <- function(plot_type, fitted_model, explained_instance, scale = NULL) {
   if(plot_type == "forestplot") {
     prepare_forestplot(fitted_model)
   } else {
-    plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"))
+    if(scale == "logit") {
+      plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"),
+           trans = function(x) exp(x)/(1 + exp(x))) +
+        scale_y_continuous(limits = c(0, 1), name = "probability", expand = c(0, 0))
+      
+    } else {
+      plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"))
+    }
   }
 }
 
@@ -83,6 +90,8 @@ plot_regression <- function(plot_type, fitted_model, explained_instance) {
 #'                       if lm/glm model is used as interpretable approximation.
 #' @param explained_instance Observation around which model was fitted.
 #'                           Needed only if waterfall plot is drawn.
+#' @param scale When probabilities are predicted, they can be plotted or "logit" scale 
+#'              or "probability" scale.
 #'
 #' @return plot (ggplot2 or base)
 #'
@@ -99,10 +108,11 @@ plot_regression <- function(plot_type, fitted_model, explained_instance) {
 #' }
 #'
 
-plot_explanation <- function(model, regr_plot_type = NULL, explained_instance = NULL) {
+plot_explanation <- function(model, regr_plot_type = NULL, explained_instance = NULL,
+                             scale = "logit") {
   trained_model <- mlr::getLearnerModel(model)
   if(any(grepl("lm", class(trained_model)))) {
-    plot_regression(regr_plot_type, trained_model, explained_instance)
+    plot_regression(regr_plot_type, trained_model, explained_instance, scale)
   } else {
     plot(trained_model)
   }

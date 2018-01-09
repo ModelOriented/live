@@ -4,7 +4,7 @@
 \alias{plot_regression}
 \title{Watefall plot or forestplot for lm/glm explanations.}
 \usage{
-plot_regression(plot_type, fitted_model, explained_instance)
+plot_regression(plot_type, fitted_model, explained_instance, scale = NULL)
 }
 \arguments{
 \item{plot_type}{Chr, "forestplot" or "waterfallplot" depending

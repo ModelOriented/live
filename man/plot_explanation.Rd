@@ -4,7 +4,8 @@
 \alias{plot_explanation}
 \title{Plotting white box models.}
 \usage{
-plot_explanation(model, regr_plot_type = NULL, explained_instance = NULL)
+plot_explanation(model, regr_plot_type = NULL, explained_instance = NULL,
+  scale = "logit")
 }
 \arguments{
 \item{model}{object returned by mlr::train function.}
@@ -15,6 +16,9 @@ if lm/glm model is used as interpretable approximation.}
 
 \item{explained_instance}{Observation around which model was fitted.
 Needed only if waterfall plot is drawn.}
+
+\item{scale}{When probabilities are predicted, they can be plotted or "logit" scale 
+or "probability" scale.}
 }
 \value{
 plot (ggplot2 or base)

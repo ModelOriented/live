@@ -70,7 +70,7 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
   if(plot_type == "forestplot") {
     prepare_forestplot(fitted_model)
   } else {
-    if(scale == "logit") {
+    if(scale == "probability") {
       plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"),
            trans = function(x) exp(x)/(1 + exp(x))) +
         scale_y_continuous(limits = c(0, 1), name = "probability", expand = c(0, 0))

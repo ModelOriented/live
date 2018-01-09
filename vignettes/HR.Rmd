@@ -15,24 +15,25 @@ library(randomForest)
 
 head(HR_data)
 
-HR_data$left <- as.numeric(HR_data$left)
+HR_data$left <- as.factor(HR_data$left)
 trees <- randomForest(left~., data = HR_data, ntree=1000)
 
 similar <- sample_locally(data = HR_data,
                           explained_instance = HR_data[2,],
                           explained_var = "left", 
-                          size = 2000)
+                          size = 200)
 head(similar$data)
 
 similar <- add_predictions(HR_Data, similar, black_box_model = trees)
 head(similar$data)
 
 trained <- fit_explanation(live_object = similar, 
-                           white_box = "regr.lm", 
+                           white_box = "classif.logreg", 
                            selection = FALSE)
 # trained
 plot_explanation(trained, "waterfallplot", 
-                 explained_instance = HR_data[1,])
+                 explained_instance = HR_data[1,],
+                 scale = "probability")
 plot_explanation(trained, "forestplot", 
                  explained_instance = HR_data[1,])
 ```

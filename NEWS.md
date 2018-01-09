@@ -1,3 +1,7 @@
+# live 1.3.0
+
+* For classification problems waterfall plots can be drawn on probability or logit scale.
+
 # live 1.2.0
 
 * Now using forestmodel package for better factor handling.

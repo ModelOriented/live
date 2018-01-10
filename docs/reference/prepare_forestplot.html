@@ -78,6 +78,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">News</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -100,18 +103,14 @@
     <p>Draw a forest plot with proper annotations.</p>
     
 
-    <pre class="usage"><span class='fu'>prepare_forestplot</span>(<span class='no'>coefficients</span>, <span class='no'>explained_instance</span>)</pre>
+    <pre class="usage"><span class='fu'>prepare_forestplot</span>(<span class='no'>model</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>coefficients</th>
-      <td><p>Matrix of regression coefficients (from summary).</p></td>
-    </tr>
-    <tr>
-      <th>explained_instance</th>
-      <td><p>Instance which is being explained (as a row).</p></td>
+      <th>model</th>
+      <td><p>lm/glm object</p></td>
     </tr>
     </table>
     

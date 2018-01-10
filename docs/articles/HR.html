@@ -55,6 +55,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">News</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
 </div>
@@ -95,7 +98,7 @@
 ## 4                  5             0    1                     0 sales    low
 ## 5                  3             0    1                     0 sales    low
 ## 6                  3             0    1                     0 sales    low</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">HR_data<span class="op">$</span>left &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(HR_data<span class="op">$</span>left)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">HR_data<span class="op">$</span>left &lt;-<span class="st"> </span><span class="kw">as.factor</span>(HR_data<span class="op">$</span>left)
 trees &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/randomForest/topics/randomForest">randomForest</a></span>(left<span class="op">~</span>., <span class="dt">data =</span> HR_data, <span class="dt">ntree=</span><span class="dv">1000</span>)
 
 similar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sample_locally.html">sample_locally</a></span>(<span class="dt">data =</span> HR_data,
@@ -104,52 +107,73 @@ similar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sam
                           <span class="dt">size =</span> <span class="dv">2000</span>)
 <span class="kw">head</span>(similar<span class="op">$</span>data)</code></pre></div>
 <pre><code>##   satisfaction_level last_evaluation number_project average_montly_hours
-## 1               0.53            0.86              5                  262
-## 2               0.80            1.00              5                  262
-## 3               0.80            0.86              6                  262
-## 4               0.80            0.86              5                  286
+## 1               0.80            0.86              5                  262
+## 2               0.89            0.86              5                  262
+## 3               0.80            0.86              5                  262
+## 4               0.80            0.86              5                  262
 ## 5               0.80            0.86              5                  262
-## 6               0.80            0.86              5                  262
+## 6               0.80            0.86              4                  262
 ##   time_spend_company Work_accident promotion_last_5years sales salary
-## 1                  6             0                     0 sales medium
+## 1                  3             0                     0 sales medium
 ## 2                  6             0                     0 sales medium
 ## 3                  6             0                     0 sales medium
 ## 4                  6             0                     0 sales medium
-## 5                  2             0                     0 sales medium
+## 5                 10             0                     0 sales medium
 ## 6                  6             0                     0 sales medium</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">similar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/add_predictions.html">add_predictions</a></span>(HR_Data, similar, <span class="dt">black_box_model =</span> trees)
 <span class="kw">head</span>(similar<span class="op">$</span>data)</code></pre></div>
 <pre><code>##   satisfaction_level last_evaluation number_project average_montly_hours
-## 1               0.53            0.86              5                  262
-## 2               0.80            1.00              5                  262
-## 3               0.80            0.86              6                  262
-## 4               0.80            0.86              5                  286
+## 1               0.80            0.86              5                  262
+## 2               0.89            0.86              5                  262
+## 3               0.80            0.86              5                  262
+## 4               0.80            0.86              5                  262
 ## 5               0.80            0.86              5                  262
-## 6               0.80            0.86              5                  262
-##   time_spend_company Work_accident promotion_last_5years sales salary
-## 1                  6             0                     0 sales medium
-## 2                  6             0                     0 sales medium
-## 3                  6             0                     0 sales medium
-## 4                  6             0                     0 sales medium
-## 5                  2             0                     0 sales medium
-## 6                  6             0                     0 sales medium
-##         left
-## 1 0.05120416
-## 2 0.93672643
-## 3 0.39463904
-## 4 0.55182380
-## 5 0.02972973
-## 6 0.98921061</code></pre>
+## 6               0.80            0.86              4                  262
+##   time_spend_company Work_accident promotion_last_5years sales salary left
+## 1                  3             0                     0 sales medium    0
+## 2                  6             0                     0 sales medium    1
+## 3                  6             0                     0 sales medium    1
+## 4                  6             0                     0 sales medium    1
+## 5                 10             0                     0 sales medium    0
+## 6                  6             0                     0 sales medium    1</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trained &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_explanation.html">fit_explanation</a></span>(<span class="dt">live_object =</span> similar, 
-                           <span class="dt">white_box =</span> <span class="st">"regr.lm"</span>, 
+                           <span class="dt">white_box =</span> <span class="st">"classif.logreg"</span>, 
                            <span class="dt">selection =</span> <span class="ot">FALSE</span>)
 <span class="co"># trained</span>
 <span class="kw"><a href="../reference/plot_explanation.html">plot_explanation</a></span>(trained, <span class="st">"waterfallplot"</span>, 
-                 <span class="dt">explained_instance =</span> HR_data[<span class="dv">1</span>,])</code></pre></div>
+                 <span class="dt">explained_instance =</span> HR_data[<span class="dv">2</span>,],
+                 <span class="dt">scale =</span> <span class="st">"probability"</span>)</code></pre></div>
 <p><img src="HR_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_explanation.html">plot_explanation</a></span>(trained, <span class="st">"forestplot"</span>, 
-                 <span class="dt">explained_instance =</span> HR_data[<span class="dv">1</span>,])</code></pre></div>
+                 <span class="dt">explained_instance =</span> HR_data[<span class="dv">2</span>,])</code></pre></div>
 <p><img src="HR_files/figure-html/unnamed-chunk-1-2.png" width="672"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">HR_data<span class="op">$</span>left &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">as.character</span>(HR_data<span class="op">$</span>left))
+trees &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/randomForest/topics/randomForest">randomForest</a></span>(left<span class="op">~</span>., <span class="dt">data =</span> HR_data, <span class="dt">ntree=</span><span class="dv">1000</span>)
+
+similar2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sample_locally.html">sample_locally</a></span>(<span class="dt">data =</span> HR_data,
+                           <span class="dt">explained_instance =</span> HR_data[<span class="dv">2</span>,],
+                           <span class="dt">explained_var =</span> <span class="st">"left"</span>, 
+                           <span class="dt">size =</span> <span class="dv">2000</span>)
+similar2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/add_predictions.html">add_predictions</a></span>(HR_Data, similar2, <span class="dt">black_box_model =</span> trees)
+<span class="kw">glimpse</span>(similar2<span class="op">$</span>data)</code></pre></div>
+<pre><code>## Observations: 2,000
+## Variables: 10
+## $ satisfaction_level    &lt;dbl&gt; 0.80, 0.80, 0.80, 0.80, 0.80, 0.80, 0.80...
+## $ last_evaluation       &lt;dbl&gt; 0.86, 0.86, 0.86, 0.60, 0.86, 0.86, 0.54...
+## $ number_project        &lt;int&gt; 5, 3, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 5, 5...
+## $ average_montly_hours  &lt;int&gt; 262, 262, 262, 262, 196, 262, 262, 274, ...
+## $ time_spend_company    &lt;int&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6...
+## $ Work_accident         &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0...
+## $ promotion_last_5years &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0...
+## $ sales                 &lt;fctr&gt; sales, sales, sales, sales, sales, sale...
+## $ salary                &lt;fctr&gt; medium, medium, low, medium, medium, lo...
+## $ left                  &lt;dbl&gt; 0.986482118, 0.042127479, 0.993150587, 0...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trained2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_explanation.html">fit_explanation</a></span>(<span class="dt">live_object =</span> similar2,
+                            <span class="dt">white_box =</span> <span class="st">"regr.lm"</span>,
+                            <span class="dt">selection =</span> F)
+<span class="kw"><a href="../reference/plot_explanation.html">plot_explanation</a></span>(trained2, <span class="st">"forestplot"</span>, 
+                 <span class="dt">explained_instance =</span> HR_data[<span class="dv">2</span>,])</code></pre></div>
+<p><img src="HR_files/figure-html/unnamed-chunk-1-3.png" width="672"></p>
 </div>
   </div>
 

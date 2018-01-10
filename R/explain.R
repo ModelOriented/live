@@ -15,7 +15,6 @@
 #' }
 #'
 
-
 fit_explanation <- function(live_object, white_box, selection = FALSE, maximum_depth = 0) {
   if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1)
     stop("All predicted values were equal.")
@@ -62,7 +61,6 @@ prepare_forestplot <- function(model) {
 #'                  on which type of plot is to be created.
 #' @param fitted_model glm or lm object.
 #' @param explained_instance Observation around which model was fitted.
-#'
 #'
 #' @return plot (ggplot2 or base)
 #'

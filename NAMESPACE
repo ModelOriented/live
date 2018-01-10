@@ -2,6 +2,5 @@
 
 export(add_predictions)
 export(fit_explanation)
-export(generate_neighbourhood)
 export(plot_explanation)
 export(sample_locally)

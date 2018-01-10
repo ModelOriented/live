@@ -41,8 +41,6 @@ set_constant_dates <- function(data, explained_instance) {
 #'
 #' @return data.frame
 #'
-#' @export
-#'
 
 generate_neighbourhood <- function(data, explained_instance, size) {
   data <- data.table::as.data.table(data)

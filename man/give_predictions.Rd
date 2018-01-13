@@ -4,7 +4,8 @@
 \alias{give_predictions}
 \title{Add predictions to generated dataset.}
 \usage{
-give_predictions(data, black_box, explained_var, similar, predict_function, ...)
+give_predictions(data, black_box, explained_var, similar, predict_function,
+  hyperpars = list(), ...)
 }
 \arguments{
 \item{data}{Original data frame used to generate new dataset.}
@@ -20,6 +21,8 @@ same type as response or custom function that takes a model as a first argument,
 new data used to calculate predictions as a second argument called "newdata"
 and returns a vector of the same type as respone.
 Will be used only if a model object was provided in the black_box argument.}
+
+\item{hyperpars}{Optional list of (hyper)parameters to be passed to mlr::makeLearner.}
 
 \item{...}{Additional parameters to be passed to predict function.}
 }

@@ -124,15 +124,17 @@ sample_locally <- function(data, explained_instance, explained_var, size,
 #'        new data used to calculate predictions as a second argument called "newdata"
 #'        and returns a vector of the same type as respone.
 #'        Will be used only if a model object was provided in the black_box argument.
+#' @param hyperpars Optional list of (hyper)parameters to be passed to mlr::makeLearner.
 #' @param ... Additional parameters to be passed to predict function.
 #'
 #' @return Vector of model predictions.
 #'
 
-give_predictions <- function(data, black_box, explained_var, similar, predict_function, ...) {
+give_predictions <- function(data, black_box, explained_var, similar, predict_function, 
+                             hyperpars = list(), ...) {
   if(is.character(black_box)) {
     mlr_task <- create_task(black_box, as.data.frame(data), explained_var)
-    pred <- mlr::makeLearner(black_box) %>%
+    pred <- mlr::makeLearner(black_box, par.vals = hyperpars) %>%
       mlr::train(mlr_task) %>%
       predict(newdata = as.data.frame(similar))
     pred[["data"]][["response"]]
@@ -152,6 +154,7 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 #'        and data used to calculate predictions as a second argument
 #'        and returns a vector of the same type as respone.
 #'        Will be used only if a model object was provided in the black_box argument.
+#' @param hyperparams Optional list of (hyper)parameters to be passed to mlr::makeLearner.
 #' @param ... Additional parameters to be passed to predict function.
 #'
 #' @return list
@@ -169,12 +172,14 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 #' }
 #'
 
-add_predictions <- function(data, to_explain, black_box_model, predict_fun = predict, ...) {
+add_predictions <- function(data, to_explain, black_box_model, predict_fun = predict, 
+                            hyperparams = list(), ...) {
   to_explain$data[[to_explain$target]] <- give_predictions(data,
                                                            black_box = black_box_model,
                                                            explained_var = to_explain$target,
                                                            similar = to_explain$data,
                                                            predict_function = predict_fun,
+                                                           hyperpars = hyperparams,
                                                            ...)
   list(data = to_explain$data, target = to_explain$target)
 }

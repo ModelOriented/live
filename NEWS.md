@@ -1,3 +1,7 @@
+# live 1.3.2
+
+* Hyperparameters can be also passed to `add_predictions` function.
+
 # live 1.3.1
 
 * `fit_explanation` is now more flexible, can take a list of hyperparameters for a chosen model.

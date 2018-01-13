@@ -4,7 +4,8 @@
 \alias{add_predictions}
 \title{Add black box predictions to generated dataset}
 \usage{
-add_predictions(data, to_explain, black_box_model, predict_fun = predict, ...)
+add_predictions(data, to_explain, black_box_model, predict_fun = predict,
+  hyperparams = list(), ...)
 }
 \arguments{
 \item{data}{Original data frame used to generate new dataset.}
@@ -18,6 +19,8 @@ same type as response or custom function that takes a model as a first argument,
 and data used to calculate predictions as a second argument
 and returns a vector of the same type as respone.
 Will be used only if a model object was provided in the black_box argument.}
+
+\item{hyperparams}{Optional list of (hyper)parameters to be passed to mlr::makeLearner.}
 
 \item{...}{Additional parameters to be passed to predict function.}
 }

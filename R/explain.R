@@ -3,7 +3,9 @@
 #' @param live_object List return by simulate_similar function.
 #' @param white_box String, learner name recognized by mlr package.
 #' @param selection If TRUE, variable selection based on AIC will be performed.
-#' @param maximum_depth maximum depth of a tree (when decision tree is used).
+#' @param predict_type Argument passed to mlr::makeLearner() argument "predict.type".
+#'                     Defaults to "response".
+#' @param hyperpars Optional list of values of (hyper)parameteres of a model.                   
 #'
 #' @return mlr object returned by train function.
 #'
@@ -15,7 +17,8 @@
 #' }
 #'
 
-fit_explanation <- function(live_object, white_box, selection = FALSE, maximum_depth = 0) {
+fit_explanation <- function(live_object, white_box, selection = FALSE,
+                            predict_type = "response", hyperpars = list()) {
   if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1)
     stop("All predicted values were equal.")
   if(!(any(colnames(live_object$data) == live_object$target)))
@@ -33,11 +36,7 @@ fit_explanation <- function(live_object, white_box, selection = FALSE, maximum_d
                           live_object$data[, unique(c(selected_vars, live_object$target))],
                           live_object$target)
 
-  if(grepl("ctree", white_box)) {
-    lrn <- mlr::makeLearner(white_box, max_depth = maximum_depth)
-  } else {
-    lrn <- mlr::makeLearner(white_box)
-  }
+  lrn <- mlr::makeLearner(white_box, predict.type = predict_type, par.vals = hyperpars)
 
   mlr::train(lrn, mlr_task)
 }

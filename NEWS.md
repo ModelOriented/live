@@ -1,3 +1,7 @@
+# live 1.3.1
+
+* `fit_explanation` is now more flexible, can take a list of hyperparameters for a chosen model.
+
 # live 1.3.0
 
 * For classification problems waterfall plots can be drawn on probability or logit scale.

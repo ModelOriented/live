@@ -5,7 +5,7 @@
 \title{Fit white box model to the simulated data.}
 \usage{
 fit_explanation(live_object, white_box, selection = FALSE,
-  maximum_depth = 0)
+  predict_type = "response", hyperpars = list())
 }
 \arguments{
 \item{live_object}{List return by simulate_similar function.}
@@ -14,7 +14,10 @@ fit_explanation(live_object, white_box, selection = FALSE,
 
 \item{selection}{If TRUE, variable selection based on AIC will be performed.}
 
-\item{maximum_depth}{maximum depth of a tree (when decision tree is used).}
+\item{predict_type}{Argument passed to mlr::makeLearner() argument "predict.type".
+Defaults to "response".}
+
+\item{hyperpars}{Optional list of values of (hyper)parameteres of a model.}
 }
 \value{
 mlr object returned by train function.

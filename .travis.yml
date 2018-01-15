@@ -13,5 +13,4 @@ r_packages:
   - forestplot
   - partykit
   
-r_github_packages:
-  - pbiecek/breakDown
+r_github_packages: pbiecek/breakDown

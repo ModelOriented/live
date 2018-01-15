@@ -10,7 +10,7 @@ notifications:
 r_packages:
   - mlr
   - dplyr
-  - forestplot
+  - forestmodel
   - partykit
   - randomForest
   

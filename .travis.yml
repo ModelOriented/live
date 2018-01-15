@@ -12,5 +12,6 @@ r_packages:
   - dplyr
   - forestplot
   - partykit
+  - randomForest
   
 r_github_packages: pbiecek/breakDown

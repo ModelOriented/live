@@ -42,31 +42,20 @@ fit_explanation <- function(live_object, white_box, selection = FALSE,
 }
 
 
-#' Draw a forest plot with proper annotations.
-#'
-#' @param model lm/glm object
-#'
-#' @return NULL
-#'
-
-prepare_forestplot <- function(model) {
-  forestmodel::forest_model(model)
-}
-
-
 #' Watefall plot or forestplot for lm/glm explanations.
 #'
 #' @param plot_type Chr, "forestplot" or "waterfallplot" depending
 #'                  on which type of plot is to be created.
 #' @param fitted_model glm or lm object.
 #' @param explained_instance Observation around which model was fitted.
+#' @param scale Only for classification problems, "logit" or "probability".
 #'
-#' @return plot (ggplot2 or base)
+#' @return plot (ggplot2 or lattice)
 #'
 
 plot_regression <- function(plot_type, fitted_model, explained_instance, scale = NULL) {
   if(plot_type == "forestplot") {
-    prepare_forestplot(fitted_model)
+    forestmodel::forest_model(fitted_model)
   } else {
     if(scale == "probability") {
       plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"),

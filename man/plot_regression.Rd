@@ -13,9 +13,11 @@ on which type of plot is to be created.}
 \item{fitted_model}{glm or lm object.}
 
 \item{explained_instance}{Observation around which model was fitted.}
+
+\item{scale}{Only for classification problems, "logit" or "probability".}
 }
 \value{
-plot (ggplot2 or base)
+plot (ggplot2 or lattice)
 }
 \description{
 Watefall plot or forestplot for lm/glm explanations.

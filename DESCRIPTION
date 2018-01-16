@@ -14,11 +14,13 @@ Description: This package helps to understand key factors that drive the
     This is achieved through local approximations that are either based on 
     additive regression like model or CART like model that allows for 
     higher interactions.
+URL: https://github.com/MI2DataLab/live
+BugReports: https://github.com/MI2DataLab/live/issues
 License: MIT
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-Depends: R (>= 3.0.2), mlr, dplyr
+Depends: R (>= 3.0.2)
 Suggests: knitr,
     rmarkdown,
     testthat,

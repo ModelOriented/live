@@ -45,10 +45,10 @@ We use `simulateSimilar` function from `live` package.
 `standardise` is set to `TRUE`, so all variables will be normalized.
 ```{r similar, message = FALSE, warning = FALSE}
 similar <- sample_locally(data = winequality_red,
-                            explained_instance = winequality_red[5, ], 
-                            explained_var = "quality", 
-                            size = 100,
-                            standardise = TRUE)
+                          explained_instance = winequality_red[5, ], 
+                          explained_var = "quality", 
+                          size = 100,
+                          standardise = TRUE)
 similar1 <- add_predictions(winequality_red, similar, "regr.randomForest")
 similar2 <- add_predictions(winequality_red, similar, "regr.svm")
 ```

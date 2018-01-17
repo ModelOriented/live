@@ -9,46 +9,30 @@ vignette: >
 ---
 
 ```{r,   warning = FALSE, message = FALSE}
-# library(live)
-# library(breakDown)
-# library(randomForest)
-# 
-# head(HR_data)
-# 
-# HR_data$left <- as.factor(HR_data$left)
-# trees <- randomForest(left~., data = HR_data, ntree=1000)
+library(live)
+library(breakDown)
+library(randomForest)
 
-# similar <- sample_locally(data = HR_data,
-#                           explained_instance = HR_data[2,],
-#                           explained_var = "left", 
-#                           size = 2000)
-# head(similar$data)
-# 
-# similar <- add_predictions(HR_Data, similar, black_box_model = trees)
-# head(similar$data)
+head(HR_data)
 
-# trained <- fit_explanation(live_object = similar, 
-#                            white_box = "classif.logreg", 
-#                            selection = FALSE)
+HR_data$left <- as.numeric(HR_data$left)
+trees <- randomForest(left~., data = HR_data, ntree=1000)
+
+similar <- sample_locally(data = HR_data,
+                          explained_instance = HR_data[2,],
+                          explained_var = "left", 
+                          size = 2000)
+head(similar$data)
+
+similar <- add_predictions(HR_Data, similar, black_box_model = trees)
+head(similar$data)
+
+trained <- fit_explanation(live_object = similar, 
+                           white_box = "regr.lm", 
+                           selection = FALSE)
 # trained
-# plot_explanation(trained, "waterfallplot", 
-#                  explained_instance = HR_data[2,],
-#                  scale = "probability")
-# plot_explanation(trained, "forestplot", 
-#                  explained_instance = HR_data[2,])
-# 
-# HR_data$left <- as.numeric(as.character(HR_data$left))
-# trees <- randomForest(left~., data = HR_data, ntree=1000)
-# 
-# similar2 <- sample_locally(data = HR_data,
-#                            explained_instance = HR_data[2,],
-#                            explained_var = "left", 
-#                            size = 2000)
-# similar2 <- add_predictions(HR_Data, similar2, black_box_model = trees)
-# glimpse(similar2$data)
-# trained2 <- fit_explanation(live_object = similar2,
-#                             white_box = "regr.lm",
-#                             selection = F)
-# plot_explanation(trained2, "forestplot", 
-#                  explained_instance = HR_data[2,])
+plot_explanation(trained, "waterfallplot", 
+                 explained_instance = HR_data[1,])
+plot_explanation(trained, "forestplot", 
+                 explained_instance = HR_data[1,])
 ```

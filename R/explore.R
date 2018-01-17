@@ -154,9 +154,9 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
                              hyperpars = list(), ...) {
   if(is.character(black_box)) {
     mlr_task <- create_task(black_box, as.data.frame(data), explained_var)
-    pred <- mlr::makeLearner(black_box, par.vals = hyperpars) %>%
-      mlr::train(mlr_task) %>%
-      predict(newdata = as.data.frame(similar))
+    lrn <- mlr::makeLearner(black_box, par.vals = hyperpars)
+    trained <- mlr::train(lrn, mlr_task)
+    pred <-  predict(trained, newdata = as.data.frame(similar))
     pred[["data"]][["response"]]
   } else {
     predict_function(black_box, similar, ...)

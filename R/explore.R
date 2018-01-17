@@ -24,7 +24,7 @@ check_for_na <- function(data, explained_instance) {
 check_conditions <- function(data, explained_instance, size) {
   if(nrow(data) == 0) stop("Empty data frame")
   if(ncol(data) == 0) stop("Data frame has no columns")
-  if(size <= 0 | !is.integer(size)) stop("Size has to be a positive integer")
+  if(size <= 0) stop("Size has to be a positive integer")
   if(any(colnames(data) != colnames(explained_instance))) 
     stop("Explained instance must have the same variables as data")
 }

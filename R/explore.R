@@ -45,7 +45,7 @@ set_constant_dates <- function(data, explained_instance) {
 generate_neighbourhood <- function(data, explained_instance, size) {
   data <- data.table::as.data.table(data)
   neighbourhood <- data.table::rbindlist(lapply(1:size, function(x) explained_instance))
-  for(k in seq_along(neighbourhood[, 1])) {
+  for(k in seq_along(unlist(neighbourhood[, 1], use.names = F))) {
     picked_var <- sample(1:ncol(data), 1)
     data.table::set(neighbourhood, i = as.integer(k), j = as.integer(picked_var),
                     data[sample(1:nrow(data), 1), picked_var, with = FALSE])

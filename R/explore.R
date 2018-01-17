@@ -11,6 +11,25 @@ check_for_na <- function(data, explained_instance) {
   if(any(is.na(data))) warning("Missing values present in dataset. NAs will be omitted while sampling.")
 }
 
+
+#' Check if data, explained instance and size make sense.
+#' 
+#' @param data Data frame from which observations will be sampled.
+#' @param explained_instance Instance around which points will be sampled.
+#' @param size Number of observation in simulated dataset
+#' 
+#' @return Produces an error if any of conditions aren't met.
+#' 
+
+check_conditions <- function(data, explained_instance, size) {
+  if(nrow(data) == 0) stop("Empty data frame")
+  if(ncol(data) == 0) stop("Data frame has no columns")
+  if(size <= 0 | !is.integer(size)) stop("Size has to be a positive integer")
+  if(any(colnames(data) != colnames(explained_instance))) 
+    stop("Explained instance must have the same variables as data")
+}
+
+
 #' Set date values to one value 
 #' 
 #' @param data Data frame to change.
@@ -45,7 +64,7 @@ set_constant_dates <- function(data, explained_instance) {
 generate_neighbourhood <- function(data, explained_instance, size) {
   data <- data.table::as.data.table(data)
   neighbourhood <- data.table::rbindlist(lapply(1:size, function(x) explained_instance))
-  for(k in seq_along(unlist(neighbourhood[, 1], use.names = F))) {
+  for(k in 1:nrow(neighbourhood)) {
     picked_var <- sample(1:ncol(data), 1)
     data.table::set(neighbourhood, i = as.integer(k), j = as.integer(picked_var),
                     data[sample(1:nrow(data), 1), picked_var, with = FALSE])
@@ -101,6 +120,7 @@ create_task <- function(model, dataset, target_var) {
 
 sample_locally <- function(data, explained_instance, explained_var, size, 
                            standardise = FALSE) {
+  check_conditions(data, explained_instance, size)
   explained_var_col <- which(colnames(data) == explained_var)
   similar <- generate_neighbourhood(data[, -explained_var_col],
                                     explained_instance[, -explained_var_col], size)

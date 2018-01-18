@@ -156,7 +156,7 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
     mlr_task <- create_task(black_box, as.data.frame(data), explained_var)
     lrn <- mlr::makeLearner(black_box, par.vals = hyperpars)
     trained <- mlr::train(lrn, mlr_task)
-    pred <-  predict(trained, newdata = as.data.frame(similar))
+    pred <- predict(trained, newdata = as.data.frame(similar))
     pred[["data"]][["response"]]
   } else {
     predict_function(black_box, similar, ...)
@@ -194,7 +194,7 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 
 add_predictions <- function(data, to_explain, black_box_model, predict_fun = predict, 
                             hyperparams = list(), ...) {
-  to_explain$data[[to_explain$target]] <- give_predictions(data,
+  to_explain$data[[to_explain$target]] <- give_predictions(data = data,
                                                            black_box = black_box_model,
                                                            explained_var = to_explain$target,
                                                            similar = to_explain$data,

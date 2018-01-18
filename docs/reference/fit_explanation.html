@@ -84,7 +84,12 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/MI2DataLab/live">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -104,7 +109,7 @@
     
 
     <pre class="usage"><span class='fu'>fit_explanation</span>(<span class='no'>live_object</span>, <span class='no'>white_box</span>, <span class='kw'>selection</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>maximum_depth</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+  <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='st'>"response"</span>, <span class='kw'>hyperpars</span> <span class='kw'>=</span> <span class='fu'>list</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -122,8 +127,13 @@
       <td><p>If TRUE, variable selection based on AIC will be performed.</p></td>
     </tr>
     <tr>
-      <th>maximum_depth</th>
-      <td><p>maximum depth of a tree (when decision tree is used).</p></td>
+      <th>predict_type</th>
+      <td><p>Argument passed to mlr::makeLearner() argument "predict.type".
+Defaults to "response".</p></td>
+    </tr>
+    <tr>
+      <th>hyperpars</th>
+      <td><p>Optional list of values of (hyper)parameteres of a model.</p></td>
     </tr>
     </table>
     

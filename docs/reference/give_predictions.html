@@ -84,7 +84,12 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/MI2DataLab/live">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -103,7 +108,8 @@
     <p>Add predictions to generated dataset.</p>
     
 
-    <pre class="usage"><span class='fu'>give_predictions</span>(<span class='no'>data</span>, <span class='no'>black_box</span>, <span class='no'>explained_var</span>, <span class='no'>similar</span>, <span class='no'>predict_function</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>give_predictions</span>(<span class='no'>data</span>, <span class='no'>black_box</span>, <span class='no'>explained_var</span>, <span class='no'>similar</span>, <span class='no'>predict_function</span>,
+  <span class='kw'>hyperpars</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -131,6 +137,10 @@ same type as response or custom function that takes a model as a first argument,
 new data used to calculate predictions as a second argument called "newdata"
 and returns a vector of the same type as respone.
 Will be used only if a model object was provided in the black_box argument.</p></td>
+    </tr>
+    <tr>
+      <th>hyperpars</th>
+      <td><p>Optional list of (hyper)parameters to be passed to mlr::makeLearner.</p></td>
     </tr>
     <tr>
       <th>...</th>

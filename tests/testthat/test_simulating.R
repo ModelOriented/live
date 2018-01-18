@@ -53,7 +53,7 @@ test_that("Predictions are added", {
                                         explained_var = "V1",
                                         size = 50)
   local_dataset1 <- add_predictions(X, local_dataset, "regr.lm")
-  expect_output(add_predictions(X, local_dataset1, "regr.lm"), regexp = NA)
+  expect_output(add_predictions(X, local_dataset, "regr.lm"), regexp = NA)
   expect_equal(length(local_dataset1), 2)
   expect_is(local_dataset1$data[[local_dataset1$target]], "numeric")
   expect_is(local_dataset1$target, "character")

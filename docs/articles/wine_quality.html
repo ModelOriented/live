@@ -59,7 +59,14 @@
   <a href="../news/index.html">News</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/MI2DataLab/live">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -122,10 +129,10 @@
 <a href="#simulating-a-dataset" class="anchor"></a>Simulating a dataset</h5>
 <p>We use <code>simulateSimilar</code> function from <code>live</code> package. <code>standardise</code> is set to <code>TRUE</code>, so all variables will be normalized.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">similar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sample_locally.html">sample_locally</a></span>(<span class="dt">data =</span> winequality_red,
-                            <span class="dt">explained_instance =</span> winequality_red[<span class="dv">5</span>, ], 
-                            <span class="dt">explained_var =</span> <span class="st">"quality"</span>, 
-                            <span class="dt">size =</span> <span class="dv">100</span>,
-                            <span class="dt">standardise =</span> <span class="ot">TRUE</span>)
+                          <span class="dt">explained_instance =</span> winequality_red[<span class="dv">5</span>, ], 
+                          <span class="dt">explained_var =</span> <span class="st">"quality"</span>, 
+                          <span class="dt">size =</span> <span class="dv">100</span>,
+                          <span class="dt">standardise =</span> <span class="ot">TRUE</span>)
 similar1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/add_predictions.html">add_predictions</a></span>(winequality_red, similar, <span class="st">"regr.randomForest"</span>)
 similar2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/add_predictions.html">add_predictions</a></span>(winequality_red, similar, <span class="st">"regr.svm"</span>)</code></pre></div>
 </div>

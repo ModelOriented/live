@@ -10,6 +10,7 @@ vignette: >
 
 ```{r,   warning = FALSE, message = FALSE}
 library(live)
+library(mlr)
 library(breakDown)
 library(randomForest)
 
@@ -19,18 +20,17 @@ HR_data$left <- as.numeric(HR_data$left)
 trees <- randomForest(left~., data = HR_data, ntree=1000)
 
 similar <- sample_locally(data = HR_data,
-                          explained_instance = HR_data[2,],
+                          explained_instance = HR_data[1,],
                           explained_var = "left", 
                           size = 2000)
 head(similar$data)
 
-similar <- add_predictions(HR_Data, similar, black_box_model = trees)
-head(similar$data)
+similar1 <- add_predictions(HR_Data, similar, black_box_model = trees)
 
-trained <- fit_explanation(live_object = similar, 
+trained <- fit_explanation(live_object = similar1, 
                            white_box = "regr.lm", 
                            selection = FALSE)
-# trained
+
 plot_explanation(trained, "waterfallplot", 
                  explained_instance = HR_data[1,])
 plot_explanation(trained, "forestplot", 

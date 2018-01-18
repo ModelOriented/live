@@ -31,10 +31,11 @@ Imports: mlr,
     dplyr,
     partykit,
     party,
-    tidyverse,
     tibble,
     breakDown,
     data.table,
-    forestmodel
+    forestmodel,
+    lubridate,
+    ggplot2
 Enhances: MLExpRessoData,
     randomForest

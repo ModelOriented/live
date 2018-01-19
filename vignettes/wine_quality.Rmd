@@ -47,7 +47,7 @@ We use `simulateSimilar` function from `live` package.
 similar <- sample_locally(data = winequality_red,
                           explained_instance = winequality_red[5, ], 
                           explained_var = "quality", 
-                          size = 100,
+                          size = 500,
                           standardise = TRUE)
 similar1 <- add_predictions(winequality_red, similar, "regr.randomForest")
 similar2 <- add_predictions(winequality_red, similar, "regr.svm")

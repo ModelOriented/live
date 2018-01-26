@@ -157,7 +157,7 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
     lrn <- mlr::makeLearner(black_box, par.vals = hyperpars)
     trained <- mlr::train(lrn, mlr_task)
     pred <- predict(trained, newdata = as.data.frame(similar))
-    list(model = getLearnerModel(trained), 
+    list(model = mlr::getLearnerModel(trained), 
          predictions = pred[["data"]][["response"]])
   } else {
     list(model = black_box, 

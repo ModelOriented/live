@@ -25,7 +25,8 @@ Will be used only if a model object was provided in the black_box argument.}
 \item{...}{Additional parameters to be passed to predict function.}
 }
 \value{
-list
+list containing simulated dataset with added predictions,
+             name of a reponse variable and black box model object.
 }
 \description{
 Add black box predictions to generated dataset

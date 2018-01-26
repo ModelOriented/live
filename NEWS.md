@@ -1,3 +1,8 @@
+# live 1.3.3
+
+* `add_predictions` also returns black box model object (`model` element).
+
+
 # live 1.3.2
 
 * Hyperparameters can be also passed to `add_predictions` function.

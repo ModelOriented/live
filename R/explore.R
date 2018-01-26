@@ -147,7 +147,7 @@ sample_locally <- function(data, explained_instance, explained_var, size,
 #' @param hyperpars Optional list of (hyper)parameters to be passed to mlr::makeLearner.
 #' @param ... Additional parameters to be passed to predict function.
 #'
-#' @return Vector of model predictions.
+#' @return A list containing black box model object and predictions.
 #'
 
 give_predictions <- function(data, black_box, explained_var, similar, predict_function, 
@@ -157,9 +157,11 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
     lrn <- mlr::makeLearner(black_box, par.vals = hyperpars)
     trained <- mlr::train(lrn, mlr_task)
     pred <- predict(trained, newdata = as.data.frame(similar))
-    pred[["data"]][["response"]]
+    list(model = getLearnerModel(trained), 
+         predictions = pred[["data"]][["response"]])
   } else {
-    predict_function(black_box, similar, ...)
+    list(model = black_box, 
+         predictions = predict_function(black_box, similar, ...))
   }
 }
 
@@ -177,7 +179,8 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 #' @param hyperparams Optional list of (hyper)parameters to be passed to mlr::makeLearner.
 #' @param ... Additional parameters to be passed to predict function.
 #'
-#' @return list
+#' @return list containing simulated dataset with added predictions,
+#'              name of a reponse variable and black box model object.
 #'
 #' @export
 #'
@@ -194,12 +197,15 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 
 add_predictions <- function(data, to_explain, black_box_model, predict_fun = predict, 
                             hyperparams = list(), ...) {
-  to_explain$data[[to_explain$target]] <- give_predictions(data = data,
-                                                           black_box = black_box_model,
-                                                           explained_var = to_explain$target,
-                                                           similar = to_explain$data,
-                                                           predict_function = predict_fun,
-                                                           hyperpars = hyperparams,
-                                                           ...)
-  list(data = to_explain$data, target = to_explain$target)
+  trained_black_box <- give_predictions(data = data,
+                                        black_box = black_box_model,
+                                        explained_var = to_explain$target,
+                                        similar = to_explain$data,
+                                        predict_function = predict_fun,
+                                        hyperpars = hyperparams,
+                                        ...)
+  to_explain$data[[to_explain$target]] <- trained_black_box$predictions
+  
+  list(data = to_explain$data, target = to_explain$target, 
+       model = trained_black_box$model)
 }

@@ -2,7 +2,10 @@
 #'
 #' @param live_object List return by simulate_similar function.
 #' @param white_box String, learner name recognized by mlr package.
-#' @param selection If TRUE, variable selection based on AIC will be performed.
+#' @param selection If TRUE, variable selection based glmnet implementation of LASSO
+#'        will be performed.
+#' @param response_family family argument to glmnet (and then glm) function.
+#'                        Default value is "gaussian" 
 #' @param predict_type Argument passed to mlr::makeLearner() argument "predict.type".
 #'                     Defaults to "response".
 #' @param hyperpars Optional list of values of (hyper)parameteres of a model.                   
@@ -18,6 +21,7 @@
 #'
 
 fit_explanation <- function(live_object, white_box, selection = FALSE,
+                            response_family = "gaussian",
                             predict_type = "response", hyperpars = list()) {
   if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1)
     stop("All predicted values were equal.")
@@ -26,8 +30,13 @@ fit_explanation <- function(live_object, white_box, selection = FALSE,
 
   if(selection) {
     explained_var_col <- which(colnames(live_object$data) == live_object$target)
-    selected_vars <- bigstep::selectModel(as.data.frame(live_object$data[, -explained_var_col]),
-                                          unlist(live_object$data[, explained_var_col]), crit = bigstep::aic)
+    lasso_fit <- glmnet::cv.glmnet(as.matrix(live_object$data[, -explained_var_col]),
+                                   as.matrix(live_object$data[, explained_var_col]),
+                                   family = response_family,
+                                   nfolds = 5, alpha = 1)
+    coefs_lasso <- glmnet::coef.cv.glmnet(lasso_fit)
+    coefs_lasso <- as.numeric(coefs_lasso[row.names(coefs_lasso) != "(Intercept)"])
+    selected_vars <- colnames(winequality_red)[which(coefs_lasso != 0)]
   } else {
     selected_vars <- colnames(live_object$data)
   }
@@ -35,7 +44,9 @@ fit_explanation <- function(live_object, white_box, selection = FALSE,
   mlr_task <- create_task(white_box,
                           live_object$data[, unique(c(selected_vars, live_object$target))],
                           live_object$target)
-
+  if(grepl("glm", white_box)) {
+    hyperpars <- c(hyperpars, family = response_family)  
+  }
   lrn <- mlr::makeLearner(white_box, predict.type = predict_type, par.vals = hyperpars)
 
   mlr::train(lrn, mlr_task)

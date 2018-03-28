@@ -9,11 +9,11 @@ fit_explanation(live_object, white_box, selection = FALSE,
   hyperpars = list())
 }
 \arguments{
-\item{live_object}{List return by simulate_similar function.}
+\item{live_object}{List return by add_predictions function.}
 
 \item{white_box}{String, learner name recognized by mlr package.}
 
-\item{selection}{If TRUE, variable selection based glmnet implementation of LASSO
+\item{selection}{If TRUE, variable selection based on glmnet implementation of LASSO
 will be performed.}
 
 \item{response_family}{family argument to glmnet (and then glm) function.
@@ -22,7 +22,7 @@ Default value is "gaussian"}
 \item{predict_type}{Argument passed to mlr::makeLearner() argument "predict.type".
 Defaults to "response".}
 
-\item{hyperpars}{Optional list of values of (hyper)parameteres of a model.}
+\item{hyperpars}{Optional list of values of hyperparameteres of a model.}
 }
 \value{
 mlr object returned by train function.

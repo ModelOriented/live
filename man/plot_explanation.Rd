@@ -29,9 +29,9 @@ Plotting white box models.
 \examples{
 \dontrun{
 # Forest plot for regression
-plot_explanation(fitted_explanation1, "forestplot", winequality_red[5, ])
+plot_explanation(fitted_explanation1, "forestplot", wine[5, ])
 # Waterfall plot
-plot_explanation(fitted_explanation1, "waterfallplot", winequality_red[5, ])
+plot_explanation(fitted_explanation1, "waterfallplot", wine[5, ])
 # Plot decision tree
 plot_explanation(fitted_explanation2)
 }

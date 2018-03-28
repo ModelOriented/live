@@ -51,7 +51,6 @@ set_constant_dates <- function(data, explained_instance) {
   }
 }
 
-(1:10)[FALSE] 
 #' LIME: sampling for local exploration
 #'
 #' @param data Data frame from which observations will be generated.
@@ -186,11 +185,11 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 #'
 #' @examples
 #' \dontrun{
-#' local_exploration1 <- add_predictions(dataset_for_local_exploration,
+#' local_exploration1 <- add_predictions(wine, dataset_for_local_exploration,
 #'                                       black_box_model = "regr.svm")
 #' # Pass trained model to the function.
 #' svm_model <- svm(quality ~., data = winequality_red)
-#' local_exploration2 <- add_predictions(dataset_for_local_exploration,
+#' local_exploration2 <- add_predictions(wkne, dataset_for_local_exploration,
 #'                                       black_box_model = svm_model)
 #' }
 #'

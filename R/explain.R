@@ -1,14 +1,14 @@
 #' Fit white box model to the simulated data.
 #'
-#' @param live_object List return by simulate_similar function.
+#' @param live_object List return by add_predictions function.
 #' @param white_box String, learner name recognized by mlr package.
-#' @param selection If TRUE, variable selection based glmnet implementation of LASSO
+#' @param selection If TRUE, variable selection based on glmnet implementation of LASSO
 #'        will be performed.
 #' @param response_family family argument to glmnet (and then glm) function.
 #'                        Default value is "gaussian" 
 #' @param predict_type Argument passed to mlr::makeLearner() argument "predict.type".
 #'                     Defaults to "response".
-#' @param hyperpars Optional list of values of (hyper)parameteres of a model.                   
+#' @param hyperpars Optional list of values of hyperparameteres of a model.                   
 #'
 #' @return mlr object returned by train function.
 #'
@@ -100,9 +100,9 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
 #' @examples
 #' \dontrun{
 #' # Forest plot for regression
-#' plot_explanation(fitted_explanation1, "forestplot", winequality_red[5, ])
+#' plot_explanation(fitted_explanation1, "forestplot", wine[5, ])
 #' # Waterfall plot
-#' plot_explanation(fitted_explanation1, "waterfallplot", winequality_red[5, ])
+#' plot_explanation(fitted_explanation1, "waterfallplot", wine[5, ])
 #' # Plot decision tree
 #' plot_explanation(fitted_explanation2)
 #' }

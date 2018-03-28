@@ -1,7 +1,7 @@
 # live 1.4.0
 
 * Variable selection is now based on LASSO as implemented in glmnet package.
-
+* Updated documentation and vignette.
 
 # live 1.3.3
 

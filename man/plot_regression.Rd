@@ -2,7 +2,7 @@
 % Please edit documentation in R/explain.R
 \name{plot_regression}
 \alias{plot_regression}
-\title{Watefall plot or forestplot for lm/glm explanations.}
+\title{Waterfall plot or forestplot for lm/glm explanations.}
 \usage{
 plot_regression(plot_type, fitted_model, explained_instance, scale = NULL)
 }
@@ -20,5 +20,5 @@ on which type of plot is to be created.}
 plot (ggplot2 or lattice)
 }
 \description{
-Watefall plot or forestplot for lm/glm explanations.
+Waterfall plot or forestplot for lm/glm explanations.
 }

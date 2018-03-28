@@ -109,8 +109,8 @@ create_task <- function(model, dataset, target_var) {
 #'
 #' @examples
 #' \dontrun{
-#' dataset_for_local_exploration <- sample_locally(data = winequality_red,
-#'                                                explained_instance = winequality_red[5, ],
+#' dataset_for_local_exploration <- sample_locally(data = wine,
+#'                                                explained_instance = wine[5, ],
 #'                                                explained_var = "quality",
 #'                                                size = 50,
 #'                                                standardise = TRUE)
@@ -141,7 +141,7 @@ sample_locally <- function(data, explained_instance, explained_var, size,
 #' @param predict_function Either a "predict" function that returns a vector of the
 #'        same type as response or custom function that takes a model as a first argument,
 #'        new data used to calculate predictions as a second argument called "newdata"
-#'        and returns a vector of the same type as respone.
+#'        and returns a vector of the same type as response.
 #'        Will be used only if a model object was provided in the black_box argument.
 #' @param hyperpars Optional list of (hyper)parameters to be passed to mlr::makeLearner.
 #' @param ... Additional parameters to be passed to predict function.
@@ -179,7 +179,7 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 #' @param ... Additional parameters to be passed to predict function.
 #'
 #' @return list containing simulated dataset with added predictions,
-#'              name of a reponse variable and black box model object.
+#'              name of a response variable and black box model object.
 #'
 #' @export
 #'
@@ -188,7 +188,7 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 #' local_exploration1 <- add_predictions(wine, dataset_for_local_exploration,
 #'                                       black_box_model = "regr.svm")
 #' # Pass trained model to the function.
-#' svm_model <- svm(quality ~., data = winequality_red)
+#' svm_model <- svm(quality ~., data = wine)
 #' local_exploration2 <- add_predictions(wkne, dataset_for_local_exploration,
 #'                                       black_box_model = svm_model)
 #' }

@@ -36,7 +36,7 @@ fit_explanation <- function(live_object, white_box, selection = FALSE,
                                    nfolds = 5, alpha = 1)
     coefs_lasso <- glmnet::coef.cv.glmnet(lasso_fit)
     coefs_lasso <- as.numeric(coefs_lasso[row.names(coefs_lasso) != "(Intercept)"])
-    selected_vars <- colnames(winequality_red)[which(coefs_lasso != 0)]
+    selected_vars <- colnames(live_object$data)[which(coefs_lasso != 0)]
   } else {
     selected_vars <- colnames(live_object$data)
   }
@@ -53,7 +53,7 @@ fit_explanation <- function(live_object, white_box, selection = FALSE,
 }
 
 
-#' Watefall plot or forestplot for lm/glm explanations.
+#' Waterfall plot or forestplot for lm/glm explanations.
 #'
 #' @param plot_type Chr, "forestplot" or "waterfallplot" depending
 #'                  on which type of plot is to be created.

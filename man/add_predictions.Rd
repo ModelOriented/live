@@ -26,7 +26,7 @@ Will be used only if a model object was provided in the black_box argument.}
 }
 \value{
 list containing simulated dataset with added predictions,
-             name of a reponse variable and black box model object.
+             name of a response variable and black box model object.
 }
 \description{
 Add black box predictions to generated dataset
@@ -36,7 +36,7 @@ Add black box predictions to generated dataset
 local_exploration1 <- add_predictions(wine, dataset_for_local_exploration,
                                       black_box_model = "regr.svm")
 # Pass trained model to the function.
-svm_model <- svm(quality ~., data = winequality_red)
+svm_model <- svm(quality ~., data = wine)
 local_exploration2 <- add_predictions(wkne, dataset_for_local_exploration,
                                       black_box_model = svm_model)
 }

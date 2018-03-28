@@ -6,7 +6,7 @@
 #' them. 
 #'
 #' @section Important function:
-#' \code{\link{sample_locally}} generates a dataset that will be used for local eploration.
+#' \code{\link{sample_locally}} generates a dataset that will be used for local exploration.
 #' \code{\link{add_predictions}} add black box model predictions to simulated dataset.
 #' \code{\link{fit_explanation}} fits a chosen white box model to simulated dataset.
 #' \code{\link{plot_explanation}} visualizes fitted model.

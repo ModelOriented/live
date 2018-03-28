@@ -27,8 +27,8 @@ Generate dataset for local exploration.
 }
 \examples{
 \dontrun{
-dataset_for_local_exploration <- sample_locally(data = winequality_red,
-                                               explained_instance = winequality_red[5, ],
+dataset_for_local_exploration <- sample_locally(data = wine,
+                                               explained_instance = wine[5, ],
                                                explained_var = "quality",
                                                size = 50,
                                                standardise = TRUE)

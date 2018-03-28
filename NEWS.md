@@ -1,3 +1,7 @@
+# live 1.4.1
+
+* Variable selection is now better suited to work with factor/character variables.
+
 # live 1.4.0
 
 * Variable selection is now based on LASSO as implemented in glmnet package.

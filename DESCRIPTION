@@ -24,18 +24,13 @@ Depends: R (>= 3.0.2), mlr
 Suggests: knitr,
     rmarkdown,
     testthat,
-    kernlab,
     glmnet
 VignetteBuilder: knitr
 Imports: mlr,
     dplyr,
-    partykit,
-    party,
     tibble,
     breakDown,
     data.table,
     forestmodel,
     lubridate,
     ggplot2
-Enhances: MLExpRessoData,
-    randomForest

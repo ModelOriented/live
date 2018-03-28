@@ -1,3 +1,8 @@
+# live 1.4.0
+
+* Variable selection is now based on LASSO as implemented in glmnet package.
+
+
 # live 1.3.3
 
 * `add_predictions` also returns black box model object (`model` element).

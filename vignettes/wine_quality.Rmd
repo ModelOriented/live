@@ -12,7 +12,6 @@ vignette: >
 library(mlr)
 library(live)
 library(tidyverse)
-library(bigstep)
 ```
 
 ### About the data 

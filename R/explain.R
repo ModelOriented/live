@@ -41,13 +41,16 @@ fit_explanation <- function(live_object, white_box, selection = FALSE,
     factors <- colnames(live_object$data)[sapply(live_object$data, 
                                                  function(x) is.character(x) | is.factor(x))]
     selected_vars <- colnames(live_object$data)[colnames(live_object$data) %in% nonzero_coefs]
-    selected_vars <- selected_vars[!is.na(selected_vars)]
-    factors_lasso <- setdiff(nonzero_coefs, selected_vars)
-    selected_factors_lgl <- sapply(factors, function(x) any(grepl(x, factors_lasso)))
-    selected_factors <- names(selected_factors_lgl)[selected_factors_lgl]
-    selected_vars <- c(selected_vars, 
-                       selected_factors, 
-                       live_object$target)
+    
+    if(length(factors) != 0) {
+      selected_vars <- selected_vars[!is.na(selected_vars)]
+      factors_lasso <- setdiff(nonzero_coefs, selected_vars)
+      selected_factors_lgl <- sapply(factors, function(x) any(grepl(x, factors_lasso)))
+      selected_factors <- names(selected_factors_lgl)[selected_factors_lgl]
+      selected_vars <- c(selected_vars, 
+                         selected_factors)
+    }
+
   } else {
     selected_vars <- colnames(live_object$data)
   }

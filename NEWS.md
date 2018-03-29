@@ -1,3 +1,7 @@
+# live 1.4.2
+
+* Fixed bug in variable selection.
+
 # live 1.4.1
 
 * Variable selection is now better suited to work with factor/character variables.

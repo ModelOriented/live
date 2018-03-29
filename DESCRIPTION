@@ -1,7 +1,7 @@
 Package: live
 Type: Package
 Title: Local Interpretable (Model-Agnostic) Visual Explanations
-Version: 1.4.1
+Version: 1.4.2
 Authors@R: c(
   person("Mateusz", "Staniak", role = c("cre","aut"),
     email = "mateusz.staniak@math.uni.wroc.pl"),
@@ -24,11 +24,11 @@ Depends: R (>= 3.0.2), mlr
 Suggests: knitr,
     rmarkdown,
     testthat,
-    glmnet
+    glmnet,
+    e1071
 VignetteBuilder: knitr
 Imports: mlr,
     dplyr,
-    tibble,
     breakDown,
     data.table,
     forestmodel,

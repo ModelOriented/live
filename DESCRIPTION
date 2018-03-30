@@ -9,11 +9,12 @@ Authors@R: c(
     email = "przemyslaw.biecek@gmail.com")
   )
 Maintainer: Mateusz Staniak <mateusz.staniak@math.uni.wroc.pl>
-Description: This package helps to understand key factors that drive the 
+Description: Interpretability of complex machine learning models is a growing concern.
+    This package helps to understand key factors that drive the 
     decision made by complicated predictive model (so called black box model). 
     This is achieved through local approximations that are either based on 
     additive regression like model or CART like model that allows for 
-    higher interactions.
+    higher interactions. The methodology is based on Tulio Ribeiro, Singh, Guestrin (2016) <doi:10.1145/2939672.2939778>.
 URL: https://github.com/MI2DataLab/live
 BugReports: https://github.com/MI2DataLab/live/issues
 License: MIT + file LICENSE

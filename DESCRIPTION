@@ -20,14 +20,14 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-Depends: R (>= 3.0.2), mlr
+Depends: R (>= 3.0.2), 
 Suggests: knitr,
     rmarkdown,
     testthat,
     glmnet,
     e1071
 VignetteBuilder: knitr
-Imports: mlr,
+Imports: mlr, 
     dplyr,
     breakDown,
     data.table,

@@ -3,7 +3,7 @@ title: "Case study: wine quality"
 author: "Mateusz Staniak"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{"Case study: wine quality"}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

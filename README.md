@@ -8,10 +8,17 @@
 
 ## Installation
 
-To get started, install the latest version of live package from GitHub:
+To get started, install the latest development version of live package from GitHub:
 
 ```
 devtools::install_github("MI2DataLab/live")
+```
+
+
+or install the stable version from CRAN:
+
+```
+install.packages("live")
 ```
 
 [NEWS](https://github.com/MI2DataLab/live/blob/master/NEWS.md)

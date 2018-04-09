@@ -26,6 +26,8 @@ install.packages("live")
 
 ## Materials
 
+Find the paper about `live` and [breakDown](https://github.com/pbiecek/breakDown) on [arXiv](https://arxiv.org/abs/1804.01955).
+
 Website: https://mi2datalab.github.io/live/
 
 Conference talk on `live`: https://github.com/mstaniak/Berlin_2017

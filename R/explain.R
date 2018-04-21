@@ -27,20 +27,22 @@ fit_explanation <- function(live_object, white_box, selection = FALSE,
     stop("All predicted values were equal.")
   if(!(any(colnames(live_object$data) == live_object$target)))
     stop("First call add_predictions function to add black box predictions.")
-
+  source_data <- select_if(live_object$data, function(x) n_distinct(x) > 1)
+  
   if(selection) {
     form <- as.formula(paste(live_object$target, "~."))
-    explained_var_col <- which(colnames(live_object$data) == live_object$target)
-    lasso_fit <- glmnet::cv.glmnet(model.matrix(form, data = live_object$data),
-                                   as.matrix(live_object$data[, explained_var_col]),
+    explained_var_col <- which(colnames(source_data) == live_object$target)
+    lasso_fit <- glmnet::cv.glmnet(model.matrix(form, data = source_data),
+                                   as.matrix(source_data[, explained_var_col]),
                                    family = response_family,
                                    nfolds = 5, alpha = 1)
     coefs_lasso <- glmnet::coef.cv.glmnet(lasso_fit)
     nonzero_coefs <- row.names(coefs_lasso)[which(as.numeric(coefs_lasso) != 0)]
     nonzero_coefs <- nonzero_coefs[nonzero_coefs != "(Intercept)"]
-    factors <- colnames(live_object$data)[sapply(live_object$data, 
-                                                 function(x) is.character(x) | is.factor(x))]
-    selected_vars <- colnames(live_object$data)[colnames(live_object$data) %in% nonzero_coefs]
+    factors <- colnames(source_data)[sapply(source_data, 
+                                            function(x) 
+                                              is.character(x) | is.factor(x))]
+    selected_vars <- colnames(source_data)[colnames(source_data) %in% nonzero_coefs]
     
     if(length(factors) != 0) {
       selected_vars <- selected_vars[!is.na(selected_vars)]
@@ -52,18 +54,19 @@ fit_explanation <- function(live_object, white_box, selection = FALSE,
     }
 
   } else {
-    selected_vars <- colnames(live_object$data)
+    selected_vars <- colnames(source_data)
   }
 
   mlr_task <- create_task(white_box,
-                          live_object$data[, unique(c(selected_vars, live_object$target))],
+                          source_data[, unique(c(selected_vars, live_object$target))],
                           live_object$target)
   if(grepl("glm", white_box) & !(response_family == "poisson" | response_family == "binomial")) {
     hyperpars <- c(hyperpars, family = response_family)  
   }
   lrn <- mlr::makeLearner(white_box, predict.type = predict_type, par.vals = hyperpars)
 
-  mlr::train(lrn, mlr_task)
+  list(data = source_data,
+       model = mlr::train(lrn, mlr_task))
 }
 
 
@@ -98,7 +101,7 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
 
 #' Plotting white box models.
 #'
-#' @param model object returned by mlr::train function.
+#' @param explained_model List returned by fit_explanation function.
 #' @param regr_plot_type Chr, "forestplot" or "waterfallplot" depending
 #'                       on which type of plot is to be created.
 #'                       if lm/glm model is used as interpretable approximation.
@@ -122,9 +125,12 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
 #' }
 #'
 
-plot_explanation <- function(model, regr_plot_type = NULL, explained_instance = NULL,
-                             scale = "logit") {
-  trained_model <- mlr::getLearnerModel(model)
+plot_explanation <- function(explained_model, regr_plot_type = NULL, 
+                             explained_instance = NULL, scale = "logit") {
+  trained_model <- mlr::getLearnerModel(explained_model$model)
+  present_variables <- colnames(explained_model$data)
+  explained_instance <- explained_instance[, present_variables]
+  
   if(any(grepl("lm", class(trained_model)))) {
     plot_regression(regr_plot_type, trained_model, explained_instance, scale)
   } else {

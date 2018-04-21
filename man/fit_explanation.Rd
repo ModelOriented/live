@@ -25,7 +25,7 @@ Defaults to "response".}
 \item{hyperpars}{Optional list of values of hyperparameteres of a model.}
 }
 \value{
-mlr object returned by train function.
+List with data used to fit interpretable model and fitted model.
 }
 \description{
 Fit white box model to the simulated data.

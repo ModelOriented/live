@@ -4,11 +4,11 @@
 \alias{plot_explanation}
 \title{Plotting white box models.}
 \usage{
-plot_explanation(model, regr_plot_type = NULL, explained_instance = NULL,
-  scale = "logit")
+plot_explanation(explained_model, regr_plot_type = NULL,
+  explained_instance = NULL, scale = "logit")
 }
 \arguments{
-\item{model}{object returned by mlr::train function.}
+\item{explained_model}{List returned by fit_explanation function.}
 
 \item{regr_plot_type}{Chr, "forestplot" or "waterfallplot" depending
 on which type of plot is to be created.

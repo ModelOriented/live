@@ -10,7 +10,7 @@
 #'                     Defaults to "response".
 #' @param hyperpars Optional list of values of hyperparameteres of a model.                   
 #'
-#' @return mlr object returned by train function.
+#' @return List with data used to fit interpretable model and fitted model.
 #'
 #' @export
 #'

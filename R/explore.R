@@ -102,6 +102,10 @@ create_task <- function(model, dataset, target_var) {
 #' @param explained_var Name of a column with the variable to be predicted.
 #' @param size Number of observations is a simulated dataset.
 #' @param standardise If TRUE, numerical variables will be scaled to have mean 0, var 1.
+#' @param kernel function which will be used to calculate distance between simulated
+#'        observations and explained instance.
+#' @param fixed_variables names or numeric indexes of columns which will not be changed
+#'        while sampling.
 #'
 #' @return list
 #'
@@ -118,7 +122,8 @@ create_task <- function(model, dataset, target_var) {
 #'
 
 sample_locally <- function(data, explained_instance, explained_var, size, 
-                           standardise = FALSE) {
+                           standardise = FALSE, kernel = identity_kernel,
+                           fixed_variables = NULL) {
   check_conditions(data, explained_instance, size)
   explained_var_col <- which(colnames(data) == explained_var)
   similar <- generate_neighbourhood(data[, -explained_var_col],

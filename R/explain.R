@@ -1,13 +1,17 @@
+
+
 #' Fit white box model to the simulated data.
 #'
 #' @param live_object List return by add_predictions function.
 #' @param white_box String, learner name recognized by mlr package.
+#' @param kernel function which will be used to calculate distance between simulated
+#'        observations and explained instance.
 #' @param selection If TRUE, variable selection based on glmnet implementation of LASSO
 #'        will be performed.
 #' @param response_family family argument to glmnet (and then glm) function.
-#'                        Default value is "gaussian" 
+#'        Default value is "gaussian" 
 #' @param predict_type Argument passed to mlr::makeLearner() argument "predict.type".
-#'                     Defaults to "response".
+#'        Defaults to "response".
 #' @param hyperpars Optional list of values of hyperparameteres of a model.                   
 #'
 #' @return List with data used to fit interpretable model and fitted model.
@@ -20,8 +24,7 @@
 #' }
 #'
 
-fit_explanation <- function(live_object, white_box, selection = FALSE,
-                            response_family = "gaussian",
+fit_explanation <- function(live_object, white_box, kernel = identity_kernel,                            selection = FALSE, response_family = "gaussian",
                             predict_type = "response", hyperpars = list()) {
   if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1)
     stop("All predicted values were equal.")

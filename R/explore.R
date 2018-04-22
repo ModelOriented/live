@@ -102,8 +102,6 @@ create_task <- function(model, dataset, target_var) {
 #' @param explained_var Name of a column with the variable to be predicted.
 #' @param size Number of observations is a simulated dataset.
 #' @param standardise If TRUE, numerical variables will be scaled to have mean 0, var 1.
-#' @param kernel function which will be used to calculate distance between simulated
-#'        observations and explained instance.
 #' @param fixed_variables names or numeric indexes of columns which will not be changed
 #'        while sampling.
 #'
@@ -122,8 +120,7 @@ create_task <- function(model, dataset, target_var) {
 #'
 
 sample_locally <- function(data, explained_instance, explained_var, size, 
-                           standardise = FALSE, kernel = identity_kernel,
-                           fixed_variables = NULL) {
+                           standardise = FALSE, fixed_variables = NULL) {
   check_conditions(data, explained_instance, size)
   explained_var_col <- which(colnames(data) == explained_var)
   similar <- generate_neighbourhood(data[, -explained_var_col],
@@ -133,7 +130,9 @@ sample_locally <- function(data, explained_instance, explained_var, size,
     similar <- dplyr::mutate_if(similar, is.numeric, vscale)
   }
 
-  list(data = similar, target = explained_var)
+  list(data = similar, 
+       target = explained_var,
+       explained_instance = explained_instance)
 }
 
 
@@ -211,5 +210,6 @@ add_predictions <- function(data, to_explain, black_box_model, predict_fun = pre
   to_explain$data[[to_explain$target]] <- trained_black_box$predictions
   
   list(data = to_explain$data, target = to_explain$target, 
-       model = trained_black_box$model)
+       model = trained_black_box$model,
+       explained_instance = to_explain$explained_instance)
 }

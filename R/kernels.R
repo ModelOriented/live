@@ -1,5 +1,5 @@
 #' LIME kernel that treats all observations as equally similar to 
-#' observation of interest
+#' observation of interest.
 #' 
 #' @param explained_instance explained instance
 #' @param simulated_instance new observation
@@ -14,7 +14,7 @@ identity_kernel <- function(explained_instance, simulated_instance) {
 }
   
 
-#' LIME kernel from the original article
+#' LIME kernel from the original article.
 #' 
 #' @param explained_instance explained instance
 #' @param simulated_instance new observation
@@ -29,7 +29,7 @@ gaussian_kernel <- function(explained_instance, simulated_instance) {
 }
   
 
-#' LIME kernel from the article about Shapley values
+#' LIME kernel from the article about Shapley values.
 #' 
 #' @param explained_instance explained instance
 #' @param simulated_instance new observation
@@ -44,7 +44,7 @@ shapley_kernel <- function(explained_instance, simulated_instance) {
 }
 
 
-#' LIME kernel equal to euclidean distance
+#' LIME kernel equal to the inverse of euclidean distance.
 #' 
 #' @param explained_instance explained instance
 #' @param simulated_instance new observation
@@ -54,6 +54,6 @@ shapley_kernel <- function(explained_instance, simulated_instance) {
 #' @export
 #' 
 
-euclidean_kernel <- function(explained_instance) {
-  
+euclidean_kernel <- function(explained_instance, simulated_instance) {
+  1/sqrt(sum((explained_instance - simulated_instance)^2))
 }

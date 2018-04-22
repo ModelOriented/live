@@ -87,15 +87,13 @@ Two special plots are available for regression problems.
 *Forest plot* from `forestmodel` package focuses on the local structure of the model by plotting estimates of the regressions coefficients along with confidence intervals and p-values.
 
 ```{r forestplot, warning = FALSE, message = FALSE, fig.width = 7}
-plot_explanation(model = wine_expl, regr_plot_type = "forestplot",
-                 explained_instance = wine[5, ])
+plot_explanation(wine_expl, "forestplot")
 ```
 
 *Break Down Plots* or waterfall plots from `breakDown` package display how predictors contribute to the prediction. For details see `breakDown` documentation.
 
 ```{r waterfallplot, warning = FALSE, message = FALSE, fig.width = 7}
-plot_explanation(model = wine_expl, regr_plot_type = "waterfallplot",
-                 explained_instance = wine[5, ])
+plot_explanation(wine_expl, "waterfallplot")
 ```
 
 

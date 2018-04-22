@@ -23,13 +23,12 @@ calculate_weights <- function(simulated_dataset, explained_instance, kernel) {
 #' 
 #' @param source_data Simulated dataset.
 #' @param target Name of the response variable.
-#' @param explained_var_col Response variable position.
 #' @param response_family Name of distribution family to be used in lasso/glm fit.
 #' 
 #' @return Character vector of names of selected variables
 #' 
 
-select_variables <- function(source_data, target, explained_var_col, response_family) {
+select_variables <- function(source_data, target, response_family) {
   form <- as.formula(paste(target, "~."))
   explained_var_col <- which(colnames(source_data) == target)
   lasso_fit <- glmnet::cv.glmnet(model.matrix(form, data = source_data),
@@ -93,8 +92,8 @@ fit_explanation <- function(live_object, white_box, kernel = identity_kernel,
                                   function(x) dplyr::n_distinct(x) > 1)
   
   if(selection) {
-    selected_vars <- select_variables(source_data, live_object$target, 
-                                      explained_var_col, response_family)
+    selected_vars <- select_variables(source_data, live_object$target,
+                                      response_family)
   } else {
     selected_vars <- colnames(source_data)
   }
@@ -102,8 +101,9 @@ fit_explanation <- function(live_object, white_box, kernel = identity_kernel,
   list_learners <- suppressWarnings(mlr::listLearners(properties = "weights")$short.name) 
   if(any(grepl(gsub("classif.", "", white_box), list_learners)) | 
      any(grepl(gsub("regr.", "", white_box), list_learners))) {
-    live_weights <- calculate_weights(live_object$data, 
-                                      live_object$explained_instance,
+    response_ncol <- which(colnames(live_object$data) == live_object$target)
+    live_weights <- calculate_weights(live_object$data[, -response_ncol], 
+                                      live_object$explained_instance[, -response_ncol],
                                       kernel)
   } else {
     warning("Chosen method does not support weights.")
@@ -122,71 +122,6 @@ fit_explanation <- function(live_object, white_box, kernel = identity_kernel,
 
   list(data = source_data,
        model = mlr::train(lrn, mlr_task),
-       explained_instance = live_object$explained_instancel,
+       explained_instance = live_object$explained_instance,
        weights = live_weights)
-}
-
-
-#' Waterfall plot or forestplot for lm/glm explanations.
-#'
-#' @param plot_type Chr, "forestplot" or "waterfallplot" depending
-#'                  on which type of plot is to be created.
-#' @param fitted_model glm or lm object.
-#' @param explained_instance Observation around which model was fitted.
-#' @param scale Only for classification problems, "logit" or "probability".
-#'
-#' @return plot (ggplot2 or lattice)
-#'
-
-plot_regression <- function(plot_type, fitted_model, explained_instance, scale = NULL) {
-  if(plot_type == "forestplot") {
-    forestmodel::forest_model(fitted_model)
-  } else {
-    if(scale == "probability") {
-      plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"),
-           trans = function(x) exp(x)/(1 + exp(x))) +
-      ggplot2::scale_y_continuous(limits = c(0, 1), 
-                                  name = "probability", 
-                                  expand = c(0, 0))
-    } else {
-      plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"))
-    }
-  }
-}
-
-
-#' Plotting white box models.
-#'
-#' @param explained_model List returned by fit_explanation function.
-#' @param regr_plot_type Chr, "forestplot" or "waterfallplot" depending
-#'                       on which type of plot is to be created.
-#'                       if lm/glm model is used as interpretable approximation.
-#' @param scale When probabilities are predicted, they can be plotted on "logit" scale 
-#'              or "probability" scale.
-#'
-#' @return plot (ggplot2 or base)
-#'
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' # Forest plot for regression
-#' plot_explanation(fitted_explanation1, "forestplot", wine[5, ])
-#' # Waterfall plot
-#' plot_explanation(fitted_explanation1, "waterfallplot", wine[5, ])
-#' # Plot decision tree
-#' plot_explanation(fitted_explanation2)
-#' }
-#'
-
-plot_explanation <- function(explained_model, regr_plot_type = NULL, scale = "logit") {
-  trained_model <- mlr::getLearnerModel(explained_model$model)
-  present_variables <- colnames(explained_model$data)
-  explained_instance <- explained_model$explained_instance[, present_variables]
-  
-  if(any(grepl("lm", class(trained_model)))) {
-    plot_regression(regr_plot_type, trained_model, explained_instance, scale)
-  } else {
-    plot(trained_model)
-  }
 }

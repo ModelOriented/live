@@ -1,4 +1,59 @@
+#' Calculate weights for explanation model
+#' 
+#' @param dataset Dataset simulated by sample_locally function.
+#' @param explained_instance Instance to be explained.
+#' @param kernel Chosen kernel function.
+#' 
+#' @return Numeric vector of weights for each row in simulated dataset.
+#' 
 
+calculate_weights <- function(simulated_dataset, explained_instance, kernel) {
+  for_weights_x <- dplyr::bind_rows(simulated_dataset, explained_instance)
+  proxy_response <- rep(1, nrow(for_weights_x))
+  for_weights <- dplyr::bind_cols(y = proxy_response, for_weights_x)
+  proxy_model <- stats::lm(y ~., data = for_weights)
+  model_matrix <- stats::model.matrix(proxy_model)
+  explained_instance_coords <- model_matrix[nrow(model_matrix), ]
+  other_observations_coords <- model_matrix[1:(nrow(model_matrix) - 1), ]
+  sapply(other_observations_coords,
+         function(x) kernel(explained_instance_coords, x))
+}
+
+#' Select variables for explanation model.
+#' 
+#' @param source_data Simulated dataset.
+#' @param target Name of the response variable.
+#' @param explained_var_col Response variable position.
+#' @param response_family Name of distribution family to be used in lasso/glm fit.
+#' 
+#' @return Character vector of names of selected variables
+#' 
+
+select_variables <- function(source_data, target, explained_var_col, response_family) {
+  form <- as.formula(paste(target, "~."))
+  explained_var_col <- which(colnames(source_data) == target)
+  lasso_fit <- glmnet::cv.glmnet(model.matrix(form, data = source_data),
+                                 as.matrix(source_data[, explained_var_col]),
+                                 family = response_family,
+                                 nfolds = 5, alpha = 1)
+  coefs_lasso <- glmnet::coef.cv.glmnet(lasso_fit)
+  nonzero_coefs <- row.names(coefs_lasso)[which(as.numeric(coefs_lasso) != 0)]
+  nonzero_coefs <- nonzero_coefs[nonzero_coefs != "(Intercept)"]
+  factors <- colnames(source_data)[sapply(source_data, 
+                                          function(x) 
+                                            is.character(x) | is.factor(x))]
+  selected_vars <- colnames(source_data)[colnames(source_data) %in% nonzero_coefs]
+  
+  if(length(factors) != 0) {
+    selected_vars <- selected_vars[!is.na(selected_vars)]
+    factors_lasso <- setdiff(nonzero_coefs, selected_vars)
+    selected_factors_lgl <- sapply(factors, function(x) any(grepl(x, factors_lasso)))
+    selected_factors <- names(selected_factors_lgl)[selected_factors_lgl]
+    selected_vars <- c(selected_vars, 
+                       selected_factors)
+  }
+  selected_vars
+}
 
 #' Fit white box model to the simulated data.
 #'
@@ -27,7 +82,8 @@
 #' }
 #'
 
-fit_explanation <- function(live_object, white_box, kernel = identity_kernel,                            selection = FALSE, response_family = "gaussian",
+fit_explanation <- function(live_object, white_box, kernel = identity_kernel,                           
+                            selection = FALSE, response_family = "gaussian",
                             predict_type = "response", hyperpars = list()) {
   if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1)
     stop("All predicted values were equal.")
@@ -36,31 +92,21 @@ fit_explanation <- function(live_object, white_box, kernel = identity_kernel,   
   source_data <- select_if(live_object$data, function(x) n_distinct(x) > 1)
   
   if(selection) {
-    form <- as.formula(paste(live_object$target, "~."))
-    explained_var_col <- which(colnames(source_data) == live_object$target)
-    lasso_fit <- glmnet::cv.glmnet(model.matrix(form, data = source_data),
-                                   as.matrix(source_data[, explained_var_col]),
-                                   family = response_family,
-                                   nfolds = 5, alpha = 1)
-    coefs_lasso <- glmnet::coef.cv.glmnet(lasso_fit)
-    nonzero_coefs <- row.names(coefs_lasso)[which(as.numeric(coefs_lasso) != 0)]
-    nonzero_coefs <- nonzero_coefs[nonzero_coefs != "(Intercept)"]
-    factors <- colnames(source_data)[sapply(source_data, 
-                                            function(x) 
-                                              is.character(x) | is.factor(x))]
-    selected_vars <- colnames(source_data)[colnames(source_data) %in% nonzero_coefs]
-    
-    if(length(factors) != 0) {
-      selected_vars <- selected_vars[!is.na(selected_vars)]
-      factors_lasso <- setdiff(nonzero_coefs, selected_vars)
-      selected_factors_lgl <- sapply(factors, function(x) any(grepl(x, factors_lasso)))
-      selected_factors <- names(selected_factors_lgl)[selected_factors_lgl]
-      selected_vars <- c(selected_vars, 
-                         selected_factors)
-    }
-
+    selected_vars <- select_variables(source_data, live_object$target, 
+                                      explained_var_col, response_family)
   } else {
     selected_vars <- colnames(source_data)
+  }
+  
+  list_learners <- mlr::listLearners(properties = "weights")$short.name
+  if(any(grepl(gsub("classif.", "", white_box), list_learners)) | 
+     any(grepl(gsub("regr.", "", white_box), list_learners))) {
+    live_weights <- calculate_weights(live_object$data, 
+                                      live_object$explained_instance,
+                                      kernel)
+    hyperpars <- c(hyperpars, weights = live_weights)
+  } else {
+    warning("Chosen method does not support weights.")
   }
 
   mlr_task <- create_task(white_box,
@@ -73,7 +119,8 @@ fit_explanation <- function(live_object, white_box, kernel = identity_kernel,   
 
   list(data = source_data,
        model = mlr::train(lrn, mlr_task),
-       explained_instance = live_object$explained_instance)
+       explained_instance = live_object$explained_instancel,
+       weights = live_weights)
 }
 
 

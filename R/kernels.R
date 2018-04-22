@@ -14,7 +14,7 @@ identity_kernel <- function(explained_instance, simulated_instance) {
 }
   
 
-#' LIME kernel from the original article.
+#' LIME kernel from the original article with sigma = 1.
 #' 
 #' @param explained_instance explained instance
 #' @param simulated_instance new observation
@@ -25,22 +25,7 @@ identity_kernel <- function(explained_instance, simulated_instance) {
 #' 
   
 gaussian_kernel <- function(explained_instance, simulated_instance) {
-  
-}
-  
-
-#' LIME kernel from the article about Shapley values.
-#' 
-#' @param explained_instance explained instance
-#' @param simulated_instance new observation
-#'
-#' @return numeric
-#'   
-#' @export
-#' 
-  
-shapley_kernel <- function(explained_instance, simulated_instance) {
-  
+  exp(-sum((explained_instance - simulated_instance)^2))
 }
 
 

@@ -15,7 +15,7 @@ calculate_weights <- function(simulated_dataset, explained_instance, kernel) {
   model_matrix <- stats::model.matrix(proxy_model)
   explained_instance_coords <- model_matrix[nrow(model_matrix), ]
   other_observations_coords <- model_matrix[1:(nrow(model_matrix) - 1), ]
-  sapply(other_observations_coords,
+  sapply(as.data.frame(t(other_observations_coords)),
          function(x) kernel(explained_instance_coords, x))
 }
 
@@ -89,7 +89,8 @@ fit_explanation <- function(live_object, white_box, kernel = identity_kernel,
     stop("All predicted values were equal.")
   if(!(any(colnames(live_object$data) == live_object$target)))
     stop("First call add_predictions function to add black box predictions.")
-  source_data <- select_if(live_object$data, function(x) n_distinct(x) > 1)
+  source_data <- dplyr::select_if(live_object$data, 
+                                  function(x) dplyr::n_distinct(x) > 1)
   
   if(selection) {
     selected_vars <- select_variables(source_data, live_object$target, 
@@ -98,7 +99,7 @@ fit_explanation <- function(live_object, white_box, kernel = identity_kernel,
     selected_vars <- colnames(source_data)
   }
   
-  list_learners <- mlr::listLearners(properties = "weights")$short.name
+  list_learners <- suppressWarnings(mlr::listLearners(properties = "weights")$short.name) 
   if(any(grepl(gsub("classif.", "", white_box), list_learners)) | 
      any(grepl(gsub("regr.", "", white_box), list_learners))) {
     live_weights <- calculate_weights(live_object$data, 
@@ -112,7 +113,8 @@ fit_explanation <- function(live_object, white_box, kernel = identity_kernel,
   mlr_task <- create_task(white_box,
                           source_data[, unique(c(selected_vars, live_object$target))],
                           live_object$target,
-                          weights = live_weights)
+                          live_weights)
+  
   if(grepl("glm", white_box) & !(response_family == "poisson" | response_family == "binomial")) {
     hyperpars <- c(hyperpars, family = response_family)  
   }

@@ -77,15 +77,17 @@ generate_neighbourhood <- function(data, explained_instance, size) {
 #' @param model Name of a used model in mlr format.
 #' @param dataset Data frame on which model will be trained.
 #' @param target_var Name of column in dataset containing explained variable.
+#' @param weights Weights for observations.
 #'
 #' @return mlr task object
 #'
 
-create_task <- function(model, dataset, target_var) {
+create_task <- function(model, dataset, target_var, weights = NULL) {
   if(grepl("regr", model)) {
     mlr::makeRegrTask(id = "lime_task",
                       data = as.data.frame(dataset),
-                      target = target_var)
+                      target = target_var,
+                      weights = weights)
   } else {
     mlr::makeClassifTask(id = "lime_task",
                          data = as.data.frame(dataset),

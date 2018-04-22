@@ -14,7 +14,10 @@
 #'        Defaults to "response".
 #' @param hyperpars Optional list of values of hyperparameteres of a model.                   
 #'
-#' @return List with data used to fit interpretable model and fitted model.
+#' @return List consting of
+#' \item{data}{Dataset used to fit explanation model (may have less column than the original)}
+#' \item{model}{Fitted explanation model}
+#' \item{explained_instance}{Instance that is being explained}
 #'
 #' @export
 #'
@@ -69,7 +72,8 @@ fit_explanation <- function(live_object, white_box, kernel = identity_kernel,   
   lrn <- mlr::makeLearner(white_box, predict.type = predict_type, par.vals = hyperpars)
 
   list(data = source_data,
-       model = mlr::train(lrn, mlr_task))
+       model = mlr::train(lrn, mlr_task),
+       explained_instance = live_object$explained_instance)
 }
 
 
@@ -94,7 +98,6 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
       ggplot2::scale_y_continuous(limits = c(0, 1), 
                                   name = "probability", 
                                   expand = c(0, 0))
-      
     } else {
       plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"))
     }
@@ -108,9 +111,7 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
 #' @param regr_plot_type Chr, "forestplot" or "waterfallplot" depending
 #'                       on which type of plot is to be created.
 #'                       if lm/glm model is used as interpretable approximation.
-#' @param explained_instance Observation around which model was fitted.
-#'                           Needed only if waterfall plot is drawn.
-#' @param scale When probabilities are predicted, they can be plotted or "logit" scale 
+#' @param scale When probabilities are predicted, they can be plotted on "logit" scale 
 #'              or "probability" scale.
 #'
 #' @return plot (ggplot2 or base)
@@ -128,11 +129,10 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
 #' }
 #'
 
-plot_explanation <- function(explained_model, regr_plot_type = NULL, 
-                             explained_instance = NULL, scale = "logit") {
+plot_explanation <- function(explained_model, regr_plot_type = NULL, scale = "logit") {
   trained_model <- mlr::getLearnerModel(explained_model$model)
   present_variables <- colnames(explained_model$data)
-  explained_instance <- explained_instance[, present_variables]
+  explained_instance <- explained_model$explained_instance[, present_variables]
   
   if(any(grepl("lm", class(trained_model)))) {
     plot_regression(regr_plot_type, trained_model, explained_instance, scale)

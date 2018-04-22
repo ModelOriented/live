@@ -2,9 +2,9 @@
 % Please edit documentation in R/kernels.R
 \name{euclidean_kernel}
 \alias{euclidean_kernel}
-\title{LIME kernel equal to euclidean distance}
+\title{LIME kernel equal to the inverse of euclidean distance.}
 \usage{
-euclidean_kernel(explained_instance)
+euclidean_kernel(explained_instance, simulated_instance)
 }
 \arguments{
 \item{explained_instance}{explained instance}
@@ -15,5 +15,5 @@ euclidean_kernel(explained_instance)
 numeric
 }
 \description{
-LIME kernel equal to euclidean distance
+LIME kernel equal to the inverse of euclidean distance.
 }

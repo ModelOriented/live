@@ -3,7 +3,7 @@
 \name{identity_kernel}
 \alias{identity_kernel}
 \title{LIME kernel that treats all observations as equally similar to 
-observation of interest}
+observation of interest.}
 \usage{
 identity_kernel(explained_instance, simulated_instance)
 }
@@ -17,5 +17,5 @@ numeric
 }
 \description{
 LIME kernel that treats all observations as equally similar to 
-observation of interest
+observation of interest.
 }

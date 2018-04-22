@@ -4,8 +4,7 @@
 \alias{plot_explanation}
 \title{Plotting white box models.}
 \usage{
-plot_explanation(explained_model, regr_plot_type = NULL,
-  explained_instance = NULL, scale = "logit")
+plot_explanation(explained_model, regr_plot_type = NULL, scale = "logit")
 }
 \arguments{
 \item{explained_model}{List returned by fit_explanation function.}
@@ -14,10 +13,7 @@ plot_explanation(explained_model, regr_plot_type = NULL,
 on which type of plot is to be created.
 if lm/glm model is used as interpretable approximation.}
 
-\item{explained_instance}{Observation around which model was fitted.
-Needed only if waterfall plot is drawn.}
-
-\item{scale}{When probabilities are predicted, they can be plotted or "logit" scale 
+\item{scale}{When probabilities are predicted, they can be plotted on "logit" scale 
 or "probability" scale.}
 }
 \value{

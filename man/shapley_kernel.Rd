@@ -2,7 +2,7 @@
 % Please edit documentation in R/kernels.R
 \name{shapley_kernel}
 \alias{shapley_kernel}
-\title{LIME kernel from the article about Shapley values}
+\title{LIME kernel from the article about Shapley values.}
 \usage{
 shapley_kernel(explained_instance, simulated_instance)
 }
@@ -15,5 +15,5 @@ shapley_kernel(explained_instance, simulated_instance)
 numeric
 }
 \description{
-LIME kernel from the article about Shapley values
+LIME kernel from the article about Shapley values.
 }

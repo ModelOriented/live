@@ -2,7 +2,7 @@
 % Please edit documentation in R/kernels.R
 \name{gaussian_kernel}
 \alias{gaussian_kernel}
-\title{LIME kernel from the original article}
+\title{LIME kernel from the original article.}
 \usage{
 gaussian_kernel(explained_instance, simulated_instance)
 }
@@ -15,5 +15,5 @@ gaussian_kernel(explained_instance, simulated_instance)
 numeric
 }
 \description{
-LIME kernel from the original article
+LIME kernel from the original article.
 }

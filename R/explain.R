@@ -104,14 +104,15 @@ fit_explanation <- function(live_object, white_box, kernel = identity_kernel,
     live_weights <- calculate_weights(live_object$data, 
                                       live_object$explained_instance,
                                       kernel)
-    hyperpars <- c(hyperpars, weights = live_weights)
   } else {
     warning("Chosen method does not support weights.")
+    live_weights <- NULL
   }
 
   mlr_task <- create_task(white_box,
                           source_data[, unique(c(selected_vars, live_object$target))],
-                          live_object$target)
+                          live_object$target,
+                          weights = live_weights)
   if(grepl("glm", white_box) & !(response_family == "poisson" | response_family == "binomial")) {
     hyperpars <- c(hyperpars, family = response_family)  
   }

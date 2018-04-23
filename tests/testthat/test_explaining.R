@@ -10,12 +10,12 @@ local1 <- live::add_predictions(X, local, "regr.lm")
 local_explained <- live::fit_explanation(local1, "regr.lm")
 
 test_that("White box model is fitted correctly", {
-  expect_is(local_explained, "WrappedModel")
-  expect_is(mlr::getLearnerModel(local_explained), "lm")
+  expect_is(local_explained, "list")
+  expect_is(mlr::getLearnerModel(local_explained$model), "lm")
 })
 
 test_that("Plots are created without problems", {
-  expect_error(live::plot_explanation(local_explained, "waterfallplot", X[3, ]), regexp = NA)
+  expect_error(live::plot_explanation(local_explained, "waterfallplot"), regexp = NA)
   expect_error(live::plot_explanation(local_explained, "forestplot"), regexp = NA)
 })
 

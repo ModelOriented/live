@@ -216,7 +216,8 @@ add_predictions <- function(data, to_explain, black_box_model, predict_fun = pre
                                         ...)
   to_explain$data[[to_explain$target]] <- trained_black_box$predictions
   
-  list(data = to_explain$data, target = to_explain$target, 
+  list(data = to_explain$data, 
+       target = to_explain$target, 
        model = trained_black_box$model,
        explained_instance = to_explain$explained_instance)
 }

@@ -1,6 +1,6 @@
 #' Calculate weights for explanation model
 #' 
-#' @param dataset Dataset simulated by sample_locally function.
+#' @param simulated_dataset Dataset simulated by sample_locally function.
 #' @param explained_instance Instance to be explained.
 #' @param kernel Chosen kernel function.
 #' 
@@ -84,7 +84,6 @@ select_variables <- function(source_data, target, response_family) {
 fit_explanation <- function(live_object, white_box, kernel = identity_kernel,                           
                             selection = FALSE, response_family = "gaussian",
                             predict_type = "response", hyperpars = list()) {
-  force(live_object)
   if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1)
     stop("All predicted values were equal.")
   if(!(any(colnames(live_object$data) == live_object$target)))
@@ -103,8 +102,9 @@ fit_explanation <- function(live_object, white_box, kernel = identity_kernel,
   if(any(grepl(gsub("classif.", "", white_box), list_learners)) | 
      any(grepl(gsub("regr.", "", white_box), list_learners))) {
     response_ncol <- which(colnames(live_object$data) == live_object$target)
+    response_ncol_instance <- which(colnames(live_object$explained_instance) == live_object$target)
     live_weights <- calculate_weights(live_object$data[, -response_ncol], 
-                                      live_object$explained_instance[, -response_ncol],
+                                      live_object$explained_instance[, -response_ncol_instance],
                                       kernel)
     if(dplyr::n_distinct(live_weights) == 1) 
       live_weights <- NULL

@@ -7,11 +7,11 @@
 calculate_weights(simulated_dataset, explained_instance, kernel)
 }
 \arguments{
+\item{simulated_dataset}{Dataset simulated by sample_locally function.}
+
 \item{explained_instance}{Instance to be explained.}
 
 \item{kernel}{Chosen kernel function.}
-
-\item{dataset}{Dataset simulated by sample_locally function.}
 }
 \value{
 Numeric vector of weights for each row in simulated dataset.

@@ -4,7 +4,7 @@
 \alias{generate_neighbourhood}
 \title{LIME: sampling for local exploration}
 \usage{
-generate_neighbourhood(data, explained_instance, size)
+generate_neighbourhood(data, explained_instance, size, fixed_variables)
 }
 \arguments{
 \item{data}{Data frame from which observations will be generated.}
@@ -12,6 +12,8 @@ generate_neighbourhood(data, explained_instance, size)
 \item{explained_instance}{A row in an original data frame (as a data.frame).}
 
 \item{size}{Number of observations to be generated.}
+
+\item{fixed_variables}{Names of column which will not be changed while sampling.}
 }
 \value{
 data.frame

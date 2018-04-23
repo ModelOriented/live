@@ -7,6 +7,5 @@ export(gaussian_kernel)
 export(identity_kernel)
 export(plot_explanation)
 export(sample_locally)
-
 importFrom("graphics", "plot")
 importFrom("stats", "as.formula", "model.matrix", "predict")

@@ -1,5 +1,3 @@
-
-
 #' Waterfall plot or forestplot for lm/glm explanations.
 #'
 #' @param plot_type Chr, "forestplot" or "waterfallplot" depending
@@ -13,7 +11,7 @@
 
 plot_regression <- function(plot_type, fitted_model, explained_instance, scale = NULL) {
   if(plot_type == "forestplot") {
-    forestmodel::forest_model(fitted_model)
+    suppressWarnings(forestmodel::forest_model(fitted_model))
   } else {
     if(scale == "probability") {
       plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"),
@@ -58,6 +56,8 @@ plot_explanation <- function(explained_model, regr_plot_type = NULL, scale = "lo
   explained_instance <- explained_model$explained_instance[, present_variables]
   
   if(any(grepl("lm", class(trained_model)))) {
+    if(!is.null(explained_model$weights)) 
+      warning("Currently, forestmodel package does not handle weighted regression.")
     plot_regression(regr_plot_type, trained_model, explained_instance, scale)
   } else {
     plot(trained_model)

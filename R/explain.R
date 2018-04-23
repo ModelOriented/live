@@ -84,6 +84,7 @@ select_variables <- function(source_data, target, response_family) {
 fit_explanation <- function(live_object, white_box, kernel = identity_kernel,                           
                             selection = FALSE, response_family = "gaussian",
                             predict_type = "response", hyperpars = list()) {
+  force(live_object)
   if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1)
     stop("All predicted values were equal.")
   if(!(any(colnames(live_object$data) == live_object$target)))
@@ -105,6 +106,8 @@ fit_explanation <- function(live_object, white_box, kernel = identity_kernel,
     live_weights <- calculate_weights(live_object$data[, -response_ncol], 
                                       live_object$explained_instance[, -response_ncol],
                                       kernel)
+    if(dplyr::n_distinct(live_weights) == 1) 
+      live_weights <- NULL
   } else {
     warning("Chosen method does not support weights.")
     live_weights <- NULL

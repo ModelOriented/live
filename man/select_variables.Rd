@@ -4,14 +4,12 @@
 \alias{select_variables}
 \title{Select variables for explanation model.}
 \usage{
-select_variables(source_data, target, explained_var_col, response_family)
+select_variables(source_data, target, response_family)
 }
 \arguments{
 \item{source_data}{Simulated dataset.}
 
 \item{target}{Name of the response variable.}
-
-\item{explained_var_col}{Response variable position.}
 
 \item{response_family}{Name of distribution family to be used in lasso/glm fit.}
 }

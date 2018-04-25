@@ -12,10 +12,6 @@ r_packages:
   - mlr
   - dplyr
   - forestmodel
-  - partykit
-  - randomForest
   - e1071
+  - breakDown
   
-r_github_packages: 
-  - pbiecek/breakDown
-  - geneticsMiNIng/MLGenSigdata/MLExpRessodata

@@ -56,8 +56,6 @@ plot_explanation <- function(explained_model, regr_plot_type = NULL, scale = "lo
   explained_instance <- explained_model$explained_instance[, present_variables]
   
   if(any(grepl("lm", class(trained_model)))) {
-    if(!is.null(explained_model$weights)) 
-      warning("Currently, forestmodel package does not handle weighted regression.")
     plot_regression(regr_plot_type, trained_model, explained_instance, scale)
   } else {
     plot(trained_model)

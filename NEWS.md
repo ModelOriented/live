@@ -1,3 +1,10 @@
+# live 1.5.0
+
+* Observations in simulated dataset can now be weighted according to their distance from the explained instance. The distance is defined by `kernel` argument to `fit_explanation` function.
+* Some variables can be excluded from sampling. This is controled via `fixed_variables` argument to `sample_locally` function.
+* Documentation was improved.
+* Object returned by `sample_locally`, `add_predictions` and `fit_explanation` functions now carry more information (mainly explained instance) so some function calls were simplified (`plot_explanation`).
+
 # live 1.4.2
 
 * Fixed bug in variable selection.

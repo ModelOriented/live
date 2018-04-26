@@ -5,7 +5,7 @@
 \title{Generate dataset for local exploration.}
 \usage{
 sample_locally(data, explained_instance, explained_var, size,
-  standardise = FALSE)
+  standardise = FALSE, fixed_variables = NULL)
 }
 \arguments{
 \item{data}{Data frame from which new dataset will be simulated.}
@@ -18,9 +18,15 @@ as in data argument. Local exploration will be performed around this observation
 \item{size}{Number of observations is a simulated dataset.}
 
 \item{standardise}{If TRUE, numerical variables will be scaled to have mean 0, var 1.}
+
+\item{fixed_variables}{names or numeric indexes of columns which will not be changed
+while sampling.}
 }
 \value{
-list
+list consisting of
+\item{data}{Simulated dataset.}
+\item{target}{Name of the response variable.}
+\item{explained_instance}{Instance that is being explained.}
 }
 \description{
 Generate dataset for local exploration.

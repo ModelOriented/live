@@ -33,17 +33,16 @@ check_conditions <- function(data, explained_instance, size) {
 #' Set date values to one value 
 #' 
 #' @param data Data frame to change.
-#' @param explained_instance 1-row data frame with instance of interest.
+#' @param explained_instance Instance that will be explained.
+#' @param col_names Names of columns to be fixed
 #' 
 
-set_constant_dates <- function(data, explained_instance) {
-  date_cols <- (1:ncol(data))[unlist(lapply(data, 
-                               function(x) lubridate::is.Date(x) | lubridate::is.POSIXt(x)),
-                        use.names = FALSE)]
-  if(length(date_cols) == 0) {
+set_constant_variables <- function(data, explained_instance, col_names) {
+  cols <- (1:ncol(data))[which(colnames(data) %in% col_names)]
+  if(length(cols) == 0) {
     return(data)
   } else {
-    for(k in date_cols) {
+    for(k in cols) {
       data.table::set(data, j = as.integer(k), 
                       value = explained_instance[1, as.integer(k)])
     }
@@ -56,11 +55,12 @@ set_constant_dates <- function(data, explained_instance) {
 #' @param data Data frame from which observations will be generated.
 #' @param explained_instance A row in an original data frame (as a data.frame).
 #' @param size Number of observations to be generated.
+#' @param fixed_variables Names of column which will not be changed while sampling.
 #'
 #' @return data.frame
 #'
 
-generate_neighbourhood <- function(data, explained_instance, size) {
+generate_neighbourhood <- function(data, explained_instance, size, fixed_variables) {
   data <- data.table::as.data.table(data)
   neighbourhood <- data.table::rbindlist(lapply(1:size, function(x) explained_instance))
   for(k in 1:nrow(neighbourhood)) {
@@ -68,7 +68,7 @@ generate_neighbourhood <- function(data, explained_instance, size) {
     data.table::set(neighbourhood, i = as.integer(k), j = as.integer(picked_var),
                     data[sample(1:nrow(data), 1), picked_var, with = FALSE])
   }
-  as.data.frame(set_constant_dates(neighbourhood, explained_instance))
+  as.data.frame(set_constant_variables(neighbourhood, explained_instance, fixed_variables))
 }
 
 
@@ -77,15 +77,17 @@ generate_neighbourhood <- function(data, explained_instance, size) {
 #' @param model Name of a used model in mlr format.
 #' @param dataset Data frame on which model will be trained.
 #' @param target_var Name of column in dataset containing explained variable.
+#' @param weights Weights for observations.
 #'
 #' @return mlr task object
 #'
 
-create_task <- function(model, dataset, target_var) {
+create_task <- function(model, dataset, target_var, weights = NULL) {
   if(grepl("regr", model)) {
     mlr::makeRegrTask(id = "lime_task",
                       data = as.data.frame(dataset),
-                      target = target_var)
+                      target = target_var,
+                      weights = weights)
   } else {
     mlr::makeClassifTask(id = "lime_task",
                          data = as.data.frame(dataset),
@@ -102,8 +104,13 @@ create_task <- function(model, dataset, target_var) {
 #' @param explained_var Name of a column with the variable to be predicted.
 #' @param size Number of observations is a simulated dataset.
 #' @param standardise If TRUE, numerical variables will be scaled to have mean 0, var 1.
+#' @param fixed_variables names or numeric indexes of columns which will not be changed
+#'        while sampling.
 #'
-#' @return list
+#' @return list consisting of
+#' \item{data}{Simulated dataset.}
+#' \item{target}{Name of the response variable.}
+#' \item{explained_instance}{Instance that is being explained.}
 #'
 #' @export
 #'
@@ -118,17 +125,20 @@ create_task <- function(model, dataset, target_var) {
 #'
 
 sample_locally <- function(data, explained_instance, explained_var, size, 
-                           standardise = FALSE) {
+                           standardise = FALSE, fixed_variables = NULL) {
   check_conditions(data, explained_instance, size)
   explained_var_col <- which(colnames(data) == explained_var)
   similar <- generate_neighbourhood(data[, -explained_var_col],
-                                    explained_instance[, -explained_var_col], size)
+                                    explained_instance[, -explained_var_col], size,
+                                    fixed_variables)
   if(standardise) {
     vscale <- function(x) as.vector(scale(x))
     similar <- dplyr::mutate_if(similar, is.numeric, vscale)
   }
 
-  list(data = similar, target = explained_var)
+  list(data = similar, 
+       target = explained_var,
+       explained_instance = explained_instance)
 }
 
 
@@ -146,7 +156,7 @@ sample_locally <- function(data, explained_instance, explained_var, size,
 #' @param hyperpars Optional list of (hyper)parameters to be passed to mlr::makeLearner.
 #' @param ... Additional parameters to be passed to predict function.
 #'
-#' @return A list containing black box model object and predictions.
+#' @return A list that consists of black box model object and predictions.
 #'
 
 give_predictions <- function(data, black_box, explained_var, similar, predict_function, 
@@ -178,8 +188,11 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 #' @param hyperparams Optional list of (hyper)parameters to be passed to mlr::makeLearner.
 #' @param ... Additional parameters to be passed to predict function.
 #'
-#' @return list containing simulated dataset with added predictions,
-#'              name of a response variable and black box model object.
+#' @return list consisting of
+#' \item{data}{Dataset generated by sample_locally function with response variable.}
+#' \item{target}{Name of the response variable.}
+#' \item{model}{Black box model which is being explained.}
+#' \item{explained_instance}{Instance that is being explained.}
 #'
 #' @export
 #'
@@ -189,7 +202,7 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 #'                                       black_box_model = "regr.svm")
 #' # Pass trained model to the function.
 #' svm_model <- svm(quality ~., data = wine)
-#' local_exploration2 <- add_predictions(wkne, dataset_for_local_exploration,
+#' local_exploration2 <- add_predictions(wine, dataset_for_local_exploration,
 #'                                       black_box_model = svm_model)
 #' }
 #'
@@ -205,6 +218,8 @@ add_predictions <- function(data, to_explain, black_box_model, predict_fun = pre
                                         ...)
   to_explain$data[[to_explain$target]] <- trained_black_box$predictions
   
-  list(data = to_explain$data, target = to_explain$target, 
-       model = trained_black_box$model)
+  list(data = to_explain$data, 
+       target = to_explain$target, 
+       model = trained_black_box$model,
+       explained_instance = to_explain$explained_instance)
 }

@@ -4,14 +4,17 @@
 \alias{fit_explanation}
 \title{Fit white box model to the simulated data.}
 \usage{
-fit_explanation(live_object, white_box, selection = FALSE,
-  response_family = "gaussian", predict_type = "response",
-  hyperpars = list())
+fit_explanation(live_object, white_box, kernel = identity_kernel,
+  selection = FALSE, response_family = "gaussian",
+  predict_type = "response", hyperpars = list())
 }
 \arguments{
 \item{live_object}{List return by add_predictions function.}
 
 \item{white_box}{String, learner name recognized by mlr package.}
+
+\item{kernel}{function which will be used to calculate distance between simulated
+observations and explained instance.}
 
 \item{selection}{If TRUE, variable selection based on glmnet implementation of LASSO
 will be performed.}
@@ -25,7 +28,10 @@ Defaults to "response".}
 \item{hyperpars}{Optional list of values of hyperparameteres of a model.}
 }
 \value{
-mlr object returned by train function.
+List consting of
+\item{data}{Dataset used to fit explanation model (may have less column than the original)}
+\item{model}{Fitted explanation model}
+\item{explained_instance}{Instance that is being explained}
 }
 \description{
 Fit white box model to the simulated data.

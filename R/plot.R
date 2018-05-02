@@ -6,6 +6,8 @@
 #' @param explained_instance Observation around which model was fitted.
 #' @param scale Only for classification problems, "logit" or "probability".
 #'
+#' @importFrom graphics plot
+#'
 #' @return plot (ggplot2 or lattice)
 #'
 

@@ -25,6 +25,8 @@ calculate_weights <- function(simulated_dataset, explained_instance, kernel) {
 #' @param target Name of the response variable.
 #' @param response_family Name of distribution family to be used in lasso/glm fit.
 #' 
+#' @importFrom stats as.formula model.matrix
+#' 
 #' @return Character vector of names of selected variables
 #' 
 

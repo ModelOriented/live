@@ -4,7 +4,7 @@
 \alias{sample_locally}
 \title{Generate dataset for local exploration.}
 \usage{
-sample_locally(data, explained_instance, explained_var, size,
+sample_locally(data, explained_instance, explained_var, size, method = "live",
   standardise = FALSE, fixed_variables = NULL)
 }
 \arguments{
@@ -16,6 +16,10 @@ as in data argument. Local exploration will be performed around this observation
 \item{explained_var}{Name of a column with the variable to be predicted.}
 
 \item{size}{Number of observations is a simulated dataset.}
+
+\item{method}{If "live", new observations will be created by changing one value
+per observation. If "lime", new observation will be created by permuting  all
+columns of data.}
 
 \item{standardise}{If TRUE, numerical variables will be scaled to have mean 0, var 1.}
 

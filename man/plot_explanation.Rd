@@ -9,7 +9,7 @@ plot_explanation(explained_model, regr_plot_type = NULL, scale = "logit")
 \arguments{
 \item{explained_model}{List returned by fit_explanation function.}
 
-\item{regr_plot_type}{Chr, "forestplot" or "waterfallplot" depending
+\item{regr_plot_type}{Chr, "forest" or "waterfall" depending
 on which type of plot is to be created.
 if lm/glm model is used as interpretable approximation.}
 
@@ -25,9 +25,9 @@ Plotting white box models.
 \examples{
 \dontrun{
 # Forest plot for regression
-plot_explanation(fitted_explanation1, "forestplot", wine[5, ])
+plot_explanation(fitted_explanation1, "forest", wine[5, ])
 # Waterfall plot
-plot_explanation(fitted_explanation1, "waterfallplot", wine[5, ])
+plot_explanation(fitted_explanation1, "waterfall", wine[5, ])
 # Plot decision tree
 plot_explanation(fitted_explanation2)
 }

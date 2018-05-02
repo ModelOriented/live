@@ -15,7 +15,7 @@ test_that("White box model is fitted correctly", {
 })
 
 test_that("Plots are created without problems", {
-  expect_error(live::plot_explanation(local_explained, "waterfallplot"), regexp = NA)
-  expect_error(live::plot_explanation(local_explained, "forestplot"), regexp = NA)
+  expect_error(live::plot_explanation(local_explained, "waterfall"), regexp = NA)
+  expect_error(live::plot_explanation(local_explained, "forest"), regexp = NA)
 })
 

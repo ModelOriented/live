@@ -1,6 +1,6 @@
 #' Waterfall plot or forestplot for lm/glm explanations.
 #'
-#' @param plot_type Chr, "forestplot" or "waterfallplot" depending
+#' @param plot_type Chr, "forest" or "waterfall" depending
 #'                  on which type of plot is to be created.
 #' @param fitted_model glm or lm object.
 #' @param explained_instance Observation around which model was fitted.
@@ -12,8 +12,8 @@
 #'
 
 plot_regression <- function(plot_type, fitted_model, explained_instance, scale = NULL) {
-  if(plot_type == "forestplot") {
-    suppressWarnings(forestmodel::forest_model(fitted_model))
+  if(plot_type == "forest") {
+    forestmodel::forest_model(fitted_model)
   } else {
     if(scale == "probability") {
       plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"),
@@ -31,7 +31,7 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
 #' Plotting white box models.
 #'
 #' @param explained_model List returned by fit_explanation function.
-#' @param regr_plot_type Chr, "forestplot" or "waterfallplot" depending
+#' @param regr_plot_type Chr, "forest" or "waterfall" depending
 #'                       on which type of plot is to be created.
 #'                       if lm/glm model is used as interpretable approximation.
 #' @param scale When probabilities are predicted, they can be plotted on "logit" scale 
@@ -44,9 +44,9 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
 #' @examples
 #' \dontrun{
 #' # Forest plot for regression
-#' plot_explanation(fitted_explanation1, "forestplot", wine[5, ])
+#' plot_explanation(fitted_explanation1, "forest", wine[5, ])
 #' # Waterfall plot
-#' plot_explanation(fitted_explanation1, "waterfallplot", wine[5, ])
+#' plot_explanation(fitted_explanation1, "waterfall", wine[5, ])
 #' # Plot decision tree
 #' plot_explanation(fitted_explanation2)
 #' }

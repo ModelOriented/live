@@ -7,7 +7,7 @@
 plot_regression(plot_type, fitted_model, explained_instance, scale = NULL)
 }
 \arguments{
-\item{plot_type}{Chr, "forestplot" or "waterfallplot" depending
+\item{plot_type}{Chr, "forest" or "waterfall" depending
 on which type of plot is to be created.}
 
 \item{fitted_model}{glm or lm object.}

@@ -1,3 +1,7 @@
+# live 1.5.1
+
+* New, LIME-like method of sampling as an option in `sample_locally`.
+
 # live 1.5.0
 
 * Observations in simulated dataset can now be weighted according to their distance from the explained instance. The distance is defined by `kernel` argument to `fit_explanation` function.

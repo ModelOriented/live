@@ -31,8 +31,13 @@ generate_neighbourhood <- function(data, explained_instance, size, fixed_variabl
 #'   
 
 permutation_neighbourhood <- function(data, explained_instance, size, fixed_variables) {
-  neighbourhood <- dplyr::mutate_all(data, function(x) x[sample(1:length(x), size,
-                                                       replace = TRUE)])
+  neighbourhood <- data.table::rbindlist(lapply(1:size, function(x) 
+                                                          explained_instance))
+  for(k in 1:ncol(neighbourhood)) {
+    data.table::set(neighbourhood, j = as.integer(k), 
+                    value = data[sample(1:nrow(data), size, replace = TRUE), 
+                                 k])
+  }
   set_constant_variables(neighbourhood, explained_instance, fixed_variables)
 }
 
@@ -78,7 +83,7 @@ sample_locally <- function(data, explained_instance, explained_var, size,
                                       fixed_variables)  
   } else {
     similar <- permutation_neighbourhood(data[, -explained_var_col],
-                                         explained_instance, -explained_var_col,
+                                         explained_instance[, -explained_var_col],
                                          size,
                                          fixed_variables)
   }

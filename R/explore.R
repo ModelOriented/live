@@ -93,9 +93,13 @@ sample_locally <- function(data, explained_instance, explained_var, size,
     similar <- dplyr::mutate_if(similar, is.numeric, vscale)
   }
 
-  list(data = similar, 
+  explorer <- list(data = similar, 
        target = explained_var,
-       explained_instance = explained_instance)
+       explained_instance = explained_instance,
+       sampling_method = method,
+       fixed_variables = fixed_variables)
+  class(explorer) <- c("live_explorer", "list")
+  explorer
 }
 
 
@@ -179,8 +183,12 @@ add_predictions <- function(data, to_explain, black_box_model, predict_fun = pre
                                         ...)
   to_explain$data[[to_explain$target]] <- trained_black_box$predictions
   
-  list(data = to_explain$data, 
+  explorer <- list(data = to_explain$data, 
        target = to_explain$target, 
        model = trained_black_box$model,
-       explained_instance = to_explain$explained_instance)
+       explained_instance = to_explain$explained_instance,
+       sampling_method = to_explain$sampling_method,
+       fixed_variables = to_explain$fixed_variables)
+  class(explorer) <- c("live_explorer", "list")
+  explorer
 }

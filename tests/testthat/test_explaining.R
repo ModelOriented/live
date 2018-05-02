@@ -10,7 +10,7 @@ local1 <- live::add_predictions(X, local, "regr.lm")
 local_explained <- live::fit_explanation(local1, "regr.lm")
 
 test_that("White box model is fitted correctly", {
-  expect_is(local_explained, "list")
+  expect_is(local_explained, "live_explainer")
   expect_is(mlr::getLearnerModel(local_explained$model), "lm")
 })
 

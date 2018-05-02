@@ -1,3 +1,7 @@
+# Live 1.5.2
+
+* Print functions for results of sample_locally, add_predictions and fit_explanation.
+
 # live 1.5.1
 
 * New, LIME-like method of sampling as an option in `sample_locally`.

@@ -125,8 +125,11 @@ fit_explanation <- function(live_object, white_box, kernel = identity_kernel,
   }
   lrn <- mlr::makeLearner(white_box, predict.type = predict_type, par.vals = hyperpars)
 
-  list(data = source_data,
+  explainer <- list(data = source_data,
        model = mlr::train(lrn, mlr_task),
        explained_instance = live_object$explained_instance,
-       weights = live_weights)
+       weights = live_weights,
+       selected_variables = selection)
+  class(explainer) <- c("live_explainer", "list")
+  explainer
 }

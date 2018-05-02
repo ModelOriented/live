@@ -40,5 +40,6 @@ gaussian_kernel <- function(explained_instance, simulated_instance) {
 #' 
 
 euclidean_kernel <- function(explained_instance, simulated_instance) {
-  1/sqrt(sum((explained_instance - simulated_instance)^2))
+  1/(sqrt(sum((explained_instance - simulated_instance)^2)) + 
+       all(simulated_instance == explained_instance))
 }

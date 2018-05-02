@@ -6,7 +6,7 @@ local <- live::sample_locally(data = X,
                               explained_instance = X[3, ], 
                               explained_var = "V1",
                               size = 50)
-local1 <- live::add_predictions(X, local, "regr.lm")
+local1 <- live::add_predictions(local, "regr.lm", X)
 local_explained <- live::fit_explanation(local1, "regr.lm")
 
 test_that("White box model is fitted correctly", {

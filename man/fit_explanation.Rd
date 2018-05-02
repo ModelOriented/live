@@ -4,7 +4,7 @@
 \alias{fit_explanation}
 \title{Fit white box model to the simulated data.}
 \usage{
-fit_explanation(live_object, white_box, kernel = identity_kernel,
+fit_explanation(live_object, white_box, kernel = gaussian_kernel,
   selection = FALSE, response_family = "gaussian",
   predict_type = "response", hyperpars = list())
 }

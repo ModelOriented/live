@@ -1,4 +1,10 @@
-# Live 1.5.2
+# live 1.5.3
+
+* Minor fix to `euclidean_kernel` function.
+* Default kernel in `fit_explanation` is now `gaussian_kernel`.
+* Order of arguments changed in `add_predictions` and `data` arguments defaults to `NULL`.
+
+# live 1.5.2
 
 * Print functions for results of sample_locally, add_predictions and fit_explanation.
 

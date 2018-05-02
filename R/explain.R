@@ -83,7 +83,7 @@ select_variables <- function(source_data, target, response_family) {
 #' }
 #'
 
-fit_explanation <- function(live_object, white_box, kernel = identity_kernel,                           
+fit_explanation <- function(live_object, white_box, kernel = gaussian_kernel,                           
                             selection = FALSE, response_family = "gaussian",
                             predict_type = "response", hyperpars = list()) {
   if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1)

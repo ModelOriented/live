@@ -53,9 +53,8 @@ Object returned by the function is a list that contains the dataset and the name
 The next step is adding black box model predictions to the similar observations.
 
 ```{r add, warning = FALSE, message = FALSE}
-similar1 <- add_predictions(data = wine,
-                           to_explain = similar,
-                           black_box_model = wine_svm)
+similar1 <- add_predictions(to_explain = similar,
+                            black_box_model = wine_svm)
 ```
 
 If multiple models are to be explained, there is no need to generate multiple _artificial_ datasets.

@@ -140,9 +140,11 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 
 #' Add black box predictions to generated dataset
 #'
-#' @param data Original data frame used to generate new dataset.
 #' @param to_explain List return by sample_locally function.
 #' @param black_box_model String with mlr signature of a learner or a model with predict interface.
+#' @param data Original data frame used to generate new dataset. 
+#'        Need not be provided when a trained model is passed in 
+#'        black_box_model argument.
 #' @param predict_fun Either a "predict" function that returns a vector of the
 #'        same type as response or custom function that takes a model as a first argument,
 #'        and data used to calculate predictions as a second argument
@@ -172,8 +174,10 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 #' }
 #'
 
-add_predictions <- function(data, to_explain, black_box_model, predict_fun = predict, 
+add_predictions <- function(to_explain, black_box_model, data = NULL, predict_fun = predict, 
                             hyperparams = list(), ...) {
+  if(is.null(data) & is.character(black_box_model))
+    stop("Dataset for training black box model must be provided")
   trained_black_box <- give_predictions(data = data,
                                         black_box = black_box_model,
                                         explained_var = to_explain$target,

@@ -3,6 +3,7 @@
 * Minor fix to `euclidean_kernel` function.
 * Default kernel in `fit_explanation` is now `gaussian_kernel`.
 * Order of arguments changed in `add_predictions` and `data` arguments defaults to `NULL`.
+* Variables are standardized after predictions are added, before explanation model is fitted in `fit_explanation` function.
 
 # live 1.5.2
 

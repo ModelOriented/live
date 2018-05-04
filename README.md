@@ -8,16 +8,16 @@
 
 ## Installation
 
-To get started, install `live` from CRAN
-
-```
-install.packages("live")
-```
-
-or use the development version:
+Since last CRAN release, interface has been majorly improved, so I recommend using the development version:
 
 ```
 devtools::install_github("MI2DataLab/live")
+```
+
+However, you can still use the CRAN version:
+
+```
+install.packages("live")
 ```
 
 

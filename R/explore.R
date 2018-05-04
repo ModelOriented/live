@@ -51,7 +51,6 @@ permutation_neighbourhood <- function(data, explained_instance, size, fixed_vari
 #' @param method If "live", new observations will be created by changing one value
 #'        per observation. If "lime", new observation will be created by permuting  all
 #'        columns of data.
-#' @param standardise If TRUE, numerical variables will be scaled to have mean 0, var 1.
 #' @param fixed_variables names or numeric indexes of columns which will not be changed
 #'        while sampling.
 #'
@@ -73,8 +72,7 @@ permutation_neighbourhood <- function(data, explained_instance, size, fixed_vari
 #'
 
 sample_locally <- function(data, explained_instance, explained_var, size,
-                           method = "live", standardise = FALSE, 
-                           fixed_variables = NULL) {
+                           method = "live", fixed_variables = NULL) {
   check_conditions(data, explained_instance, size)
   explained_var_col <- which(colnames(data) == explained_var)
   if(method == "live") {
@@ -88,11 +86,6 @@ sample_locally <- function(data, explained_instance, explained_var, size,
                                          fixed_variables)
   }
   
-  if(standardise) {
-    vscale <- function(x) as.vector(scale(x))
-    similar <- dplyr::mutate_if(similar, is.numeric, vscale)
-  }
-
   explorer <- list(data = similar, 
        target = explained_var,
        explained_instance = explained_instance,

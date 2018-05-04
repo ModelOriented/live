@@ -62,6 +62,8 @@ select_variables <- function(source_data, target, response_family) {
 #' @param white_box String, learner name recognized by mlr package.
 #' @param kernel function which will be used to calculate distance between simulated
 #'        observations and explained instance.
+#' @param standardize If TRUE, numerical variables will be scaled to have mean 0, variance 1
+#'        before fitting explanation model.
 #' @param selection If TRUE, variable selection based on glmnet implementation of LASSO
 #'        will be performed.
 #' @param response_family family argument to glmnet (and then glm) function.
@@ -83,8 +85,9 @@ select_variables <- function(source_data, target, response_family) {
 #' }
 #'
 
-fit_explanation <- function(live_object, white_box, kernel = gaussian_kernel,                           
-                            selection = FALSE, response_family = "gaussian",
+fit_explanation <- function(live_object, white_box = "regr.lm", 
+                            kernel = gaussian_kernel, standardize = FALSE,
+                            selection = FALSE, response_family = "gaussian", 
                             predict_type = "response", hyperpars = list()) {
   if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1)
     stop("All predicted values were equal.")
@@ -92,6 +95,19 @@ fit_explanation <- function(live_object, white_box, kernel = gaussian_kernel,
     stop("First call add_predictions function to add black box predictions.")
   source_data <- dplyr::select_if(live_object$data, 
                                   function(x) dplyr::n_distinct(x) > 1)
+  response_ncol <- which(colnames(live_object$data) == live_object$target)
+  
+  if(standardize) {
+    source_data <- dplyr::mutate_at(source_data,
+                     dplyr::vars(setdiff(1:ncol(source_data), response_ncol)),
+                     function(x) {
+                       if(is.numeric(x)) {
+                          as.numeric(scale(x))
+                       } else {
+                         x
+                       }
+                     })
+  }
   
   if(selection) {
     selected_vars <- select_variables(source_data, live_object$target,
@@ -103,7 +119,6 @@ fit_explanation <- function(live_object, white_box, kernel = gaussian_kernel,
   list_learners <- suppressWarnings(mlr::listLearners(properties = "weights")$short.name) 
   if(any(grepl(gsub("classif.", "", white_box), list_learners)) | 
      any(grepl(gsub("regr.", "", white_box), list_learners))) {
-    response_ncol <- which(colnames(live_object$data) == live_object$target)
     response_ncol_instance <- which(colnames(live_object$explained_instance) == live_object$target)
     live_weights <- calculate_weights(live_object$data[, -response_ncol], 
                                       live_object$explained_instance[, -response_ncol_instance],

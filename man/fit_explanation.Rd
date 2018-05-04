@@ -4,9 +4,10 @@
 \alias{fit_explanation}
 \title{Fit white box model to the simulated data.}
 \usage{
-fit_explanation(live_object, white_box, kernel = gaussian_kernel,
-  selection = FALSE, response_family = "gaussian",
-  predict_type = "response", hyperpars = list())
+fit_explanation(live_object, white_box = "regr.lm",
+  kernel = gaussian_kernel, standardize = FALSE, selection = FALSE,
+  response_family = "gaussian", predict_type = "response",
+  hyperpars = list())
 }
 \arguments{
 \item{live_object}{List return by add_predictions function.}
@@ -15,6 +16,9 @@ fit_explanation(live_object, white_box, kernel = gaussian_kernel,
 
 \item{kernel}{function which will be used to calculate distance between simulated
 observations and explained instance.}
+
+\item{standardize}{If TRUE, numerical variables will be scaled to have mean 0, variance 1
+before fitting explanation model.}
 
 \item{selection}{If TRUE, variable selection based on glmnet implementation of LASSO
 will be performed.}

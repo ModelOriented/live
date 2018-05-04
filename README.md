@@ -5,6 +5,8 @@
 [![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/live?color=orange)](http://cranlogs.r-pkg.org/badges/grand-total/live)
 [![Pending Pull-Requests](http://githubbadges.herokuapp.com/MI2DataLab/live/pulls.svg)](https://github.com/MI2DataLab/live/pulls)
 [![Github Issues](http://githubbadges.herokuapp.com/MI2DataLab/live/issues.svg)](https://github.com/MI2DataLab/live/issues)
+[![Coverage Status](https://img.shields.io/codecov/c/github/MI2DataLab/live/master.svg)](https://codecov.io/github/MI2DataLab/live?branch=master)
+
 
 ## Installation
 

@@ -15,3 +15,5 @@ r_packages:
   - e1071
   - breakDown
   
+after_success:
+  - Rscript -e 'covr::codecov()'

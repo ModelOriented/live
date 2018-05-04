@@ -26,7 +26,8 @@ Suggests: knitr,
     rmarkdown,
     testthat,
     glmnet,
-    e1071
+    e1071,
+    covr
 VignetteBuilder: knitr
 Imports: mlr, 
     dplyr,

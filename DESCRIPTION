@@ -8,7 +8,6 @@ Authors@R: c(
   person("Przemysław", "Biecek", role = "aut",
     email = "przemyslaw.biecek@gmail.com")
   )
-Maintainer: Mateusz Staniak <mateusz.staniak@math.uni.wroc.pl>
 Description: Interpretability of complex machine learning models is a growing concern.
     This package helps to understand key factors that drive the 
     decision made by complicated predictive model (so called black box model). 

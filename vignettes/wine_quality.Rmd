@@ -84,6 +84,10 @@ For datasets with larger number of variables, we could obtain sparse results by 
 With this option variable selection based on LASSO implemented in `glmnet` package is performed.
 Features can be standardize before fitting explanation model by setting `standardize` argument to `TRUE`.
 When using Generalized Linear Model as a white box model it is possible to set `family` argument to one of the distribution families available in `glm` and `glmnet` functions via `response_family` argument to `fit_explanation`.
+Moreover, for explanation models that support weights, observation can be weighted according to their distance from the explained instance. 
+This behavior is controlled via `kernel` argument. Default kernel is gaussian kernel.
+If observations do not need to be weighted, `identity_kernel` can be used.
+User can define his own kernels, which are simply a function of two arguments that return a single number.
 
 The white box model `wine_expl` approximates the black box model `wine_svm` around the selected observation.
 Now we can visualize it with the `plot_explanation2` function.

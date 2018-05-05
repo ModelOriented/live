@@ -1,3 +1,7 @@
+# 1.5.4
+
+* Old interface dropped.
+
 # live 1.5.3
 
 * Minor fix to `euclidean_kernel` function.

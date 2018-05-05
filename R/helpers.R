@@ -13,29 +13,29 @@ check_for_na <- function(data, explained_instance) {
 
 
 #' Check if data, explained instance and size make sense.
-#' 
+#'
 #' @param data Data frame from which observations will be sampled.
 #' @param explained_instance Instance around which points will be sampled.
 #' @param size Number of observation in simulated dataset
-#' 
+#'
 #' @return Produces an error if any of conditions aren't met.
-#' 
+#'
 
 check_conditions <- function(data, explained_instance, size) {
   if(nrow(data) == 0) stop("Empty data frame")
   if(ncol(data) == 0) stop("Data frame has no columns")
   if(size <= 0) stop("Size has to be a positive integer")
-  if(any(colnames(data) != colnames(explained_instance))) 
+  if(any(colnames(data) != colnames(explained_instance)))
     stop("Explained instance must have the same variables as data")
 }
 
 
-#' Set date values to one value 
-#' 
+#' Set date values to one value
+#'
 #' @param data Data frame to change.
 #' @param explained_instance Instance that will be explained.
 #' @param col_names Names of columns to be fixed
-#' 
+#'
 
 set_constant_variables <- function(data, explained_instance, col_names) {
   cols <- (1:ncol(data))[which(colnames(data) %in% col_names)]
@@ -43,7 +43,7 @@ set_constant_variables <- function(data, explained_instance, col_names) {
     return(data)
   } else {
     for(k in cols) {
-      data.table::set(data, j = as.integer(k), 
+      data.table::set(data, j = as.integer(k),
                       value = explained_instance[1, as.integer(k)])
     }
     data
@@ -61,7 +61,7 @@ set_constant_variables <- function(data, explained_instance, col_names) {
 #' @return mlr task object
 #'
 
-create_task2 <- function(model, dataset, target_var, weights = NULL) {
+create_task <- function(model, dataset, target_var, weights = NULL) {
   if(grepl("regr", model)) {
     mlr::makeRegrTask(id = "lime_task",
                       data = as.data.frame(dataset),

@@ -10,16 +10,16 @@
 
 ## Installation
 
-Since last CRAN release, interface has been majorly improved, so I recommend using the development version:
-
-```
-devtools::install_github("MI2DataLab/live")
-```
-
-However, you can still use the CRAN version:
+Install stable CRAN version:
 
 ```
 install.packages("live")
+```
+
+or the development version:
+
+```
+devtools::install_github("MI2DataLab/live")
 ```
 
 

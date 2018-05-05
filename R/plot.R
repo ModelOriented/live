@@ -11,18 +11,18 @@
 #' @return plot (ggplot2 or lattice)
 #'
 
-plot_regression <- function(plot_type, fitted_model, explained_instance, scale = NULL) {
+plot_regression2 <- function(plot_type, fitted_model, explained_instance, scale = NULL) {
   if(plot_type == "forest") {
     forestmodel::forest_model(fitted_model)
   } else {
     if(scale == "probability") {
-      plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"),
+      plot(breakDown::broken(fitted_model, explained_instance, baseline = "Intercept"),
            trans = function(x) exp(x)/(1 + exp(x))) +
         ggplot2::scale_y_continuous(limits = c(0, 1), 
                                     name = "probability", 
                                     expand = c(0, 0))
     } else {
-      plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"))
+      plot(breakDown::broken(fitted_model, explained_instance, baseline = "Intercept"))
     }
   }
 }
@@ -52,13 +52,13 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
 #' }
 #'
 
-plot_explanation <- function(explained_model, regr_plot_type = NULL, scale = "logit") {
+plot_explanation2 <- function(explained_model, regr_plot_type = NULL, scale = "logit") {
   trained_model <- mlr::getLearnerModel(explained_model$model)
   present_variables <- colnames(explained_model$data)
   explained_instance <- explained_model$explained_instance[, present_variables]
   
   if(any(grepl("lm", class(trained_model)))) {
-    plot_regression(regr_plot_type, trained_model, explained_instance, scale)
+    plot_regression2(regr_plot_type, trained_model, explained_instance, scale)
   } else {
     plot(trained_model)
   }

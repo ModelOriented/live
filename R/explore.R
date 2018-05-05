@@ -8,7 +8,7 @@
 #' @return data.frame
 #'
 
-generate_neighbourhood <- function(data, explained_instance, size, fixed_variables) {
+generate_neighbourhood2 <- function(data, explained_instance, size, fixed_variables) {
   data <- data.table::as.data.table(data)
   neighbourhood <- data.table::rbindlist(lapply(1:size, function(x) explained_instance))
   for(k in 1:nrow(neighbourhood)) {
@@ -71,12 +71,12 @@ permutation_neighbourhood <- function(data, explained_instance, size, fixed_vari
 #' }
 #'
 
-sample_locally <- function(data, explained_instance, explained_var, size,
+sample_locally2 <- function(data, explained_instance, explained_var, size,
                            method = "live", fixed_variables = NULL) {
   check_conditions(data, explained_instance, size)
   explained_var_col <- which(colnames(data) == explained_var)
   if(method == "live") {
-    similar <- generate_neighbourhood(data[, -explained_var_col],
+    similar <- generate_neighbourhood2(data[, -explained_var_col],
                                       explained_instance[, -explained_var_col], size,
                                       fixed_variables)  
   } else {
@@ -115,10 +115,10 @@ sample_locally <- function(data, explained_instance, explained_var, size,
 #' @return A list that consists of black box model object and predictions.
 #'
 
-give_predictions <- function(data, black_box, explained_var, similar, predict_function, 
+give_predictions2 <- function(data, black_box, explained_var, similar, predict_function, 
                              hyperpars = list(), ...) {
   if(is.character(black_box)) {
-    mlr_task <- create_task(black_box, as.data.frame(data), explained_var)
+    mlr_task <- create_task2(black_box, as.data.frame(data), explained_var)
     lrn <- mlr::makeLearner(black_box, par.vals = hyperpars)
     trained <- mlr::train(lrn, mlr_task)
     pred <- predict(trained, newdata = as.data.frame(similar))
@@ -167,11 +167,11 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
 #' }
 #'
 
-add_predictions <- function(to_explain, black_box_model, data = NULL, predict_fun = predict, 
+add_predictions2 <- function(to_explain, black_box_model, data = NULL, predict_fun = predict, 
                             hyperparams = list(), ...) {
   if(is.null(data) & is.character(black_box_model))
     stop("Dataset for training black box model must be provided")
-  trained_black_box <- give_predictions(data = data,
+  trained_black_box <- give_predictions2(data = data,
                                         black_box = black_box_model,
                                         explained_var = to_explain$target,
                                         similar = to_explain$data,

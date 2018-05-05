@@ -1,4 +1,4 @@
-context("Creating simulated dataset of similar observations")
+context("Test for deprecated functions")
 
 set.seed(1)
 X <- tibble::as_tibble(MASS::mvrnorm(50, rep(0, 20), diag(1, 20)))
@@ -15,7 +15,7 @@ count_diffs_in_rows <- function(table, row, explained_var) {
 
 test_that("Any changes are made", {
   expect_gt(
-    count_diffs_in_rows((live::sample_locally2(data = X,
+    count_diffs_in_rows((live::sample_locally(data = X,
                                               explained_instance = X[3, ], 
                                               explained_var = "V1",
                                               size = 50)$data), X[3, ], "V1"), 0) 
@@ -23,17 +23,17 @@ test_that("Any changes are made", {
 
 test_that("Not too many changes are made", {
   expect_lte(
-    count_diffs_in_rows((live::sample_locally2(data = X,
-                                             explained_instance = X[3, ], 
-                                             explained_var = "V1",
-                                             size = 50)$data), X[3, ], "V1"), 50)
+    count_diffs_in_rows((live::sample_locally(data = X,
+                                              explained_instance = X[3, ], 
+                                              explained_var = "V1",
+                                              size = 50)$data), X[3, ], "V1"), 50)
   expect_lte(
-    count_diffs_in_rows((live::sample_locally2(data = X,
+    count_diffs_in_rows((live::sample_locally(data = X,
                                               explained_instance = X[3, ], 
                                               explained_var = "V1", 
                                               size = 100)$data), X[3, ], "V1"), 100)
   expect_lte(
-    count_diffs_in_rows((live::sample_locally2(data = X,
+    count_diffs_in_rows((live::sample_locally(data = X,
                                               explained_instance = X[3, ], 
                                               explained_var = "V1", 
                                               size = 20)$data), X[3, ], "V1"), 100)
@@ -48,18 +48,38 @@ test_that("Missing data are detected warning is given", {
 })
 
 test_that("Predictions are added", {
-  local_dataset <- live::sample_locally2(data = X,
+  local_dataset <- live::sample_locally(data = X,
                                         explained_instance = X[3, ], 
                                         explained_var = "V1",
                                         size = 50)
-  local_dataset1 <- add_predictions2(local_dataset, "regr.lm", X)
-  expect_output(add_predictions2(local_dataset, "regr.lm", X), regexp = NA)
-  expect_equal(length(local_dataset1), 6)
+  local_dataset1 <- add_predictions(X, local_dataset, "regr.lm")
+  expect_output(add_predictions(X, local_dataset, "regr.lm"), regexp = NA)
+  expect_equal(length(local_dataset1), 3)
   expect_is(local_dataset1$data[[local_dataset1$target]], "numeric")
   expect_is(local_dataset1$target, "character")
-  local_dataset2 <- add_predictions2(local_dataset, lm(V1 ~., data = X))
-  expect_output(add_predictions2(local_dataset, lm(V1 ~., data = X)), regexp = NA)
-  expect_equal(length(local_dataset2), 6)
+  local_dataset2 <- add_predictions(X, local_dataset, lm(V1 ~., data = X))
+  expect_output(add_predictions(X, local_dataset, lm(V1 ~., data = X)), regexp = NA)
+  expect_equal(length(local_dataset2), 3)
   expect_is(local_dataset2$data[[local_dataset2$target]], "numeric")
   expect_is(local_dataset2$target, "character")
 })
+
+set.seed(1)
+X <- tibble::as_tibble(MASS::mvrnorm(50, rep(0, 10), diag(1, 10)))
+local <- live::sample_locally(data = X,
+                              explained_instance = X[3, ], 
+                              explained_var = "V1",
+                              size = 50)
+local1 <- live::add_predictions(X, local, "regr.lm")
+local_explained <- live::fit_explanation(local1, "regr.lm")
+
+test_that("White box model is fitted correctly", {
+  expect_is(local_explained, "WrappedModel")
+  expect_is(mlr::getLearnerModel(local_explained), "lm")
+})
+
+test_that("Plots are created without problems", {
+  expect_error(live::plot_explanation(local_explained, "waterfallplot", X[3, ]), regexp = NA)
+  expect_error(live::plot_explanation(local_explained, "forestplot"), regexp = NA)
+})
+

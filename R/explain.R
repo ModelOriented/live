@@ -85,7 +85,7 @@ select_variables <- function(source_data, target, response_family) {
 #' }
 #'
 
-fit_explanation <- function(live_object, white_box = "regr.lm", 
+fit_explanation2 <- function(live_object, white_box = "regr.lm", 
                             kernel = gaussian_kernel, standardize = FALSE,
                             selection = FALSE, response_family = "gaussian", 
                             predict_type = "response", hyperpars = list()) {
@@ -130,7 +130,7 @@ fit_explanation <- function(live_object, white_box = "regr.lm",
     live_weights <- NULL
   }
 
-  mlr_task <- create_task(white_box,
+  mlr_task <- create_task2(white_box,
                           source_data[, unique(c(selected_vars, live_object$target))],
                           live_object$target,
                           live_weights)

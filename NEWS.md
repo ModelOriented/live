@@ -1,3 +1,7 @@
+# 1.5.5
+
+* Fixed bug related to standardizing columns in `fit_explanation`.
+
 # 1.5.4
 
 * Old interface dropped.

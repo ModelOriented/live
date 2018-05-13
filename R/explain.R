@@ -95,7 +95,7 @@ fit_explanation <- function(live_object, white_box = "regr.lm",
     stop("First call add_predictions function to add black box predictions.")
   source_data <- dplyr::select_if(live_object$data,
                                   function(x) dplyr::n_distinct(x) > 1)
-  response_ncol <- which(colnames(live_object$data) == live_object$target)
+  response_ncol <- which(colnames(source_data) == live_object$target)
 
   if(standardize) {
     source_data <- dplyr::mutate_at(source_data,

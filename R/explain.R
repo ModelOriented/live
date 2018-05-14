@@ -133,7 +133,7 @@ fit_explanation <- function(live_object, white_box = "regr.lm",
     live_weights <- NULL
   }
 
-  mlr_task <- create_task2(white_box,
+  mlr_task <- create_task(white_box,
                           source_data[, unique(c(selected_vars, live_object$target))],
                           live_object$target,
                           live_weights)

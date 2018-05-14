@@ -1,8 +1,12 @@
-# 1.5.5
+# 1ive 1.5.6
+
+* Waterfall plots can be viewed in a Shiny app.
+
+# live 1.5.5
 
 * Fixed bug related to standardizing columns in `fit_explanation`.
 
-# 1.5.4
+# live 1.5.4
 
 * Old interface dropped.
 

@@ -1,7 +1,7 @@
 Package: live
 Type: Package
 Title: Local Interpretable (Model-Agnostic) Visual Explanations
-Version: 1.5.5
+Version: 1.5.6
 Authors@R: c(
   person("Mateusz", "Staniak", role = c("cre","aut"),
     email = "mateusz.staniak@math.uni.wroc.pl"),
@@ -35,4 +35,5 @@ Imports: mlr,
     data.table,
     forestmodel,
     lubridate,
-    ggplot2
+    ggplot2,
+    shiny

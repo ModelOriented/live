@@ -93,50 +93,53 @@ fit_explanation <- function(live_object, white_box = "regr.lm",
     stop("All predicted values were equal.")
   if(!(any(colnames(live_object$data) == live_object$target)))
     stop("First call add_predictions function to add black box predictions.")
-  source_data <- dplyr::select_if(live_object$data,
+  source_data <- dplyr::select_if(live_object$data, 
                                   function(x) dplyr::n_distinct(x) > 1)
+  source_data <- dplyr::mutate_if(source_data, is.factor, droplevels)
   response_ncol <- which(colnames(source_data) == live_object$target)
-
+  
+  explained_instance <- live_object$explained_instance[, colnames(live_object$explained_instance) %in% colnames(source_data)]
+  
   if(standardize) {
     source_data <- dplyr::mutate_at(source_data,
                      dplyr::vars(setdiff(1:ncol(source_data), response_ncol)),
                      function(x) {
                        if(is.numeric(x)) {
-                          as.numeric(scale(x))
+                          as.numeric(scale(x, scale = FALSE))
                        } else {
                          x
                        }
                      })
   }
-
+  
   if(selection) {
     selected_vars <- select_variables(source_data, live_object$target,
                                       response_family)
   } else {
     selected_vars <- colnames(source_data)
   }
-
-  list_learners <- suppressWarnings(mlr::listLearners(properties = "weights")$short.name)
-  if(any(grepl(gsub("classif.", "", white_box), list_learners)) |
+  
+  list_learners <- suppressWarnings(mlr::listLearners(properties = "weights")$short.name) 
+  if(any(grepl(gsub("classif.", "", white_box), list_learners)) | 
      any(grepl(gsub("regr.", "", white_box), list_learners))) {
-    response_ncol_instance <- which(colnames(live_object$explained_instance) == live_object$target)
-    live_weights <- calculate_weights(live_object$data[, -response_ncol],
-                                      live_object$explained_instance[, -response_ncol_instance],
+    response_ncol_instance <- which(colnames(explained_instance) == live_object$target)
+    live_weights <- calculate_weights(source_data[, -response_ncol], 
+                                      explained_instance[, -response_ncol_instance],
                                       kernel)
-    if(dplyr::n_distinct(live_weights) == 1)
+    if(dplyr::n_distinct(live_weights) == 1) 
       live_weights <- NULL
   } else {
     warning("Chosen method does not support weights.")
     live_weights <- NULL
   }
 
-  mlr_task <- create_task(white_box,
+  mlr_task <- create_task2(white_box,
                           source_data[, unique(c(selected_vars, live_object$target))],
                           live_object$target,
                           live_weights)
-
+  
   if(grepl("glm", white_box) & !(response_family == "poisson" | response_family == "binomial")) {
-    hyperpars <- c(hyperpars, family = response_family)
+    hyperpars <- c(hyperpars, family = response_family)  
   }
   lrn <- mlr::makeLearner(white_box, predict.type = predict_type, par.vals = hyperpars)
 

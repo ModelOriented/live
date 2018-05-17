@@ -23,13 +23,17 @@ or the development version:
 devtools::install_github("MI2DataLab/live")
 ```
 
+[See the latest changes.](https://github.com/MI2DataLab/live/blob/master/NEWS.md)
+
+Features coming up next:
+
+  * more methods of sampling,
+  
+  * better support for comparing explanations for different models / different instances,
+  
+  * improved Shiny application (see `live_shiny` function in development version).
 
 If you have any bug reports, feature requests or ideas to improve the methodology, feel free to leave an issue.
-
-
-[NEWS](https://github.com/MI2DataLab/live/blob/master/NEWS.md)
-
-
 
 
 ## Materials

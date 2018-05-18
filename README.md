@@ -7,7 +7,7 @@
 [![Github Issues](http://githubbadges.herokuapp.com/MI2DataLab/live/issues.svg)](https://github.com/MI2DataLab/live/issues)
 [![Build Status](https://travis-ci.org/MI2DataLab/live.svg?branch=master)](https://travis-ci.org/MI2DataLab/live)
 [![Coverage Status](https://img.shields.io/codecov/c/github/MI2DataLab/live/master.svg)](https://codecov.io/github/MI2DataLab/live?branch=master)
-[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=The%20live%20package%20will%20help%20you%20explain%20your%20model%27s%20predictions%20by%20fitting%20a%20simpler%20model%20locally.%0Ahttps://github.com/MI2DataLab/live%0A&hashtags=rstats,interpretableML,machinelearning,xAI)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=The%20live%20package%20will%20help%20you%20explain%20your%20model%27s%20predictions%20by%20fitting%20a%20simpler%20model%20locally.%20Find%20out%20more%20at%0Ahttps://github.com/MI2DataLab/live%0A&hashtags=rstats,interpretableML,machinelearning,xAI)
 
 
 ## Installation

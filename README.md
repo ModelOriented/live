@@ -43,6 +43,8 @@ Website: https://mi2datalab.github.io/live/
 
 Conference talk on `live`: https://github.com/mstaniak/Berlin_2017
 
+Python implementation of LIME and info about the method: https://github.com/marcotcr/lime
+
 
 Cheatsheet:
 

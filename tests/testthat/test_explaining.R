@@ -38,3 +38,7 @@ test_that("Plots are created without problems", {
   expect_is(plot(local_explained3, type = "waterfall"), "ggplot")
 })
 
+test_that("Generics work", {
+  
+})
+

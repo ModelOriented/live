@@ -47,15 +47,15 @@ test_that("LIVE sampling methods is okay", {
 test_that("Missing data are detected warning is given", {
   Y <- X
   Y[1, 1] <- NA
-  expect_warning(check_for_na(Y, Y[1, ]))
-  expect_warning(check_for_na(X, X[4, ]), regexp = NA)
+  expect_warning(live:::check_for_na(Y, Y[1, ]))
+  expect_warning(live:::check_for_na(X, X[4, ]), regexp = NA)
 })
 
 test_that("Checks are performed", {
-  expect_error(check_conditions(X[1, FALSE], X[4, ], 50))
-  expect_error(check_conditions(X, X[4, ], -10))
-  expect_error(check_conditions(X[FALSE, 1], X[4, ], 50))
-  expect_error(check_conditions(X[, -5], X[4, -6]))
+  expect_error(live:::check_conditions(X[1, FALSE], X[4, ], 50))
+  expect_error(live:::check_conditions(X, X[4, ], -10))
+  expect_error(live:::check_conditions(X[FALSE, 1], X[4, ], 50))
+  expect_error(live:::check_conditions(X[, -5], X[4, -6]))
 })
 
 test_that("Predictions are added", {

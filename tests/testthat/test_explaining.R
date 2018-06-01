@@ -2,7 +2,6 @@ context("Fitting and plotting explanations")
 
 set.seed(1)
 X <- as.data.frame(matrix(runif(5500), ncol = 11, nrow = 500))
-X$V3 <- as.factor(as.character(round(X$V3)))
 X2 <- X
 X2$V1 <- as.factor(as.character(X2$V1 > 0.5))
 local <- sample_locally2(data = X,
@@ -50,7 +49,12 @@ test_that("Plots are created without problems", {
 
 test_that("Generics work", {
   expect_output(print(local1))
+  expect_output(print(sample_locally2(X, X[3, ], "V1", 50)))
   expect_output(print(local_explained))
+  expect_output(print(fit_explanation2(local1, selection = T)))
+  expect_output(print(fit_explanation2(local4, selection = T)))
+  expect_output(print(fit_explanation2(local1, kernel = identity_kernel)))
+  expect_output(print(fit_explanation2(local1, "regr.svm")))
 })
 
 test_that("Shiny app is fine", {

@@ -10,7 +10,7 @@ local <- sample_locally2(data = X,
                          size = 50)
 local1 <- add_predictions2(local, "regr.svm", X)
 local_explained <- fit_explanation2(local1, "regr.lm")
-local_explained2 <- fit_explanation2(local1, "regr.ctree", kernel = identity_kernel)
+local_explained2 <- fit_explanation2(local1, "regr.svm", kernel = identity_kernel)
 
 local2 <- sample_locally2(data = X2, explained_instance = X2[3, ],
                          explained_var = "V1", size = 5000)

@@ -40,11 +40,22 @@ test_that("Not too many changes are made", {
 
 })
 
+test_that("LIVE sampling methods is okay", {
+  expect_is(sample_locally2(X, X[3, ], "V1", 50, method = "live"), "live_explorer")
+})
+
 test_that("Missing data are detected warning is given", {
   Y <- X
   Y[1, 1] <- NA
   expect_warning(check_for_na(Y, Y[1, ]))
   expect_warning(check_for_na(X, X[4, ]), regexp = NA)
+})
+
+test_that("Checks are performed", {
+  expect_error(check_conditions(X[1, FALSE], X[4, ], 50))
+  expect_error(check_conditions(X, X[4, ], -10))
+  expect_error(check_conditions(X[FALSE, 1], X[4, ], 50))
+  expect_error(check_conditions(X[, -5], X[4, -6]))
 })
 
 test_that("Predictions are added", {
@@ -61,5 +72,4 @@ test_that("Predictions are added", {
   expect_is(local_dataset2$data[[local_dataset2$target]], "numeric")
   expect_is(local_dataset2$target, "character")
   expect_error(add_predictions2(local_dataset, "regr.lm"))
-  expect_is(sample_locally2(X, X[3, ], "V1", 50, method = "live"), "live_explorer")
 })

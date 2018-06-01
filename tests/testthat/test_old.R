@@ -1,7 +1,7 @@
 context("Test for deprecated functions")
 
 set.seed(1)
-X <- tibble::as_tibble(MASS::mvrnorm(50, rep(0, 20), diag(1, 20)))
+X <- as.data.frame(matrix(runif(5500), ncol = 11, nrow = 500))
 
 count_diffs_in_rows <- function(table, row, explained_var) {
   col_no <- which(colnames(row) == explained_var)

@@ -1,7 +1,7 @@
 context("Creating simulated dataset of similar observations")
 
 set.seed(1)
-X <- tibble::as_tibble(MASS::mvrnorm(50, rep(0, 20), diag(1, 20)))
+X <- as.data.frame(matrix(runif(5500), ncol = 11, nrow = 500))
 
 count_diffs_in_rows <- function(table, row, explained_var) {
   col_no <- which(colnames(row) == explained_var)
@@ -40,8 +40,8 @@ test_that("Not too many changes are made", {
 
 })
 
-test_that("LIVE sampling methods is okay", {
-  expect_is(sample_locally2(X, X[3, ], "V1", 50, method = "live"), "live_explorer")
+test_that("LIME sampling methods is okay", {
+  expect_is(sample_locally2(X, X[3, ], "V1", 50, method = "lime"), "live_explorer")
 })
 
 test_that("Missing data are detected warning is given", {
@@ -51,11 +51,12 @@ test_that("Missing data are detected warning is given", {
   expect_warning(live:::check_for_na(X, X[4, ]), regexp = NA)
 })
 
-test_that("Checks are performed", {
+test_that("Checks are performed, variables are set constant", {
   expect_error(live:::check_conditions(X[1, FALSE], X[4, ], 50))
   expect_error(live:::check_conditions(X, X[4, ], -10))
   expect_error(live:::check_conditions(X[FALSE, 1], X[4, ], 50))
   expect_error(live:::check_conditions(X[, -5], X[4, -6]))
+  expect_silent(sample_locally2(X, X[4, ], "V1", fixed_variables = c("V5", "V6")))
 })
 
 test_that("Predictions are added", {
@@ -73,3 +74,4 @@ test_that("Predictions are added", {
   expect_is(local_dataset2$target, "character")
   expect_error(add_predictions2(local_dataset, "regr.lm"))
 })
+

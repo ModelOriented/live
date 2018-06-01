@@ -55,6 +55,7 @@ test_that("Generics work", {
   expect_output(print(fit_explanation2(local4, selection = T)))
   expect_output(print(fit_explanation2(local1, kernel = identity_kernel)))
   expect_output(print(fit_explanation2(local1, "regr.svm")))
+  expect_output(print(add_predictions2(local3, e1071::svm(V1~.,data = X2))))
 })
 
 test_that("Shiny app is fine", {
@@ -65,3 +66,15 @@ test_that("Variable selection", {
   expect_silent(fit_explanation2(local1, selection = TRUE))
   expect_silent(fit_explanation2(local4, selection = TRUE))
 })
+
+test_that("Standardize option works", {
+  set.seed(17)
+  Xs <- as.data.frame(matrix(runif(5500), ncol = 11, nrow = 500))
+  locals <- sample_locally2(Xs, Xs[4, ], "V1", 50)
+  locals <- add_predictions2(locals, "regr.lm", Xs)
+  locals_expl <- fit_explanation2(locals, standardize = TRUE)
+  d1 <- locals$data[, 1:10]
+  d2 <- locals_expl$data[, 1:10]
+  expect_equal(as.data.frame(sapply(d1, function(x) scale(x, scale = F))), d2[, 1:10])
+})
+

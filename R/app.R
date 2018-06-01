@@ -1,22 +1,22 @@
 #' Function that starts a Shiny app which helps use LIVE.
-#' 
+#'
 #' @param train_data dataset from which observations will be sampled.
 #' @param black_box_model Pre-trained  model with predict interface.
 #' @param explained_data Data frame with predictions to explain.
-#' 
+#'
 #' @import shiny
-#' 
+#'
 #' @export
-#' 
+#'
 #' @return shiny app
-#'   
+#'
 
 live_shiny <- function(train_data, black_box_model, explained_data = train_data) {
   shinyApp(
     ui = fluidPage(
       column(3,
              sliderInput("instance", "Explained prediction (row number)",
-                         min = 1, max = nrow(explained_data), 
+                         min = 1, max = nrow(explained_data),
                          step = 1, round = T, value = 1),
              selectInput("target", "Response variable", choices = colnames(train_data)),
              sliderInput("size", "Size of simulated dataset",
@@ -33,26 +33,26 @@ live_shiny <- function(train_data, black_box_model, explained_data = train_data)
                          selected = "regr.lm"),
              selectInput("fixed", "Fixed variables", choices = colnames(train_data),
                          selected = NULL, multiple = TRUE)
-             
+
       ),
       column(9, plotOutput("main_plot"))
-    ), 
+    ),
     server = function(input, output) {
       similars <- reactive({
-        sample_locally(train_data, explained_data[input$instance, ],
-                       input$target, input$size, input$method,
-                       input$fixed)
+        sample_locally2(train_data, explained_data[input$instance, ],
+                        input$target, input$size, input$method,
+                        input$fixed)
       })
-      
+
       similars2 <- reactive({
-        add_predictions(similars(), black_box_model)
+        add_predictions2(similars(), black_box_model)
       })
       expl <- reactive({
-        fit_explanation(similars2(), input$whitebox, standardize = input$standardize,
-                        selection = input$selection)
+        fit_explanation2(similars2(), input$whitebox, standardize = input$standardize,
+                         selection = input$selection)
       })
       output$main_plot <- renderPlot(plot(expl(), type = "waterfall"))
     }
-  )  
+  )
 }
 

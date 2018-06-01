@@ -4,23 +4,20 @@
 #'                  on which type of plot is to be created.
 #' @param fitted_model glm or lm object.
 #' @param explained_instance Observation around which model was fitted.
-#' @param scale Only for classification problems, "logit" or "probability".
+#' @param classif logical, if TRUE, probabilities will be plotted 
 #'
 #' @importFrom graphics plot
 #'
 #' @return plot (ggplot2 or lattice)
 #'
 
-plot_regression <- function(plot_type, fitted_model, explained_instance, scale = NULL) {
+plot_regression2 <- function(plot_type, fitted_model, explained_instance, classif) {
   if(plot_type == "forest") {
     forestmodel::forest_model(fitted_model)
   } else {
-    if(scale == "probability") {
+    if(classif) {
       plot(breakDown::broken(fitted_model, explained_instance, baseline = "Intercept"),
-           trans = function(x) exp(x)/(1 + exp(x))) +
-        ggplot2::scale_y_continuous(limits = c(0, 1),
-                                    name = "probability",
-                                    expand = c(0, 0))
+           trans = function(x) exp(x)/(1 + exp(x)))
     } else {
       plot(breakDown::broken(fitted_model, explained_instance, baseline = "Intercept"))
     }
@@ -35,8 +32,6 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
 #' @param type Chr, "forest" or "waterfall" depending
 #'        on which type of plot is to be created.
 #'        if lm/glm model is used as interpretable approximation.
-#' @param scale When probabilities are predicted, they can be plotted on "logit" scale
-#'              or "probability" scale.
 #'
 #' @return plot (ggplot2 or base)
 #'
@@ -53,13 +48,14 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
 #' }
 #'
 
-plot.live_explainer <- function(x, ..., type = NULL, scale = "logit") {
+plot.live_explainer <- function(x, ..., type = NULL) {
   trained_model <- mlr::getLearnerModel(x$model)
   present_variables <- colnames(x$data)
   explained_instance <- x$explained_instance[, present_variables]
+  classif <- x$model$learner$type == "classif"
 
   if(any(grepl("lm", class(trained_model)))) {
-    plot_regression(type, trained_model, explained_instance, scale)
+    plot_regression2(type, trained_model, explained_instance, classif)
   } else {
     plot(trained_model)
   }

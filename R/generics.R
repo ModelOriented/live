@@ -18,7 +18,7 @@ print.live_explainer <- function(x, ...) {
     weights_present <- "Weights present in the explanation model"
   }
   model_tmp <- mlr::getLearnerModel(x$model)
-  if(class(model_tmp) == "lm") {
+  if(all(class(model_tmp) == "lm")) {
     rsq <- summary(model_tmp)$r.squared
     gof <- paste("R-squared:", round(rsq, 4))
   } else {

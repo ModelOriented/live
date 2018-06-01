@@ -61,7 +61,7 @@ set_constant_variables <- function(data, explained_instance, col_names) {
 #' @return mlr task object
 #'
 
-create_task <- function(model, dataset, target_var, weights = NULL) {
+create_task2 <- function(model, dataset, target_var, weights = NULL) {
   if(grepl("regr", model)) {
     mlr::makeRegrTask(id = "lime_task",
                       data = as.data.frame(dataset),

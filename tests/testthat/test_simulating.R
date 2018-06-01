@@ -56,7 +56,7 @@ test_that("Checks are performed, variables are set constant", {
   expect_error(live:::check_conditions(X, X[4, ], -10))
   expect_error(live:::check_conditions(X[FALSE, 1], X[4, ], 50))
   expect_error(live:::check_conditions(X[, -5], X[4, -6]))
-  expect_silent(sample_locally2(X, X[4, ], "V1", fixed_variables = c("V5", "V6")))
+  expect_silent(sample_locally2(X, X[4, ], "V1", 50, fixed_variables = c("V5", "V6")))
 })
 
 test_that("Predictions are added", {

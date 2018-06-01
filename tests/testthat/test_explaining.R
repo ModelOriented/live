@@ -22,6 +22,15 @@ test_that("White box model is fitted correctly", {
   expect_is(mlr::getLearnerModel(local_explained$model), "lm")
 })
 
+test_that("Kernel are okay", {
+  expect_equal(identity_kernel(1:10, 1:10), 1)
+  expect_equal(gaussian_kernel(1:10, 1:10), 1)
+  expect_equal(euclidean_kernel(1:10, 1:10), 1)
+  expect_true(identity_kernel(1:10, 1:10) == 1)
+  expect_true(gaussian_kernel(1:10, runif(10)) != 1)
+  expect_true(euclidean_kernel(1:10, runif(10)) != 1)
+})
+
 test_that("Plots are created without problems", {
   expect_output(plot(local_explained, type = "waterfall"), regexp = NA)
   expect_output(plot(local_explained, type = "forest"), regexp = NA)

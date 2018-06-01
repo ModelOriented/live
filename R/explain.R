@@ -1,4 +1,4 @@
-#' Calculate weights for explanation model
+  #' Calculate weights for explanation model
 #'
 #' @param simulated_dataset Dataset simulated by sample_locally function.
 #' @param explained_instance Instance to be explained.

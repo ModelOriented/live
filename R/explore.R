@@ -75,7 +75,7 @@ sample_locally2 <- function(data, explained_instance, explained_var, size,
 give_predictions2 <- function(data, black_box, explained_var, similar, predict_function,
                              hyperpars = list(), ...) {
   if(is.character(black_box)) {
-    mlr_task <- create_task2(black_box, as.data.frame(data), explained_var)
+    mlr_task <- create_task(black_box, as.data.frame(data), explained_var)
     lrn <- mlr::makeLearner(black_box, par.vals = hyperpars)
     trained <- mlr::train(lrn, mlr_task)
     pred <- predict(trained, newdata = as.data.frame(similar))

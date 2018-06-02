@@ -73,26 +73,6 @@ give_predictions <- function(data, black_box, explained_var, similar, predict_fu
   }
 }
 
-#' Create regression or classification task.
-#'
-#' @param model Name of a used model in mlr format.
-#' @param dataset Data frame on which model will be trained.
-#' @param target_var Name of column in dataset containing explained variable.
-#'
-#' @return mlr task object
-#'
-
-create_task <- function(model, dataset, target_var) {
-  if(grepl("regr", model)) {
-    mlr::makeRegrTask(id = "lime_task",
-                      data = as.data.frame(dataset),
-                      target = target_var)
-  } else {
-    mlr::makeClassifTask(id = "lime_task",
-                         data = as.data.frame(dataset),
-                         target = target_var)
-  }
-}
 
 #' Generate dataset for local exploration.
 #

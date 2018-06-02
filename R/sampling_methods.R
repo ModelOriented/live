@@ -8,6 +8,7 @@
 #' @return data.frame
 #'
 #'
+
 generate_neighbourhood2 <- function(data, explained_instance, size, fixed_variables) {
   data <- data.table::as.data.table(data)
   neighbourhood <- data.table::rbindlist(lapply(1:size, function(x) explained_instance))
@@ -22,10 +23,7 @@ generate_neighbourhood2 <- function(data, explained_instance, size, fixed_variab
 
 #' LIME: sampling for local exploration by permuting all columns.
 #'
-#' @param data Data frame from which observations will be generated.
-#' @param explained_instance A row in an original data frame (as a data.frame).
-#' @param size Number of observations to be generated.
-#' @param fixed_variables Names of column which will not be changed while sampling.
+#' @inheritParams generate_neighbourhood2
 #'
 #' @return data frame
 #'
@@ -38,6 +36,12 @@ permutation_neighbourhood <- function(data, explained_instance, size, fixed_vari
                     value = data[sample(1:nrow(data), size, replace = TRUE),
                                  k])
   }
-  set_constant_variables(neighbourhood, explained_instance, fixed_variables)
+  as.data.frame(set_constant_variables(neighbourhood, explained_instance, fixed_variables))
 }
+
+#' LIME: sampling for local exploration based on normal distribution
+#' 
+#' @inheritParams generate_neighbourhood2
+
+normal_neighbourhood <- function(data, explained_instance, size, fixed_variable, ...)
 

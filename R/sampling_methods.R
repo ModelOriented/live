@@ -64,7 +64,7 @@ normal_neighbourhood <- function(data, explained_instance, size, fixed_variables
       categorical_features <- as.data.table(head(categorical_features, size))
     } else {
       categorical_features <- as.data.table(rbindlist(lapply(1:size, 
-                                function(x) categorical_features[1, ])))
+                                function(x) categorical_features[1, , drop = FALSE])))
     }
     
     categorical_col_nums <- which(sapply(data, function(x) !is.numeric(x)))

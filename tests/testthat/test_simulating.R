@@ -50,6 +50,9 @@ test_that("Other sampling methods are okay", {
   expect_is(normal_neighbourhood(Xtmp, Xtmp[3, ], 50, NULL,
                                  mu = rep(1, 11), Sigma = diag(1, 11)),
             "data.frame")
+  expect_is(normal_neighbourhood(Xtmp, Xtmp[3, ], 2000, NULL,
+                                 mu = rep(1, 11), Sigma = diag(1, 11)),
+            "data.frame")
   expect_is(sample_locally2(X, X[3, ], "V1", 50, method = "normal",
                             NULL, mu = rep(1, 10), Sigma = diag(1, 10)),
             "live_explorer")

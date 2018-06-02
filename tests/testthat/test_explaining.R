@@ -27,6 +27,8 @@ test_that("Generics work", {
   expect_output(print(local1))
   expect_output(print(sample_locally2(X, X[3, ], "V1", 50)))
   expect_output(print(local_explained))
+  expect_output(print(add_predictions2(sample_locally2(X, X[3, ], "V1", 50), 
+                                       "regr.lm", X)))
   expect_output(print(fit_explanation2(local1, selection = T)))
   expect_output(print(fit_explanation2(local4, selection = T)))
   expect_output(print(fit_explanation2(local1, kernel = identity_kernel)))
@@ -41,6 +43,7 @@ test_that("Shiny app is fine", {
 test_that("Variable selection", {
   expect_silent(fit_explanation2(local1, selection = TRUE))
   expect_silent(fit_explanation2(local4, selection = TRUE))
+  expect_is(select_variables(X_factors, "V1", "gaussian"), "character")
 })
 
 test_that("Standardize option works", {

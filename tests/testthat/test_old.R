@@ -63,14 +63,17 @@ test_that("Plots are created without problems", {
 
 test_that("Other features", {
   expect_silent(sample_locally(X, X[4, ], "V1", 50, TRUE))
-  X$V12 <- seq(from = lubridate::ymd("2015-01-01"), 
-               to = lubridate::ymd("2020-01-01"), length.out = 500)
-  expect_silent(sample_locally(X, X[4, ], "V1", 50))
+  Xd <- X
+  Xd$V12 <- seq(from = lubridate::ymd("2015-01-01"), 
+                to = lubridate::ymd("2020-01-01"), length.out = 500)
+  expect_silent(sample_locally(Xd, Xd[4, ], "V1", 50))
+  expect_silent(plot_explanation(local_explained2_old, explained_instance = X[3, ]))
   expect_is(plot_explanation2(local_explained, "waterfall"), "ggplot")
   expect_is(plot_explanation2(local_explained, "forest"), "ggplot")
   expect_silent(plot_explanation2(local_explained2))
   expect_is(plot_explanation2(local_explained3, "waterfall"), "ggplot")
   expect_silent(fit_explanation(local1_old, "regr.lm", selection = TRUE))
+  expect_silent(plot_explanation(local2_explained_old, "waterfallplot", X2_old[3, ]))
 })
 
 

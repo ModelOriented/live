@@ -223,32 +223,13 @@ fit_explanation <- function(live_object, white_box, selection = FALSE,
     stop("First call add_predictions function to add black box predictions.")
 
   if(selection) {
-    form <- as.formula(paste(live_object$target, "~."))
-    explained_var_col <- which(colnames(live_object$data) == live_object$target)
-    lasso_fit <- glmnet::cv.glmnet(model.matrix(form, data = live_object$data),
-                                   as.matrix(live_object$data[, explained_var_col]),
-                                   family = response_family,
-                                   nfolds = 5, alpha = 1)
-    coefs_lasso <- glmnet::coef.cv.glmnet(lasso_fit)
-    nonzero_coefs <- row.names(coefs_lasso)[which(as.numeric(coefs_lasso) != 0)]
-    nonzero_coefs <- nonzero_coefs[nonzero_coefs != "(Intercept)"]
-    factors <- colnames(live_object$data)[sapply(live_object$data,
-                                                 function(x) is.character(x) | is.factor(x))]
-    selected_vars <- colnames(live_object$data)[colnames(live_object$data) %in% nonzero_coefs]
-
-    if(length(factors) != 0) {
-      selected_vars <- selected_vars[!is.na(selected_vars)]
-      factors_lasso <- setdiff(nonzero_coefs, selected_vars)
-      selected_factors_lgl <- sapply(factors, function(x) any(grepl(x, factors_lasso)))
-      selected_factors <- names(selected_factors_lgl)[selected_factors_lgl]
-      selected_vars <- c(selected_vars,
-                         selected_factors)
-    }
-
+    selected_vars <- select_variables(live_object$data, 
+                                      live_object$target, 
+                                      response_family)
   } else {
     selected_vars <- colnames(live_object$data)
   }
-
+  
   mlr_task <- create_task(white_box,
                           live_object$data[, unique(c(selected_vars, live_object$target))],
                           live_object$target)

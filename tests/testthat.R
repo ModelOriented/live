@@ -23,7 +23,12 @@ local_old <- sample_locally(data = X_old,
                             size = 50)
 local1_old <- add_predictions(X_old, local_old, "regr.svm")
 local_explained_old <- fit_explanation(local1, "regr.lm")
-
+local_explained2_old <- fit_explanation(local1, "regr.svm")
+X2_old <- X_old
+X2_old$V1 <- as.factor(as.character(X2_old$V1 > 0.5))
+local2_old <- sample_locally(X2_old, X2_old[4, ], "V1", 50)
+local2_old <- add_predictions(X2_old, local2_old, "classif.svm")
+local2_explained_old <- fit_explanation(local2_old, "classif.logreg")
 
 local2 <- sample_locally2(data = X2, explained_instance = X2[3, ],
                           explained_var = "V1", size = 500)
@@ -36,6 +41,9 @@ local4 <- sample_locally2(data = X,
                           explained_var = "V1",
                           size = 50)
 local4 <- add_predictions2(local4, "regr.svm", X)
+
+X_factors <- X
+X_factors$V4 <- as.factor(as.character(round(X_factors$V4)))
 
 count_diffs_in_rows <- function(table, row, explained_var) {
   col_no <- which(colnames(row) == explained_var)

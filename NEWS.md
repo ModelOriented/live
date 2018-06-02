@@ -1,3 +1,7 @@
+# live 1.5.7
+
+* New method of sampling ("normal").
+
 # 1ive 1.5.6
 
 * Waterfall plots can be viewed in a Shiny app.

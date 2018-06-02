@@ -40,8 +40,19 @@ test_that("Not too many changes are made", {
 
 })
 
-test_that("LIME sampling methods is okay", {
+test_that("Other sampling methods are okay", {
   expect_is(sample_locally2(X, X[3, ], "V1", 50, method = "lime"), "live_explorer")
+  Xtmp <- X
+  expect_is(normal_neighbourhood(Xtmp, Xtmp[3, ], 50, NULL,
+                                 mu = rep(1, 11), Sigma = diag(1, 11)),
+            "data.frame")
+  Xtmp$cat <- sample(letters, nrow(Xtmp), replace = T)
+  expect_is(normal_neighbourhood(Xtmp, Xtmp[3, ], 50, NULL,
+                                 mu = rep(1, 11), Sigma = diag(1, 11)),
+            "data.frame")
+  expect_is(sample_locally2(X, X[3, ], "V1", 50, method = "normal",
+                            NULL, mu = rep(1, 10), Sigma = diag(1, 10)),
+            "live_explorer")
 })
 
 test_that("Missing data are detected warning is given", {

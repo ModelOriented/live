@@ -39,3 +39,44 @@ permutation_neighbourhood <- function(data, explained_instance, size, fixed_vari
   as.data.frame(set_constant_variables(neighbourhood, explained_instance, fixed_variables))
 }
 
+#' LIME: sampling for local exploration using normal distribution.
+#'
+#' @inheritParams generate_neighbourhood2 
+#' @param ... Mean and covariance matrix for the normal distribution.
+#' 
+#' @importFrom data.table as.data.table rbindlist 
+#' @importFrom utils head
+#' 
+#' @return data.frame
+#' 
+
+normal_neighbourhood <- function(data, explained_instance, size, fixed_variables, ...) {
+  
+  numerical_features <- dplyr::select_if(data, is.numeric)
+  categorical_features <- dplyr::select_if(data, function(x) !is.numeric(x))
+  
+  numerical_part <- MASS::mvrnorm(size, ...)
+  
+  colnames(numerical_part) <- colnames(numerical_features)
+
+  if(ncol(categorical_features) > 0) {
+    if(size <= nrow(categorical_features)) {
+      categorical_features <- as.data.table(head(categorical_features, size))
+    } else {
+      categorical_features <- as.data.table(rbindlist(lapply(1:size, 
+                                function(x) categorical_features[1, ])))
+    }
+    
+    categorical_col_nums <- which(sapply(data, function(x) !is.numeric(x)))
+    
+    for(k in 1:ncol(categorical_features)) {
+      data.table::set(categorical_features, j = as.integer(k),
+                      value = data[sample(1:nrow(data), size, replace = TRUE), 
+                                   categorical_col_nums[k]])
+    }
+  }  
+    
+  neighbourhood <- as.data.frame(cbind(numerical_part, categorical_features))
+  as.data.frame(set_constant_variables(neighbourhood,
+                                       explained_instance, fixed_variables))
+}

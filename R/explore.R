@@ -10,6 +10,7 @@
 #'        columns of data.
 #' @param fixed_variables names or numeric indexes of columns which will not be changed
 #'        while sampling.
+#' @param ... Mean and covariance matrix for normal sampling method.
 #'
 #' @return list consisting of
 #' \item{data}{Simulated dataset.}
@@ -29,18 +30,24 @@
 #'
 
 sample_locally2 <- function(data, explained_instance, explained_var, size,
-                           method = "live", fixed_variables = NULL) {
+                           method = "live", fixed_variables = NULL, ...) {
   check_conditions(data, explained_instance, size)
   explained_var_col <- which(colnames(data) == explained_var)
   if(method == "live") {
     similar <- generate_neighbourhood2(data[, -explained_var_col],
                                       explained_instance[, -explained_var_col], size,
                                       fixed_variables)
-  } else {
+  } else if(method == "lime") {
     similar <- permutation_neighbourhood(data[, -explained_var_col],
                                          explained_instance[, -explained_var_col],
                                          size,
                                          fixed_variables)
+  } else {
+    similar <- normal_neighbourhood(data[, -explained_var_col],
+                                    explained_instance[, -explained_var_col],
+                                    size,
+                                    fixed_variables,
+                                    ...)
   }
 
   explorer <- list(data = similar,

@@ -2,6 +2,7 @@
 #'
 #' @param train_data dataset from which observations will be sampled.
 #' @param black_box_model Pre-trained  model with predict interface.
+#' @param target character, name of the response variable.
 #' @param explained_data Data frame with predictions to explain.
 #'
 #' @import shiny
@@ -11,14 +12,13 @@
 #' @return shiny app
 #'
 
-live_shiny <- function(train_data, black_box_model, explained_data = train_data) {
+live_shiny <- function(train_data, black_box_model, target, explained_data = train_data) {
   shinyApp(
     ui = fluidPage(
       column(3,
              sliderInput("instance", "Explained prediction (row number)",
                          min = 1, max = nrow(explained_data),
                          step = 1, round = T, value = 1),
-             selectInput("target", "Response variable", choices = colnames(train_data)),
              sliderInput("size", "Size of simulated dataset",
                          min = 100, max = 10000, step = 100,
                          round = T, value = 1000),
@@ -40,7 +40,7 @@ live_shiny <- function(train_data, black_box_model, explained_data = train_data)
     server = function(input, output) {
       similars <- reactive({
         sample_locally2(train_data, explained_data[input$instance, ],
-                        input$target, input$size, input$method,
+                        target, input$size, input$method,
                         input$fixed)
       })
 

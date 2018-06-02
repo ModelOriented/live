@@ -5,3 +5,4 @@
 ^cheatsheet$
 ^cheatsheets$
 ^codecov\.yml$
+\.covrignore

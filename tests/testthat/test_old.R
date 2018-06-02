@@ -60,6 +60,7 @@ test_that("White box model is fitted correctly", {
   expect_error(fit_explanation(local1_old_tmp))
   expect_silent(fit_explanation(local1_old, response_family = "gaussian",
                                 white_box = "regr.glm"))
+  expect_error(fit_explanation(sample_locally(X, X[3, ], "V1", 50)))
 })
 
 test_that("Plots are created without problems", {

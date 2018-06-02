@@ -4,7 +4,7 @@
 \alias{sample_locally}
 \title{Generate dataset for local exploration.
 DEPRECATED. Please refer to sample_locally2 function for updated and improved interface.
-This function will be removed in the next version of the package and was left only
+This function will be removed in the future and was left only
 to remain consistent with the examples given in https://arxiv.org/abs/1804.01955.
 For more, see NEWS and vignette.}
 \usage{
@@ -29,7 +29,7 @@ list
 \description{
 Generate dataset for local exploration.
 DEPRECATED. Please refer to sample_locally2 function for updated and improved interface.
-This function will be removed in the next version of the package and was left only
+This function will be removed in the future and was left only
 to remain consistent with the examples given in https://arxiv.org/abs/1804.01955.
 For more, see NEWS and vignette.
 }

@@ -97,7 +97,7 @@ create_task <- function(model, dataset, target_var) {
 #' Generate dataset for local exploration.
 #
 #' DEPRECATED. Please refer to sample_locally2 function for updated and improved interface.
-#' This function will be removed in the next version of the package and was left only
+#' This function will be removed in the future and was left only
 #' to remain consistent with the examples given in https://arxiv.org/abs/1804.01955.
 #' For more, see NEWS and vignette.
 #'
@@ -140,7 +140,7 @@ sample_locally <- function(data, explained_instance, explained_var, size,
 #' Add black box predictions to generated dataset
 #'
 #' DEPRECATED. Please refer to add_predictions2 function for updated and improved interface.
-#' This function will be removed in the next version of the package and was left only
+#' This function will be removed in the future and was left only
 #' to remain consistent with the examples given in https://arxiv.org/abs/1804.01955.
 #' For more, see NEWS and vignette.
 #'
@@ -190,7 +190,7 @@ add_predictions <- function(data, to_explain, black_box_model, predict_fun = pre
 #' Fit white box model to the simulated data.
 #'
 #' DEPRECATED. Please refer to fit_explanation2 function for updated and improved interface.
-#' This function will be removed in the next version of the package and was left only
+#' This function will be removed in the future and was left only
 #' to remain consistent with the examples given in https://arxiv.org/abs/1804.01955.
 #' For more, see NEWS and vignette.
 #'
@@ -269,22 +269,18 @@ fit_explanation <- function(live_object, white_box, selection = FALSE,
 #'                  on which type of plot is to be created.
 #' @param fitted_model glm or lm object.
 #' @param explained_instance Observation around which model was fitted.
-#' @param scale Only for classification problems, "logit" or "probability".
+#' @param classif logical, if TRUE, probabilities will be plotted 
 #'
 #' @return plot (ggplot2 or lattice)
 #'
 
-plot_regression <- function(plot_type, fitted_model, explained_instance, scale = NULL) {
+plot_regression <- function(plot_type, fitted_model, explained_instance, classif) {
   if(plot_type == "forestplot") {
     forestmodel::forest_model(fitted_model)
   } else {
-    if(scale == "probability") {
+    if(classif) {
       plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"),
-           trans = function(x) exp(x)/(1 + exp(x))) +
-        ggplot2::scale_y_continuous(limits = c(0, 1),
-                                    name = "probability",
-                                    expand = c(0, 0))
-
+           trans = function(x) exp(x)/(1 + exp(x)))
     } else {
       plot(breakDown::broken(fitted_model, explained_instance, baseline = "intercept"))
     }
@@ -295,7 +291,7 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
 #' Plotting white box models.
 #'
 #' DEPRECATED. Please refer to generic plot function for updated and improved interface.
-#' This function will be removed in the next version of the package and was left only
+#' This function will be removed in the future and was left only
 #' to remain consistent with the examples given in https://arxiv.org/abs/1804.01955.
 #' For more, see NEWS and vignette.
 #'
@@ -305,8 +301,6 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
 #'                       if lm/glm model is used as interpretable approximation.
 #' @param explained_instance Observation around which model was fitted.
 #'                           Needed only if waterfall plot is drawn.
-#' @param scale When probabilities are predicted, they can be plotted or "logit" scale
-#'              or "probability" scale.
 #'
 #' @return plot (ggplot2 or base)
 #'
@@ -323,11 +317,12 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, scale =
 #' }
 #'
 
-plot_explanation <- function(model, regr_plot_type = NULL, explained_instance = NULL,
-                             scale = "logit") {
+plot_explanation <- function(model, regr_plot_type = NULL, explained_instance = NULL) {
   trained_model <- mlr::getLearnerModel(model)
+  classif <- model$learner$type == "classif"
+  
   if(any(grepl("lm", class(trained_model)))) {
-    plot_regression(regr_plot_type, trained_model, explained_instance, scale)
+    plot_regression(regr_plot_type, trained_model, explained_instance, classif)
   } else {
     plot(trained_model)
   }
@@ -335,19 +330,12 @@ plot_explanation <- function(model, regr_plot_type = NULL, explained_instance = 
 
 #' Plotting white box models.
 #'
-#' DEPRECATED. Please refer to generic plot function for updated and improved interface.
-#' This function will be removed in the next version of the package and was left only
-#' to remain consistent with the examples given in https://arxiv.org/abs/1804.01955.
-#' For more, see NEWS and vignette.
+#' DEPRECATED. Please refer to the generic plot function.
 #'
-#' @param model object returned by mlr::train function.
-#' @param regr_plot_type Chr, "forestplot" or "waterfallplot" depending
+#' @param explained_model List returned by fit_explanation function.
+#' @param regr_plot_type Chr, "forest" or "waterfall" depending
 #'                       on which type of plot is to be created.
 #'                       if lm/glm model is used as interpretable approximation.
-#' @param explained_instance Observation around which model was fitted.
-#'                           Needed only if waterfall plot is drawn.
-#' @param scale When probabilities are predicted, they can be plotted or "logit" scale
-#'              or "probability" scale.
 #'
 #' @return plot (ggplot2 or base)
 #'
@@ -356,19 +344,22 @@ plot_explanation <- function(model, regr_plot_type = NULL, explained_instance = 
 #' @examples
 #' \dontrun{
 #' # Forest plot for regression
-#' plot_explanation(fitted_explanation1, "forestplot", wine[5, ])
+#' plot_explanation(fitted_explanation1, "forest", wine[5, ])
 #' # Waterfall plot
-#' plot_explanation(fitted_explanation1, "waterfallplot", wine[5, ])
+#' plot_explanation(fitted_explanation1, "waterfall", wine[5, ])
 #' # Plot decision tree
 #' plot_explanation(fitted_explanation2)
 #' }
 #'
 
-plot_explanation2 <- function(model, regr_plot_type = NULL, explained_instance = NULL,
-                             scale = "logit") {
-  trained_model <- mlr::getLearnerModel(model)
+plot_explanation2 <- function(explained_model, regr_plot_type = NULL) {
+  trained_model <- mlr::getLearnerModel(explained_model$model)
+  present_variables <- colnames(explained_model$data)
+  explained_instance <- explained_model$explained_instance[, present_variables]
+  classif <- explained_model$model$learner$type == "classif"
+  
   if(any(grepl("lm", class(trained_model)))) {
-    plot_regression(regr_plot_type, trained_model, explained_instance, scale)
+    plot_regression2(regr_plot_type, trained_model, explained_instance, classif)
   } else {
     plot(trained_model)
   }

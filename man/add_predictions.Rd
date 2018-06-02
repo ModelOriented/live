@@ -30,7 +30,7 @@ list containing simulated dataset with added predictions,
 }
 \description{
 DEPRECATED. Please refer to add_predictions2 function for updated and improved interface.
-This function will be removed in the next version of the package and was left only
+This function will be removed in the future and was left only
 to remain consistent with the examples given in https://arxiv.org/abs/1804.01955.
 For more, see NEWS and vignette.
 }

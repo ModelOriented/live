@@ -1,30 +1,5 @@
 context("Fitting and plotting explanations")
 
-set.seed(1)
-X <- as.data.frame(matrix(runif(5500), ncol = 11, nrow = 500))
-X2 <- X
-X2$V1 <- as.factor(as.character(X2$V1 > 0.5))
-local <- sample_locally2(data = X,
-                         explained_instance = X[3, ],
-                         explained_var = "V1",
-                         size = 50)
-local1 <- add_predictions2(local, "regr.svm", X)
-local_explained <- fit_explanation2(local1, "regr.lm")
-local_explained2 <- fit_explanation2(local1, "regr.svm", kernel = identity_kernel)
-
-local2 <- sample_locally2(data = X2, explained_instance = X2[3, ],
-                         explained_var = "V1", size = 500)
-local3 <- add_predictions2(local2, "classif.svm", X2)
-local_explained3 <- fit_explanation2(local3, "classif.logreg", predict_type = "prob")
-
-X$V3 <- as.factor(as.character(round(X$V3)))
-local4 <- sample_locally2(data = X,
-                          explained_instance = X[3, ],
-                          explained_var = "V1",
-                          size = 50)
-local4 <- add_predictions2(local4, "regr.svm", X)
-
-
 test_that("White box model is fitted correctly", {
   expect_is(local_explained, "live_explainer")
   expect_silent(live:::create_task("classif.logreg", X2, "V1"))
@@ -46,6 +21,7 @@ test_that("Plots are created without problems", {
   expect_output(plot(local_explained2), regexp = NA)
   expect_is(plot(local_explained3, type = "waterfall"), "ggplot")
 })
+
 
 test_that("Generics work", {
   expect_output(print(local1))
@@ -76,5 +52,6 @@ test_that("Standardize option works", {
   d1 <- locals$data[, 1:10]
   d2 <- locals_expl$data[, 1:10]
   expect_equal(as.data.frame(sapply(d1, function(x) scale(x, scale = F))), d2[, 1:10])
+  expect_silent(fit_explanation2(local4, standardize = TRUE))
 })
 

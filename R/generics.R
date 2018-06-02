@@ -48,11 +48,7 @@ print.live_explainer <- function(x, ...) {
 print.live_explorer <- function(x, ...) {
   if(x$target %in% colnames(x$data)) {
     target_message <- "Black box model predictions were added"
-    if(class(x$model)[1] == "WrappedModel") {
-      model_message <- paste("Model: ", mlr::getLearnerId(x$model$learner))
-    } else {
-      model_message <- paste("Model: ", class(x$model)[1])
-    }
+    model_message <- paste("Model: ", class(x$model)[1])
   } else {
     target_message <- "Black box model predictions were not added"
     model_message <- NULL

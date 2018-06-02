@@ -89,10 +89,10 @@ fit_explanation2 <- function(live_object, white_box = "regr.lm",
                             kernel = gaussian_kernel, standardize = FALSE,
                             selection = FALSE, response_family = "gaussian",
                             predict_type = "response", hyperpars = list()) {
-  if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1)
-    stop("All predicted values were equal.")
   if(!(any(colnames(live_object$data) == live_object$target)))
     stop("First call add_predictions function to add black box predictions.")
+  if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1)
+    stop("All predicted values were equal.")
   source_data <- dplyr::select_if(live_object$data,
                                   function(x) dplyr::n_distinct(x) > 1)
   source_data <- dplyr::mutate_if(source_data, is.factor, droplevels)

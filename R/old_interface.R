@@ -217,10 +217,10 @@ add_predictions <- function(data, to_explain, black_box_model, predict_fun = pre
 fit_explanation <- function(live_object, white_box, selection = FALSE,
                             response_family = "gaussian",
                             predict_type = "response", hyperpars = list()) {
-  if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1)
-    stop("All predicted values were equal.")
   if(!(any(colnames(live_object$data) == live_object$target)))
     stop("First call add_predictions function to add black box predictions.")
+  if(dplyr::n_distinct(live_object$data[[live_object$target]]) == 1)
+    stop("All predicted values were equal.")
 
   if(selection) {
     selected_vars <- select_variables(live_object$data, 

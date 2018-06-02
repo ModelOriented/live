@@ -4,6 +4,12 @@ test_that("White box model is fitted correctly", {
   expect_is(local_explained, "live_explainer")
   expect_silent(live:::create_task("classif.logreg", X2, "V1"))
   expect_is(mlr::getLearnerModel(local_explained$model), "lm")
+  expect_error(fit_explanation2(sample_locally2(X, X[3, ], "V1", 50)))
+  local1_tmp <- local1
+  local1_tmp$data$V1 <- rep(1, 50)
+  expect_error(fit_explanation2(local1_tmp))
+  expect_silent(fit_explanation2(local1, "regr.glm",
+                                 response_family = "gaussian"))
 })
 
 test_that("Kernels are okay", {

@@ -52,8 +52,14 @@ test_that("Predictions are added", {
 })
 
 test_that("White box model is fitted correctly", {
+  expect_error(fit_explanation2(sample_locally2(X, X[3, ], "V1", 50)))
   expect_is(local_explained_old, "WrappedModel")
   expect_is(mlr::getLearnerModel(local_explained_old), "lm")
+  local1_old_tmp <- local1_old
+  local1_old_tmp$data$V1 <- rep(1, 50)
+  expect_error(fit_explanation(local1_old_tmp))
+  expect_silent(fit_explanation(local1_old, response_family = "gaussian",
+                                white_box = "regr.glm"))
 })
 
 test_that("Plots are created without problems", {

@@ -39,9 +39,3 @@ permutation_neighbourhood <- function(data, explained_instance, size, fixed_vari
   as.data.frame(set_constant_variables(neighbourhood, explained_instance, fixed_variables))
 }
 
-#' LIME: sampling for local exploration based on normal distribution
-#' 
-#' @inheritParams generate_neighbourhood2
-
-normal_neighbourhood <- function(data, explained_instance, size, fixed_variable, ...)
-

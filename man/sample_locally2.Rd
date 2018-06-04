@@ -19,7 +19,8 @@ as in data argument. Local exploration will be performed around this observation
 
 \item{method}{If "live", new observations will be created by changing one value
 per observation. If "lime", new observation will be created by permuting  all
-columns of data.}
+columns of data. If "normal", numerical features will be sampled from multivariate
+normal distribution specified by ... arguments mu and Sigma.}
 
 \item{fixed_variables}{names or numeric indexes of columns which will not be changed
 while sampling.}

@@ -35,6 +35,5 @@ Imports: mlr,
     data.table,
     forestmodel,
     lubridate,
-    ggplot2,
     shiny,
     MASS

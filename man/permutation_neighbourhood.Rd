@@ -4,7 +4,8 @@
 \alias{permutation_neighbourhood}
 \title{LIME: sampling for local exploration by permuting all columns.}
 \usage{
-permutation_neighbourhood(data, explained_instance, size, fixed_variables)
+permutation_neighbourhood(data, explained_instance, size, fixed_variables,
+  seed = NULL)
 }
 \arguments{
 \item{data}{Data frame from which observations will be generated.}
@@ -14,6 +15,8 @@ permutation_neighbourhood(data, explained_instance, size, fixed_variables)
 \item{size}{Number of observations to be generated.}
 
 \item{fixed_variables}{Names of column which will not be changed while sampling.}
+
+\item{seed}{Seed to set before sampling. If NULL, results will not be reproducible.}
 }
 \value{
 data frame

@@ -89,3 +89,10 @@ test_that("Predictions are added", {
   expect_error(add_predictions2(local_dataset, "regr.lm"))
 })
 
+test_that("Results are reproducible", {
+  expect_true(any(sample_locally2(X, X[3, ], "V1", 50)$data != sample_locally2(X, X[3, ], "V1", 50)$data))
+  expect_true(all(sample_locally2(X, X[3, ], "V1", 50, seed = 17)$data == sample_locally2(X, X[3, ], "V1", 50, seed = 17)$data))
+  expect_true(all(sample_locally2(X, X[3, ], "V1", 50, method = "lime", seed = 17)$data == sample_locally2(X, X[3, ], "V1", 50, method  = "lime", seed = 17)$data))
+  expect_true(all(sample_locally2(X, X[3, ], "V1", 50, method = "normal", seed = 17, mu = rep(0, 10), Sigma = diag(1, 10))$data == sample_locally2(X, X[3, ], "V1", 50, method = "normal", seed = 17, mu = rep(0, 10), Sigma = diag(1, 10))$data))
+})
+

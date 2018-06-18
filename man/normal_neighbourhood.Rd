@@ -4,7 +4,8 @@
 \alias{normal_neighbourhood}
 \title{LIME: sampling for local exploration using normal distribution.}
 \usage{
-normal_neighbourhood(data, explained_instance, size, fixed_variables, ...)
+normal_neighbourhood(data, explained_instance, size, fixed_variables,
+  seed = NULL, ...)
 }
 \arguments{
 \item{data}{Data frame from which observations will be generated.}
@@ -14,6 +15,8 @@ normal_neighbourhood(data, explained_instance, size, fixed_variables, ...)
 \item{size}{Number of observations to be generated.}
 
 \item{fixed_variables}{Names of column which will not be changed while sampling.}
+
+\item{seed}{Seed to set before sampling. If NULL, results will not be reproducible.}
 
 \item{...}{Mean and covariance matrix for the normal distribution.}
 }

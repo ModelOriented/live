@@ -11,6 +11,7 @@
 #'        normal distribution specified by ... arguments mu and Sigma.
 #' @param fixed_variables names or numeric indexes of columns which will not be changed
 #'        while sampling.
+#' @param seed Seed to set before sampling. If NULL, results will not be reproducible.
 #' @param ... Mean and covariance matrix for normal sampling method.
 #'
 #' @return list consisting of
@@ -31,23 +32,27 @@
 #'
 
 sample_locally2 <- function(data, explained_instance, explained_var, size,
-                           method = "live", fixed_variables = NULL, ...) {
+                           method = "live", fixed_variables = NULL, seed = NULL, ...) {
   check_conditions(data, explained_instance, size)
   explained_var_col <- which(colnames(data) == explained_var)
   if(method == "live") {
     similar <- generate_neighbourhood2(data[, -explained_var_col],
-                                      explained_instance[, -explained_var_col], size,
-                                      fixed_variables)
+                                      explained_instance[, -explained_var_col], 
+                                      size,
+                                      fixed_variables,
+                                      seed)
   } else if(method == "lime") {
     similar <- permutation_neighbourhood(data[, -explained_var_col],
                                          explained_instance[, -explained_var_col],
                                          size,
-                                         fixed_variables)
+                                         fixed_variables,
+                                         seed)
   } else {
     similar <- normal_neighbourhood(data[, -explained_var_col],
                                     explained_instance[, -explained_var_col],
                                     size,
                                     fixed_variables,
+                                    seed,
                                     ...)
   }
 

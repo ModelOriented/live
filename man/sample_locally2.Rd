@@ -5,7 +5,7 @@
 \title{Generate dataset for local exploration.}
 \usage{
 sample_locally2(data, explained_instance, explained_var, size,
-  method = "live", fixed_variables = NULL, ...)
+  method = "live", fixed_variables = NULL, seed = NULL, ...)
 }
 \arguments{
 \item{data}{Data frame from which new dataset will be simulated.}
@@ -24,6 +24,8 @@ normal distribution specified by ... arguments mu and Sigma.}
 
 \item{fixed_variables}{names or numeric indexes of columns which will not be changed
 while sampling.}
+
+\item{seed}{Seed to set before sampling. If NULL, results will not be reproducible.}
 
 \item{...}{Mean and covariance matrix for normal sampling method.}
 }

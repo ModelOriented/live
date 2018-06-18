@@ -78,10 +78,7 @@ normal_neighbourhood <- function(data, explained_instance, size, fixed_variables
     }
     
     categorical_col_nums <- which(sapply(data, function(x) !is.numeric(x)))
-    
-    if(!is.null(seed)) {
-      set.seed(seed)
-    }
+
     for(k in 1:ncol(categorical_features)) {
       data.table::set(categorical_features, j = as.integer(k),
                       value = data[sample(1:nrow(data), size, replace = TRUE), 

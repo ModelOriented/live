@@ -10,7 +10,7 @@
 
 ## Installation
 
-Install stable CRAN version:
+To get started, install stable CRAN version:
 
 ```
 install.packages("live")

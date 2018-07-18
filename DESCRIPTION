@@ -37,4 +37,5 @@ Imports: mlr,
     lubridate,
     shiny,
     MASS,
-    ggplot2
+    ggplot2,
+    gower

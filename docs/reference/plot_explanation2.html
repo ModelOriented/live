@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add predictions to generated dataset. — give_predictions • live</title>
+<title>Plotting white box models. — plot_explanation2 • live</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -48,7 +48,7 @@
 	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
         <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">Add predictions to generated dataset.</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">Plotting white box models.</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -96,58 +96,45 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add predictions to generated dataset.</h1>
+    <h1>Plotting white box models.</h1>
     </div>
 
     
-    <p>Add predictions to generated dataset.</p>
+    <p>DEPRECATED. Please refer to the generic plot function.</p>
     
 
-    <pre class="usage"><span class='fu'>give_predictions</span>(<span class='no'>data</span>, <span class='no'>black_box</span>, <span class='no'>explained_var</span>, <span class='no'>similar</span>, <span class='no'>predict_function</span>,
-  <span class='kw'>hyperpars</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_explanation2</span>(<span class='no'>explained_model</span>, <span class='kw'>regr_plot_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>Original data frame used to generate new dataset.</p></td>
+      <th>explained_model</th>
+      <td><p>List returned by fit_explanation function.</p></td>
     </tr>
     <tr>
-      <th>black_box</th>
-      <td><p>String with mlr signature of a learner or a model with predict interface.</p></td>
-    </tr>
-    <tr>
-      <th>explained_var</th>
-      <td><p>Name of a column with the variable to be predicted.</p></td>
-    </tr>
-    <tr>
-      <th>similar</th>
-      <td><p>Dataset created for local exploration.</p></td>
-    </tr>
-    <tr>
-      <th>predict_function</th>
-      <td><p>Either a "predict" function that returns a vector of the
-same type as response or custom function that takes a model as a first argument,
-new data used to calculate predictions as a second argument called "newdata"
-and returns a vector of the same type as response.
-Will be used only if a model object was provided in the black_box argument.</p></td>
-    </tr>
-    <tr>
-      <th>hyperpars</th>
-      <td><p>Optional list of (hyper)parameters to be passed to mlr::makeLearner.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional parameters to be passed to predict function.</p></td>
+      <th>regr_plot_type</th>
+      <td><p>Chr, "forest" or "waterfall" depending
+on which type of plot is to be created.
+if lm/glm model is used as interpretable approximation.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list containing black box model object and predictions.</p>
+    <p>plot (ggplot2 or base)</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># Forest plot for regression</span>
+<span class='fu'><a href='plot_explanation.html'>plot_explanation</a></span>(<span class='no'>fitted_explanation1</span>, <span class='st'>"forest"</span>, <span class='no'>wine</span>[<span class='fl'>5</span>, ])
+<span class='co'># Waterfall plot</span>
+<span class='fu'><a href='plot_explanation.html'>plot_explanation</a></span>(<span class='no'>fitted_explanation1</span>, <span class='st'>"waterfall"</span>, <span class='no'>wine</span>[<span class='fl'>5</span>, ])
+<span class='co'># Plot decision tree</span>
+<span class='fu'><a href='plot_explanation.html'>plot_explanation</a></span>(<span class='no'>fitted_explanation2</span>)
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -155,7 +142,9 @@ Will be used only if a model object was provided in the black_box argument.</p><
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>All news • live</title>
+<title>Changelog • live</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -23,8 +23,6 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -39,7 +37,7 @@
   <body>
     <div class="container template-news">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-default navbar-fixed-top navbar-mi2" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -47,10 +45,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">live</a>
+	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
+        <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
+	  </a>
+      <a class="navbar-brand navbar-mi2" href="../index.html"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="navbar-mi2 nav navbar-nav">
         <li>
   <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
@@ -68,18 +69,12 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/HR.html">Case study: Human Resources Analytics</a>
-    </li>
-    <li>
-      <a href="../articles/TCGA.html">Case study: The Cancer Genome Atlas</a>
-    </li>
-    <li>
       <a href="../articles/wine_quality.html">Case study: wine quality</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -102,58 +97,178 @@
 
   <div class="col-md-9">
     <div class="page-header">
-      <h1>Change log <small>All releases</small></h1>
+      <h1>Change log <small></small></h1>
     </div>
 
     <div class="contents">
+    <div id="live-1-5-8" class="section level1">
+<h1 class="page-header">
+<a href="#live-1-5-8" class="anchor"></a>live 1.5.8<small> Unreleased </small>
+</h1>
+<ul>
+<li>Allow setting seed before sampling in <code>sample_locally2</code> to make results reproducible.</li>
+<li>Add new explainer: <code>local_permutation_importance</code> function.d</li>
+</ul>
+</div>
+    <div id="live-1-5-7" class="section level1">
+<h1 class="page-header">
+<a href="#live-1-5-7" class="anchor"></a>live 1.5.7<small> 2018-06-03 </small>
+</h1>
+<ul>
+<li>New method of sampling (“normal”).</li>
+</ul>
+</div>
+    <div id="ive-1-5-6" class="section level1">
+<h1 class="page-header">
+<a href="#ive-1-5-6" class="anchor"></a>1ive 1.5.6<small> Unreleased </small>
+</h1>
+<ul>
+<li>Waterfall plots can be viewed in a Shiny app.</li>
+</ul>
+</div>
+    <div id="live-1-5-5" class="section level1">
+<h1 class="page-header">
+<a href="#live-1-5-5" class="anchor"></a>live 1.5.5<small> Unreleased </small>
+</h1>
+<ul>
+<li>Fixed bug related to standardizing columns in <code>fit_explanation</code>.</li>
+</ul>
+</div>
+    <div id="live-1-5-4" class="section level1">
+<h1 class="page-header">
+<a href="#live-1-5-4" class="anchor"></a>live 1.5.4<small> 2018-05-13 </small>
+</h1>
+<ul>
+<li>Old interface dropped.</li>
+</ul>
+</div>
+    <div id="live-1-5-3" class="section level1">
+<h1 class="page-header">
+<a href="#live-1-5-3" class="anchor"></a>live 1.5.3<small> 2018-05-05 </small>
+</h1>
+<ul>
+<li>Minor fix to <code>euclidean_kernel</code> function.</li>
+<li>Default kernel in <code>fit_explanation</code> is now <code>gaussian_kernel</code>.</li>
+<li>Order of arguments changed in <code>add_predictions</code> and <code>data</code> arguments defaults to <code>NULL</code>.</li>
+<li>Variables are standardized after predictions are added, before explanation model is fitted in <code>fit_explanation</code> function.</li>
+</ul>
+</div>
+    <div id="live-1-5-2" class="section level1">
+<h1 class="page-header">
+<a href="#live-1-5-2" class="anchor"></a>live 1.5.2<small> Unreleased </small>
+</h1>
+<ul>
+<li>Print functions for results of sample_locally, add_predictions and fit_explanation.</li>
+</ul>
+</div>
+    <div id="live-1-5-1" class="section level1">
+<h1 class="page-header">
+<a href="#live-1-5-1" class="anchor"></a>live 1.5.1<small> Unreleased </small>
+</h1>
+<ul>
+<li>New, LIME-like method of sampling as an option in <code>sample_locally</code>.</li>
+</ul>
+</div>
+    <div id="live-1-5-0" class="section level1">
+<h1 class="page-header">
+<a href="#live-1-5-0" class="anchor"></a>live 1.5.0<small> Unreleased </small>
+</h1>
+<ul>
+<li>Observations in simulated dataset can now be weighted according to their distance from the explained instance. The distance is defined by <code>kernel</code> argument to <code>fit_explanation</code> function.</li>
+<li>Some variables can be excluded from sampling. This is controled via <code>fixed_variables</code> argument to <code>sample_locally</code> function.</li>
+<li>Documentation was improved.</li>
+<li>Object returned by <code>sample_locally</code>, <code>add_predictions</code> and <code>fit_explanation</code> functions now carry more information (mainly explained instance) so some function calls were simplified (<code>plot_explanation</code>).</li>
+</ul>
+</div>
+    <div id="live-1-4-2" class="section level1">
+<h1 class="page-header">
+<a href="#live-1-4-2" class="anchor"></a>live 1.4.2<small> 2018-04-03 </small>
+</h1>
+<ul>
+<li>Fixed bug in variable selection.</li>
+</ul>
+</div>
+    <div id="live-1-4-1" class="section level1">
+<h1 class="page-header">
+<a href="#live-1-4-1" class="anchor"></a>live 1.4.1<small> Unreleased </small>
+</h1>
+<ul>
+<li>Variable selection is now better suited to work with factor/character variables.</li>
+</ul>
+</div>
+    <div id="live-1-4-0" class="section level1">
+<h1 class="page-header">
+<a href="#live-1-4-0" class="anchor"></a>live 1.4.0<small> Unreleased </small>
+</h1>
+<ul>
+<li>Variable selection is now based on LASSO as implemented in glmnet package.</li>
+<li>Updated documentation and vignette.</li>
+</ul>
+</div>
+    <div id="live-1-3-3" class="section level1">
+<h1 class="page-header">
+<a href="#live-1-3-3" class="anchor"></a>live 1.3.3<small> Unreleased </small>
+</h1>
+<ul>
+<li>
+<code>add_predictions</code> also returns black box model object (<code>model</code> element).</li>
+</ul>
+</div>
     <div id="live-1-3-2" class="section level1">
-<h1 class="hasAnchor">
-<a href="#live-1-3-2" class="anchor"></a>live 1.3.2</h1>
+<h1 class="page-header">
+<a href="#live-1-3-2" class="anchor"></a>live 1.3.2<small> Unreleased </small>
+</h1>
 <ul>
 <li>Hyperparameters can be also passed to <code>add_predictions</code> function.</li>
 </ul>
 </div>
     <div id="live-1-3-1" class="section level1">
-<h1 class="hasAnchor">
-<a href="#live-1-3-1" class="anchor"></a>live 1.3.1</h1>
+<h1 class="page-header">
+<a href="#live-1-3-1" class="anchor"></a>live 1.3.1<small> Unreleased </small>
+</h1>
 <ul>
 <li>
 <code>fit_explanation</code> is now more flexible, can take a list of hyperparameters for a chosen model.</li>
 </ul>
 </div>
     <div id="live-1-3-0" class="section level1">
-<h1 class="hasAnchor">
-<a href="#live-1-3-0" class="anchor"></a>live 1.3.0</h1>
+<h1 class="page-header">
+<a href="#live-1-3-0" class="anchor"></a>live 1.3.0<small> Unreleased </small>
+</h1>
 <ul>
 <li>For classification problems waterfall plots can be drawn on probability or logit scale.</li>
 </ul>
 </div>
     <div id="live-1-2-0" class="section level1">
-<h1 class="hasAnchor">
-<a href="#live-1-2-0" class="anchor"></a>live 1.2.0</h1>
+<h1 class="page-header">
+<a href="#live-1-2-0" class="anchor"></a>live 1.2.0<small> Unreleased </small>
+</h1>
 <ul>
 <li>Now using forestmodel package for better factor handling.</li>
 </ul>
 </div>
     <div id="live-1-1-2" class="section level1">
-<h1 class="hasAnchor">
-<a href="#live-1-1-2" class="anchor"></a>live 1.1.2</h1>
+<h1 class="page-header">
+<a href="#live-1-1-2" class="anchor"></a>live 1.1.2<small> Unreleased </small>
+</h1>
 <ul>
 <li>Date variables will now be hold constant while performing local exploration.</li>
 <li>Improved performance.</li>
 </ul>
 </div>
     <div id="live-1-1-1" class="section level1">
-<h1 class="hasAnchor">
-<a href="#live-1-1-1" class="anchor"></a>live 1.1.1</h1>
+<h1 class="page-header">
+<a href="#live-1-1-1" class="anchor"></a>live 1.1.1<small> Unreleased </small>
+</h1>
 <ul>
 <li>
 <code>add_predictions</code> improved to handle more learners (for example ranger).</li>
 </ul>
 </div>
     <div id="live-1-1-0" class="section level1">
-<h1 class="hasAnchor">
-<a href="#live-1-1-0" class="anchor"></a>live 1.1.0</h1>
+<h1 class="page-header">
+<a href="#live-1-1-0" class="anchor"></a>live 1.1.0<small> Unreleased </small>
+</h1>
 <ul>
 <li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
 <li>
@@ -161,8 +276,9 @@
 </ul>
 </div>
     <div id="live-1-0-0" class="section level1">
-<h1 class="hasAnchor">
-<a href="#live-1-0-0" class="anchor"></a>live 1.0.0</h1>
+<h1 class="page-header">
+<a href="#live-1-0-0" class="anchor"></a>live 1.0.0<small> Unreleased </small>
+</h1>
 <ul>
 <li>Cheatsheet added.</li>
 <li>First package release.</li>
@@ -174,7 +290,20 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <div id="tocnav">
       <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
+      <ul class="nav nav-pills nav-stacked contents-mi2">
+        <li><a href="#live-1-5-8">1.5.8</a></li>
+        <li><a href="#live-1-5-7">1.5.7</a></li>
+        <li><a href="#ive-1-5-6">1.5.6</a></li>
+        <li><a href="#live-1-5-5">1.5.5</a></li>
+        <li><a href="#live-1-5-4">1.5.4</a></li>
+        <li><a href="#live-1-5-3">1.5.3</a></li>
+        <li><a href="#live-1-5-2">1.5.2</a></li>
+        <li><a href="#live-1-5-1">1.5.1</a></li>
+        <li><a href="#live-1-5-0">1.5.0</a></li>
+        <li><a href="#live-1-4-2">1.4.2</a></li>
+        <li><a href="#live-1-4-1">1.4.1</a></li>
+        <li><a href="#live-1-4-0">1.4.0</a></li>
+        <li><a href="#live-1-3-3">1.3.3</a></li>
         <li><a href="#live-1-3-2">1.3.2</a></li>
         <li><a href="#live-1-3-1">1.3.1</a></li>
         <li><a href="#live-1-3-0">1.3.0</a></li>
@@ -203,3 +332,4 @@
 
   </body>
 </html>
+

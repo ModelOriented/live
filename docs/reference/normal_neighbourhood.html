@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add predictions to generated dataset. — give_predictions • live</title>
+<title>LIME: sampling for local exploration using normal distribution. — normal_neighbourhood • live</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -48,7 +48,7 @@
 	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
         <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">Add predictions to generated dataset.</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">LIME: sampling for local exploration using normal distribution.</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -96,56 +96,48 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add predictions to generated dataset.</h1>
+    <h1>LIME: sampling for local exploration using normal distribution.</h1>
     </div>
 
     
-    <p>Add predictions to generated dataset.</p>
+    <p>LIME: sampling for local exploration using normal distribution.</p>
     
 
-    <pre class="usage"><span class='fu'>give_predictions</span>(<span class='no'>data</span>, <span class='no'>black_box</span>, <span class='no'>explained_var</span>, <span class='no'>similar</span>, <span class='no'>predict_function</span>,
-  <span class='kw'>hyperpars</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>normal_neighbourhood</span>(<span class='no'>data</span>, <span class='no'>explained_instance</span>, <span class='no'>size</span>, <span class='no'>fixed_variables</span>,
+  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>Original data frame used to generate new dataset.</p></td>
+      <td><p>Data frame from which observations will be generated.</p></td>
     </tr>
     <tr>
-      <th>black_box</th>
-      <td><p>String with mlr signature of a learner or a model with predict interface.</p></td>
+      <th>explained_instance</th>
+      <td><p>A row in an original data frame (as a data.frame).</p></td>
     </tr>
     <tr>
-      <th>explained_var</th>
-      <td><p>Name of a column with the variable to be predicted.</p></td>
+      <th>size</th>
+      <td><p>Number of observations to be generated.</p></td>
     </tr>
     <tr>
-      <th>similar</th>
-      <td><p>Dataset created for local exploration.</p></td>
+      <th>fixed_variables</th>
+      <td><p>Names of column which will not be changed while sampling.</p></td>
     </tr>
     <tr>
-      <th>predict_function</th>
-      <td><p>Either a "predict" function that returns a vector of the
-same type as response or custom function that takes a model as a first argument,
-new data used to calculate predictions as a second argument called "newdata"
-and returns a vector of the same type as response.
-Will be used only if a model object was provided in the black_box argument.</p></td>
-    </tr>
-    <tr>
-      <th>hyperpars</th>
-      <td><p>Optional list of (hyper)parameters to be passed to mlr::makeLearner.</p></td>
+      <th>seed</th>
+      <td><p>Seed to set before sampling. If NULL, results will not be reproducible.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional parameters to be passed to predict function.</p></td>
+      <td><p>Mean and covariance matrix for the normal distribution.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list containing black box model object and predictions.</p>
+    <p>data.frame</p>
     
 
   </div>

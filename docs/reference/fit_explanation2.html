@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add predictions to generated dataset. — give_predictions • live</title>
+<title>Fit white box model to the simulated data. — fit_explanation2 • live</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -48,7 +48,7 @@
 	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
         <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">Add predictions to generated dataset.</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">Fit white box model to the simulated data.</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -96,58 +96,74 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add predictions to generated dataset.</h1>
+    <h1>Fit white box model to the simulated data.</h1>
     </div>
 
     
-    <p>Add predictions to generated dataset.</p>
+    <p>Fit white box model to the simulated data.</p>
     
 
-    <pre class="usage"><span class='fu'>give_predictions</span>(<span class='no'>data</span>, <span class='no'>black_box</span>, <span class='no'>explained_var</span>, <span class='no'>similar</span>, <span class='no'>predict_function</span>,
-  <span class='kw'>hyperpars</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>fit_explanation2</span>(<span class='no'>live_object</span>, <span class='kw'>white_box</span> <span class='kw'>=</span> <span class='st'>"regr.lm"</span>,
+  <span class='kw'>kernel</span> <span class='kw'>=</span> <span class='no'>gaussian_kernel</span>, <span class='kw'>standardize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>selection</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>response_family</span> <span class='kw'>=</span> <span class='st'>"gaussian"</span>, <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='st'>"response"</span>,
+  <span class='kw'>hyperpars</span> <span class='kw'>=</span> <span class='fu'>list</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>Original data frame used to generate new dataset.</p></td>
+      <th>live_object</th>
+      <td><p>List return by add_predictions function.</p></td>
     </tr>
     <tr>
-      <th>black_box</th>
-      <td><p>String with mlr signature of a learner or a model with predict interface.</p></td>
+      <th>white_box</th>
+      <td><p>String, learner name recognized by mlr package.</p></td>
     </tr>
     <tr>
-      <th>explained_var</th>
-      <td><p>Name of a column with the variable to be predicted.</p></td>
+      <th>kernel</th>
+      <td><p>function which will be used to calculate distance between simulated
+observations and explained instance.</p></td>
     </tr>
     <tr>
-      <th>similar</th>
-      <td><p>Dataset created for local exploration.</p></td>
+      <th>standardize</th>
+      <td><p>If TRUE, numerical variables will be scaled to have mean 0, variance 1
+before fitting explanation model.</p></td>
     </tr>
     <tr>
-      <th>predict_function</th>
-      <td><p>Either a "predict" function that returns a vector of the
-same type as response or custom function that takes a model as a first argument,
-new data used to calculate predictions as a second argument called "newdata"
-and returns a vector of the same type as response.
-Will be used only if a model object was provided in the black_box argument.</p></td>
+      <th>selection</th>
+      <td><p>If TRUE, variable selection based on glmnet implementation of LASSO
+will be performed.</p></td>
+    </tr>
+    <tr>
+      <th>response_family</th>
+      <td><p>family argument to glmnet (and then glm) function.
+Default value is "gaussian"</p></td>
+    </tr>
+    <tr>
+      <th>predict_type</th>
+      <td><p>Argument passed to mlr::makeLearner() argument "predict.type".
+Defaults to "response".</p></td>
     </tr>
     <tr>
       <th>hyperpars</th>
-      <td><p>Optional list of (hyper)parameters to be passed to mlr::makeLearner.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional parameters to be passed to predict function.</p></td>
+      <td><p>Optional list of values of hyperparameteres of a model.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list containing black box model object and predictions.</p>
+    <p>List consting of</p>
+<dt>data</dt><dd><p>Dataset used to fit explanation model (may have less column than the original)</p></dd>
+<dt>model</dt><dd><p>Fitted explanation model</p></dd>
+<dt>explained_instance</dt><dd><p>Instance that is being explained</p></dd>
+
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='no'>fitted_explanation</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_explanation2</span>(<span class='no'>local_exploration1</span>, <span class='st'>"regr.lm"</span>, <span class='kw'>selection</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -155,7 +171,9 @@ Will be used only if a model object was provided in the black_box argument.</p><
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

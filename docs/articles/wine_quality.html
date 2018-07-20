@@ -15,8 +15,8 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container template-article">
+      <header><div class="navbar navbar-default navbar-fixed-top navbar-mi2" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -24,10 +24,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">live</a>
+	  <a class="navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
+        <img src="https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt="MI2" height="46" title="MI2"></a>
+      <a class="navbar-brand navbar-mi2" href="../index.html"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="navbar-mi2 nav navbar-nav">
 <li>
   <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
@@ -45,18 +47,12 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/HR.html">Case study: Human Resources Analytics</a>
-    </li>
-    <li>
-      <a href="../articles/TCGA.html">Case study: The Cancer Genome Atlas</a>
-    </li>
-    <li>
       <a href="../articles/wine_quality.html">Case study: wine quality</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -76,94 +72,79 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Case study: wine quality</h1>
                         <h4 class="author">Mateusz Staniak</h4>
             
-          </div>
+      
+      <small class="dont-index">Source: <a href="https://github.com/MI2DataLab/live/blob/master/vignettes/wine_quality.Rmd"><code>vignettes/wine_quality.Rmd</code></a></small>
+      <div class="hidden name"><code>wine_quality.Rmd</code></div>
+
+    </div>
 
     
     
-<div class="contents">
-<pre><code>## Warning: replacing previous import 'BBmisc::isFALSE' by
-## 'backports::isFALSE' when loading 'mlr'</code></pre>
-<div id="about-the-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#about-the-data" class="anchor"></a>About the data</h3>
-<p>Wine quality is a well-known dataset which was an object of study in Paulo Cortez, University of Minho, Guimarães, Portugal, <a href="http://www3.dsi.uminho.pt/pcortez" class="uri">http://www3.dsi.uminho.pt/pcortez</a> A. Cerdeira, F. Almeida, T. Matos and J. Reis, Viticulture Commission of the Vinho Verde Region(CVRVV), Porto, Portugal 2009. Lichman, M. (2013).</p>
-<p>The dataset contains variuos properties of a set of wines. For each wine there is 11 features based on physicochemical tests like density or pH and also and outcome variable: a score that describes the wine’s quality. The score is based on evaluations made by wine experts.</p>
-<p>According to the results from the original article, Support Vector Machine model is better than other models, including linear regression, for prediction purposes. In this section we will show how <code>live</code> package can be used to fit linear regression model locally and generate a visual explanation for the black box model.</p>
+<div id="live-package-use-case-wine-quality-data" class="section level1">
+<h1 class="hasAnchor">
+<a href="#live-package-use-case-wine-quality-data" class="anchor"></a><code>live</code> package use case: wine quality data</h1>
+<p>The <code>live</code> package approximates black box model (here SVM model) with a simpler white box model (here linear regression model) to explain the local structure of a black box model and in consequence to assess how features contribute into a single prediction.</p>
+<div id="about-the-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#about-the-data" class="anchor"></a>About the data</h2>
+<p>The wine quality data is a well-known dataset which is commonly used as an example in predictive modeling. The main objective associated with this dataset is to predict the quality of some variants of Portuguese ,,Vinho Verde’’ based on 11 chemical properties. According to the results from the original article, the Support Vector Machine (SVM) model performs better than other models including linear regression, neural networks and others. We will explain the prediction for the fifth case in the dataset.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wine[<span class="dv">5</span>, ]</code></pre></div>
+<pre><code>## # A tibble: 1 x 12
+##   fixed_acidity volatile_acidity citric_acid residual_sugar chlorides
+##           &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt;
+## 1          7.40            0.700          0.           1.90    0.0760
+## # ... with 7 more variables: free_sulfur_dioxide &lt;dbl&gt;,
+## #   total_sulfur_dioxide &lt;dbl&gt;, density &lt;dbl&gt;, pH &lt;dbl&gt;, sulphates &lt;dbl&gt;,
+## #   alcohol &lt;dbl&gt;, quality &lt;int&gt;</code></pre>
 </div>
-<div id="performance-comparison" class="section level3">
-<h3 class="hasAnchor">
-<a href="#performance-comparison" class="anchor"></a>Performance comparison</h3>
-<p>First, we can perform a quick bechmark experiment to see that SVM performs better than linear regression and, say, neural network.</p>
-<table class="table">
-<thead><tr class="header">
-<th>Learner</th>
-<th>Mean MSE</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>SVM</td>
-<td>0.39</td>
-</tr>
-<tr class="even">
-<td>Linear regression</td>
-<td>0.43</td>
-</tr>
-<tr class="odd">
-<td>Neural network</td>
-<td>0.55</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="explaining-single-prediction" class="section level3">
-<h3 class="hasAnchor">
-<a href="#explaining-single-prediction" class="anchor"></a>Explaining single prediction</h3>
-<p>Suppose we want to understand prediction generated by SVM for the fifth observation in the dataset. To do this, we need to generate observations for local exploration.</p>
-<div id="simulating-a-dataset" class="section level5">
-<h5 class="hasAnchor">
-<a href="#simulating-a-dataset" class="anchor"></a>Simulating a dataset</h5>
-<p>We use <code>simulateSimilar</code> function from <code>live</code> package. <code>standardise</code> is set to <code>TRUE</code>, so all variables will be normalized.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">similar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sample_locally.html">sample_locally</a></span>(<span class="dt">data =</span> winequality_red,
-                          <span class="dt">explained_instance =</span> winequality_red[<span class="dv">5</span>, ], 
-                          <span class="dt">explained_var =</span> <span class="st">"quality"</span>, 
-                          <span class="dt">size =</span> <span class="dv">100</span>,
-                          <span class="dt">standardise =</span> <span class="ot">TRUE</span>)
-similar1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/add_predictions.html">add_predictions</a></span>(winequality_red, similar, <span class="st">"regr.randomForest"</span>)
-similar2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/add_predictions.html">add_predictions</a></span>(winequality_red, similar, <span class="st">"regr.svm"</span>)</code></pre></div>
-</div>
-<div id="training-white-box-model" class="section level4">
-<h4 class="hasAnchor">
-<a href="#training-white-box-model" class="anchor"></a>Training white box model</h4>
-<p>Then we fit linear regression model to predictions generated by SVM for this simulated dataset using  function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trained &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_explanation.html">fit_explanation</a></span>(<span class="dt">live_object =</span> similar1,
-                           <span class="dt">white_box =</span> <span class="st">"regr.lm"</span>,
-                           <span class="dt">selection =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<p>This function returns a native  object. Model object (for example lm object) can be extracted using  function. By setting  we choose to perform variable selection using AIC as implemented in  package which is available on CRAN.</p>
-</div>
-<div id="model-visualization" class="section level4">
-<h4 class="hasAnchor">
-<a href="#model-visualization" class="anchor"></a>Model visualization</h4>
-<p>Now we can visualize fitted model by calling  function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_explanation.html">plot_explanation</a></span>(trained,
-                 <span class="dt">regr_plot_type =</span> <span class="st">"forestplot"</span>,
-                 <span class="dt">explained_instance =</span> winequality_red[<span class="dv">5</span>, ])</code></pre></div>
-<p><img src="wine_quality_files/figure-html/plot-1.png" width="672"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_explanation.html">plot_explanation</a></span>(trained,
-                 <span class="dt">regr_plot_type =</span> <span class="st">"waterfall"</span>,
-                 <span class="dt">explained_instance =</span> winequality_red[<span class="dv">5</span>, ])</code></pre></div>
-<p><img src="wine_quality_files/figure-html/plot-2.png" width="672"></p>
-<p>Only variables chosen in the selection step are displayed. They are sorted according to the absolute value of t-test statistic. In the <code>Observed</code> column predictor values for case given in observation} argument are displayed. <code>Estimate</code> column gives fitted parameter values, while <code>Lower</code> and <code>Upper</code> give lower and upper bounds of 95% confidence interval, respectively. The plot show <code>Estimate</code> value on x axis. From the signs of the parameters and their magnitude wee can see how variables influence predictions.</p>
-</div>
+<div id="explaining-the-prediction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#explaining-the-prediction" class="anchor"></a>Explaining the prediction</h2>
+<p>Once we have the fitted model, we need to generate artificial observations around the selected observation for local exploration. We use <code>sample_locally2</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wine_svm &lt;-<span class="st"> </span>e1071<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/e1071/topics/svm">svm</a></span>(quality <span class="op">~</span>., <span class="dt">data =</span> wine)
+
+similar &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sample_locally2.html">sample_locally2</a></span>(<span class="dt">data =</span> wine,
+                           <span class="dt">explained_instance =</span> wine[<span class="dv">5</span>, ],
+                           <span class="dt">explained_var =</span> <span class="st">"quality"</span>,
+                           <span class="dt">size =</span> <span class="dv">500</span>)</code></pre></div>
+<p>This function generates observations that are similar to the observation of interest. Their number is controled by <code>size</code> argument. Two method of sampling are available through <code>method</code> argument. Method “live” changes a value of one variable per new observations, method “lime” permutes each column. Object returned by the function is a list that contains the dataset, name of the target variable and the explained instance.</p>
+<p>The next step is adding black box model predictions to the similar observations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">similar1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/add_predictions2.html">add_predictions2</a></span>(<span class="dt">to_explain =</span> similar,
+                             <span class="dt">black_box_model =</span> wine_svm)</code></pre></div>
+<p>If multiple models are to be explained, there is no need to generate multiple <em>artificial</em> datasets. Predictions of each model on a single simulated dataset can be added with the use of <code>add_predictions2</code> function. A different object should be created for each model, but the same result of a call to <code>sample_locally2</code> function should be used a <code>to_explain</code> argument. Black box model can be passed as a model object or as a name of  learner. While the object created by <code>sample_locally2</code> function stores the dataset, explained instance and the name of the response variable, object returned by <code>add_predictions2</code> function also stores the fitted black box model. The result of applying <code>sample_locally2</code> functions doesn’t contain the response and the result of <code>add_predictions2</code> contains a column with model predictions, which has the same name as response in original dataset. If a <code>mlr</code> name of a black box model is passed, dataset to train the model needs to be provided, too.</p>
+<p>Once the artificial data points around the case of interest are generated, we may fit the white box model to them. Here we fit linear regression model using <code>fit_explanation2</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wine_expl &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_explanation2.html">fit_explanation2</a></span>(<span class="dt">live_object =</span> similar1,
+                              <span class="dt">white_box =</span> <span class="st">"regr.lm"</span>)</code></pre></div>
+<p>This function returns a native <code>mlr</code> object. Model object (for example lm object) can be extracted with the use of <code>getLearnerModel</code> function from <code>mlr</code>. For datasets with larger number of variables, we could obtain sparse results by setting <code>selection = TRUE</code> in the <code>fit_explanation2</code> function. With this option variable selection based on LASSO implemented in <code>glmnet</code> package is performed. Features can be standardize before fitting explanation model by setting <code>standardize</code> argument to <code>TRUE</code>. When using Generalized Linear Model as a white box model it is possible to set <code>family</code> argument to one of the distribution families available in <code>glm</code> and <code>glmnet</code> functions via <code>response_family</code> argument to <code>fit_explanation2</code>. Moreover, for explanation models that support weights, observation can be weighted according to their distance from the explained instance. This behavior is controlled via <code>kernel</code> argument. Default kernel is gaussian kernel. If observations do not need to be weighted, <code>identity_kernel</code> can be used. User can define his own kernels, which are simply a function of two arguments that return a single number.</p>
+<p>The white box model <code>wine_expl</code> approximates the black box model <code>wine_svm</code> around the selected observation. Now we can visualize it with the generic <code>plot</code> function. If the model chosen as the white box has a <code>plot</code> method, the function will call it on the appropriate object. Two special plots are available for regression problems.</p>
+<p><em>Forest plot</em> from <code>forestmodel</code> package focuses on the local structure of the model by plotting estimates of the regressions coefficients along with confidence intervals and p-values.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(wine_expl, <span class="dt">type =</span> <span class="st">"forest"</span>)</code></pre></div>
+<p><img src="wine_quality_files/figure-html/forestplot-1.png" width="672"></p>
+<p><em>Break Down Plots</em> or waterfall plots from <code>breakDown</code> package display how predictors contribute to the prediction. For details see <code>breakDown</code> documentation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(wine_expl, <span class="dt">type =</span> <span class="st">"waterfall"</span>)</code></pre></div>
+<p><img src="wine_quality_files/figure-html/waterfallplot-1.png" width="672"></p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li>
+<a href="#live-package-use-case-wine-quality-data"><code>live</code> package use case: wine quality data</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#about-the-data">About the data</a></li>
+      <li><a href="#explaining-the-prediction">Explaining the prediction</a></li>
+      </ul>
+</li>
+      </ul>
+</div>
       </div>
 
 </div>

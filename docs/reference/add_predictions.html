@@ -23,8 +23,6 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -39,7 +37,7 @@
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-default navbar-fixed-top navbar-mi2" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -47,10 +45,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">live</a>
+	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
+        <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
+	  </a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">Add black box predictions to generated dataset</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="navbar-mi2 nav navbar-nav">
         <li>
   <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
@@ -68,18 +69,12 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/HR.html">Case study: Human Resources Analytics</a>
-    </li>
-    <li>
-      <a href="../articles/TCGA.html">Case study: The Cancer Genome Atlas</a>
-    </li>
-    <li>
       <a href="../articles/wine_quality.html">Case study: wine quality</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -105,7 +100,10 @@
     </div>
 
     
-    <p>Add black box predictions to generated dataset</p>
+    <p>DEPRECATED. Please refer to add_predictions2 function for updated and improved interface.
+This function will be removed in the future and was left only
+to remain consistent with the examples given in https://arxiv.org/abs/1804.01955.
+For more, see NEWS and vignette.</p>
     
 
     <pre class="usage"><span class='fu'>add_predictions</span>(<span class='no'>data</span>, <span class='no'>to_explain</span>, <span class='no'>black_box_model</span>, <span class='kw'>predict_fun</span> <span class='kw'>=</span> <span class='no'>predict</span>,
@@ -146,16 +144,17 @@ Will be used only if a model object was provided in the black_box argument.</p><
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list</p>
+    <p>list containing simulated dataset with added predictions,
+             name of a response variable and black box model object.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>local_exploration1</span> <span class='kw'>&lt;-</span> <span class='fu'>add_predictions</span>(<span class='no'>dataset_for_local_exploration</span>,
+<span class='no'>local_exploration1</span> <span class='kw'>&lt;-</span> <span class='fu'>add_predictions</span>(<span class='no'>wine</span>, <span class='no'>dataset_for_local_exploration</span>,
                                       <span class='kw'>black_box_model</span> <span class='kw'>=</span> <span class='st'>"regr.svm"</span>)
 <span class='co'># Pass trained model to the function.</span>
-<span class='no'>svm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>svm</span>(<span class='no'>quality</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>winequality_red</span>)
-<span class='no'>local_exploration2</span> <span class='kw'>&lt;-</span> <span class='fu'>add_predictions</span>(<span class='no'>dataset_for_local_exploration</span>,
+<span class='no'>svm_model</span> <span class='kw'>&lt;-</span> <span class='fu'>svm</span>(<span class='no'>quality</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
+<span class='no'>local_exploration2</span> <span class='kw'>&lt;-</span> <span class='fu'>add_predictions</span>(<span class='no'>wkne</span>, <span class='no'>dataset_for_local_exploration</span>,
                                       <span class='kw'>black_box_model</span> <span class='kw'>=</span> <span class='no'>svm_model</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
@@ -187,3 +186,4 @@ Will be used only if a model object was provided in the black_box argument.</p><
 
   </body>
 </html>
+

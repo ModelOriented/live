@@ -23,8 +23,6 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -39,7 +37,7 @@
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-default navbar-fixed-top navbar-mi2" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -47,10 +45,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">live</a>
+	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
+        <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
+	  </a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">live: visualizing interpretable models to explain black box models.</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="navbar-mi2 nav navbar-nav">
         <li>
   <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
@@ -68,18 +69,12 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/HR.html">Case study: Human Resources Analytics</a>
-    </li>
-    <li>
-      <a href="../articles/TCGA.html">Case study: The Cancer Genome Atlas</a>
-    </li>
-    <li>
       <a href="../articles/wine_quality.html">Case study: wine quality</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -105,22 +100,26 @@
     </div>
 
     
-    <p>This package aims to help locally fit and visualize interpretable models as in LIME methodology.
-Interface provided by mlr package is used. Tools are provided to create a simulated dataset of 
+    <p>This package aims to help locally fit and visualize interpretable models similarly to LIME methodology.
+Interface provided by mlr package is used. Tools are provided to create a simulated dataset of
 similar observations, fit a chosen white box models (GLM and CART in particular) and visualize
-them.</p>
+them. The methodology is based on Tulio Ribeiro, Singh, Guestrin (2016) &lt;doi:10.1145/2939672.2939778&gt;.
+More details can be found in Staniak, Biecek (2018) https://arxiv.org/abs/1804.01955.</p>
     
 
         
-    <h2 class="hasAnchor" id="important-function"><a class="anchor" href="#important-function"></a>Important function</h2>
+    <h2 class="hasAnchor" id="important-functions"><a class="anchor" href="#important-functions"></a>Important functions</h2>
 
-    <p><code><a href='sample_locally.html'>sample_locally</a></code> generates a dataset that will be used for local eploration.
-<code><a href='fit_explanation.html'>fit_explanation</a></code> fits a chosen model to simulated dataset.
-<code><a href='plot_explanation.html'>plot_explanation</a></code> visualizes fitted model.</p>
+    
+    <p><code><a href='sample_locally2.html'>sample_locally2</a></code> generates a dataset that will be used for local exploration.
+<code><a href='add_predictions2.html'>add_predictions2</a></code> adds black box model predictions to simulated dataset.
+<code><a href='fit_explanation2.html'>fit_explanation2</a></code> fits a chosen white box model to simulated dataset.
+<code>plot</code> visualizes fitted model.</p>
     
     <h2 class="hasAnchor" id="example-datasets"><a class="anchor" href="#example-datasets"></a>Example datasets</h2>
 
-    <p><code>wine_quality</code> Data on wine quality taken from 
+    
+    <p><code>wine</code> Data on wine quality taken from
 Modeling wine preferences by data mining from physicochemical properties</p>
     
 
@@ -129,7 +128,7 @@ Modeling wine preferences by data mining from physicochemical properties</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#important-function">Important function</a></li>
+      <li><a href="#important-functions">Important functions</a></li>
 
       <li><a href="#example-datasets">Example datasets</a></li>
           </ul>
@@ -151,3 +150,4 @@ Modeling wine preferences by data mining from physicochemical properties</p>
 
   </body>
 </html>
+

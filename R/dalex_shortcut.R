@@ -16,12 +16,12 @@
 #' @export
 #'
 
-live <- function(explainer, observation, target_variable_name,
-                 n_new_obs,
-                 local_model = "regr.lm",
-                 select_variables = F,
-                 predict_type = "response",
-                 kernel_type = gaussian_kernel, ...) {
+local_approximation <- function(explainer, observation, target_variable_name,
+                                n_new_obs,
+                                local_model = "regr.lm",
+                                select_variables = F,
+                                predict_type = "response",
+                                kernel_type = gaussian_kernel, ...) {
   
   neighbourhood <- sample_locally2(explainer$data,
                                    observation,

@@ -27,7 +27,8 @@ Suggests: knitr,
     testthat,
     glmnet,
     e1071,
-    covr
+    covr,
+    DALEX
 VignetteBuilder: knitr
 Imports: mlr, 
     dplyr,

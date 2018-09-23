@@ -4,8 +4,8 @@
 \alias{give_predictions2}
 \title{Add predictions to generated dataset.}
 \usage{
-give_predictions2(data, black_box, explained_var, similar, predict_function,
-  hyperpars = list(), ...)
+give_predictions2(data, black_box, explained_var, similar,
+  predict_function, hyperpars = list(), ...)
 }
 \arguments{
 \item{data}{Original data frame used to generate new dataset.}

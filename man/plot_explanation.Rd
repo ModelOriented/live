@@ -4,7 +4,8 @@
 \alias{plot_explanation}
 \title{Plotting white box models.}
 \usage{
-plot_explanation(model, regr_plot_type = NULL, explained_instance = NULL)
+plot_explanation(model, regr_plot_type = NULL,
+  explained_instance = NULL)
 }
 \arguments{
 \item{model}{object returned by mlr::train function.}

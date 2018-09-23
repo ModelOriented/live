@@ -4,16 +4,16 @@
 \alias{plot.live_explainer}
 \title{Plotting white box models.}
 \usage{
-\method{plot}{live_explainer}(x, ..., type = NULL)
+\method{plot}{live_explainer}(x, type = "waterfall", ...)
 }
 \arguments{
 \item{x}{List returned by fit_explanation function.}
 
-\item{...}{Additional parameters.}
-
 \item{type}{Chr, "forest" or "waterfall" depending
 on which type of plot is to be created.
 if lm/glm model is used as interpretable approximation.}
+
+\item{...}{Additional parameters.}
 }
 \value{
 plot (ggplot2 or base)

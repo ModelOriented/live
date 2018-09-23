@@ -9,6 +9,7 @@
 
 calculate_weights <- function(simulated_dataset, explained_instance, kernel) {
   for_weights_x <- dplyr::bind_rows(simulated_dataset, explained_instance)
+  for_weights_x <- dplyr::mutate_if(for_weights_x, is.character, as.factor)
   proxy_response <- rep(1, nrow(for_weights_x))
   for_weights <- dplyr::bind_cols(y = proxy_response, for_weights_x)
   proxy_model <- stats::lm(y ~., data = for_weights)
@@ -78,6 +79,8 @@ select_variables <- function(source_data, target, response_family) {
 #' \item{explained_instance}{Instance that is being explained}
 #'
 #' @export
+#'
+#' @import mlr
 #'
 #' @examples
 #' \dontrun{

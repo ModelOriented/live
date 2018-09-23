@@ -4,7 +4,8 @@
 \alias{live_shiny}
 \title{Function that starts a Shiny app which helps use LIVE.}
 \usage{
-live_shiny(train_data, black_box_model, target, explained_data = train_data)
+live_shiny(train_data, black_box_model, target,
+  explained_data = train_data)
 }
 \arguments{
 \item{train_data}{dataset from which observations will be sampled.}

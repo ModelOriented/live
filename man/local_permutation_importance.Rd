@@ -4,8 +4,8 @@
 \alias{local_permutation_importance}
 \title{Local permutation variable importance}
 \usage{
-local_permutation_importance(explained_instance, data, explained_var, model,
-  top_n = nrow(data))
+local_permutation_importance(explained_instance, data, explained_var,
+  model, top_n = nrow(data))
 }
 \arguments{
 \item{explained_instance}{Data frame with one observation for which

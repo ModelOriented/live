@@ -28,10 +28,10 @@ plot_regression2 <- function(plot_type, fitted_model, explained_instance, classi
 #' Plotting white box models.
 #'
 #' @param x List returned by fit_explanation function.
-#' @param ... Additional parameters.
 #' @param type Chr, "forest" or "waterfall" depending
 #'        on which type of plot is to be created.
 #'        if lm/glm model is used as interpretable approximation.
+#' @param ... Additional parameters.
 #'
 #' @return plot (ggplot2 or base)
 #'
@@ -48,7 +48,7 @@ plot_regression2 <- function(plot_type, fitted_model, explained_instance, classi
 #' }
 #'
 
-plot.live_explainer <- function(x, ..., type = NULL) {
+plot.live_explainer <- function(x, type = "waterfall", ...) {
   trained_model <- mlr::getLearnerModel(x$model)
   present_variables <- colnames(x$data)
   explained_instance <- x$explained_instance[, present_variables]

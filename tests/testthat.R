@@ -1,8 +1,9 @@
 library(testthat)
 library(live)
 library(mlr)
-library(data.table)
 library(lubridate)
+library(DALEX)
+library(data.table)
 
 set.seed(1)
 X <- as.data.frame(matrix(runif(5500), ncol = 11, nrow = 500))

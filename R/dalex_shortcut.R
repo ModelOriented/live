@@ -12,8 +12,20 @@
 #' @param kernel_type Function which will be used to calculate distances from
 #' simulated observation to explained instance
 #' @param ... Arguments to be passed to sample_locally2 function
+#' 
+#' @return object of class live_explainer. More details in fit_explanation2 function help.
 #'
 #' @export
+#' 
+#' @examples
+#' \dontrun{
+#' data('wine')
+#' library(randomForest)
+#' library(DALEX)
+#' rf <- randomForest(quality~., data = wine)
+#' expl <- explain(rf, wine, wine$quality)
+#' live_expl <- local_approximation(expl, wine[5, ], "quality", 500)
+#' }
 #'
 
 local_approximation <- function(explainer, observation, target_variable_name,

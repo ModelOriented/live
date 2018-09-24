@@ -30,6 +30,20 @@ simulated observation to explained instance}
 
 \item{...}{Arguments to be passed to sample_locally2 function}
 }
+\value{
+object of class live_explainer. More details in fit_explanation2 function help.
+}
 \description{
 Fit local model around the observation: shortcut for DALEX explainer objects
+}
+\examples{
+\dontrun{
+data('wine')
+library(randomForest)
+library(DALEX)
+rf <- randomForest(quality~., data = wine)
+expl <- explain(rf, wine, wine$quality)
+live_expl <- local_approximation(expl, wine[5, ], "quality", 500)
+}
+
 }

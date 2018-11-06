@@ -11,7 +11,7 @@
 #' @return plot (ggplot2 or lattice)
 #'
 
-plot_regression2 <- function(plot_type, fitted_model, explained_instance, classif) {
+plot_regression <- function(plot_type, fitted_model, explained_instance, classif) {
   if(plot_type == "forest") {
     forestmodel::forest_model(fitted_model)
   } else {
@@ -55,7 +55,7 @@ plot.live_explainer <- function(x, type = "waterfall", ...) {
   classif <- x$model$learner$type == "classif"
 
   if(any(grepl("lm", class(trained_model)))) {
-    plot_regression2(type, trained_model, explained_instance, classif)
+    plot_regression(type, trained_model, explained_instance, classif)
   } else {
     plot(trained_model)
   }

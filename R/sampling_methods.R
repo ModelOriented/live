@@ -10,7 +10,7 @@
 #'
 #'
 
-generate_neighbourhood2 <- function(data, explained_instance, size, fixed_variables, seed = NULL) {
+generate_neighbourhood <- function(data, explained_instance, size, fixed_variables, seed = NULL) {
   data <- data.table::as.data.table(data)
   neighbourhood <- data.table::rbindlist(lapply(1:size, function(x) explained_instance))
   if(!is.null(seed)) {
@@ -27,7 +27,7 @@ generate_neighbourhood2 <- function(data, explained_instance, size, fixed_variab
 
 #' LIME: sampling for local exploration by permuting all columns.
 #'
-#' @inheritParams generate_neighbourhood2
+#' @inheritParams generate_neighbourhood
 #'
 #' @return data frame
 #'
@@ -48,7 +48,7 @@ permutation_neighbourhood <- function(data, explained_instance, size, fixed_vari
 
 #' LIME: sampling for local exploration using normal distribution.
 #'
-#' @inheritParams generate_neighbourhood2 
+#' @inheritParams generate_neighbourhood
 #' @param ... Mean and covariance matrix for the normal distribution.
 #' 
 #' @importFrom data.table as.data.table rbindlist 

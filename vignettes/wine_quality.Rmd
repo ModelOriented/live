@@ -40,10 +40,10 @@ We use `sample_locally2` function.
 ```{r sample, warning = FALSE, message = FALSE}
 wine_svm <- e1071::svm(quality ~., data = wine)
 
-similar <- sample_locally2(data = wine,
-                           explained_instance = wine[5, ],
-                           explained_var = "quality",
-                           size = 500)
+similar <- sample_locally(data = wine,
+                          explained_instance = wine[5, ],
+                          explained_var = "quality",
+                          size = 500)
 ```              
 
 This function generates observations that are similar to the observation of interest.
@@ -56,8 +56,8 @@ Object returned by the function is a list that contains the dataset, name of the
 The next step is adding black box model predictions to the similar observations.
 
 ```{r add, warning = FALSE, message = FALSE}
-similar1 <- add_predictions2(to_explain = similar,
-                             black_box_model = wine_svm)
+similar1 <- add_predictions(to_explain = similar,
+                            black_box_model = wine_svm)
 ```
 
 If multiple models are to be explained, there is no need to generate multiple _artificial_ datasets.
@@ -71,8 +71,8 @@ If a `mlr` name of a black box model is passed, dataset to train the model needs
 Once the artificial data points around the case of interest are generated, we may fit the white box model to them. Here we fit linear regression model using `fit_explanation2` function.
 
 ```{r explanation, warning = FALSE, message = FALSE}
-wine_expl <- fit_explanation2(live_object = similar1,
-                              white_box = "regr.lm")
+wine_expl <- fit_explanation(live_object = similar1,
+                             white_box = "regr.lm")
 ```
 
 

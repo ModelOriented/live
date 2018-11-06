@@ -14,10 +14,12 @@ More details can be found in Staniak, Biecek (2018) https://arxiv.org/abs/1804.0
 }
 \section{Important functions}{
 
-\code{\link{sample_locally2}} generates a dataset that will be used for local exploration.
-\code{\link{add_predictions2}} adds black box model predictions to simulated dataset.
-\code{\link{fit_explanation2}} fits a chosen white box model to simulated dataset.
-\code{\link{plot}} visualizes fitted model.
+\code{\link{sample_locally}} generates a dataset that will be used for local exploration.
+\code{\link{add_predictions}} adds black box model predictions to simulated dataset.
+\code{\link{fit_explanation}} fits a chosen white box model to simulated dataset.
+generic \code{\link{plot}} function visualizes fitted model.
+\code{\link{local_approximation}} function can be used with DALEX explainers to perform 
+all the steps of local model exploration.
 }
 
 \section{Example datasets}{

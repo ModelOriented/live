@@ -23,15 +23,15 @@
 #'
 #' @examples
 #' \dontrun{
-#' dataset_for_local_exploration <- sample_locally2(data = wine,
-#'                                                explained_instance = wine[5, ],
-#'                                                explained_var = "quality",
-#'                                                size = 50,
-#'                                                standardise = TRUE)
+#' dataset_for_local_exploration <- sample_locally(data = wine,
+#'                                                 explained_instance = wine[5, ],
+#'                                                 explained_var = "quality",
+#'                                                 size = 50,
+#'                                                 standardise = TRUE)
 #' }
 #'
 
-sample_locally2 <- function(data, explained_instance, explained_var, size,
+sample_locally <- function(data, explained_instance, explained_var, size,
                            method = "live", fixed_variables = NULL, seed = NULL, ...) {
   check_conditions(data, explained_instance, size)
   explained_var_col <- which(colnames(data) == explained_var)
@@ -85,7 +85,7 @@ sample_locally2 <- function(data, explained_instance, explained_var, size,
 #' @return A list that consists of black box model object and predictions.
 #'
 
-give_predictions2 <- function(data, black_box, explained_var, similar, predict_function,
+give_predictions <- function(data, black_box, explained_var, similar, predict_function,
                              hyperpars = list(), ...) {
   if(is.character(black_box)) {
     mlr_task <- create_task(black_box, as.data.frame(data), explained_var)
@@ -128,20 +128,20 @@ give_predictions2 <- function(data, black_box, explained_var, similar, predict_f
 #'
 #' @examples
 #' \dontrun{
-#' local_exploration1 <- add_predictions2(wine, dataset_for_local_exploration,
+#' local_exploration1 <- add_predictions(wine, dataset_for_local_exploration,
 #'                                       black_box_model = "regr.svm")
 #' # Pass trained model to the function.
 #' svm_model <- svm(quality ~., data = wine)
-#' local_exploration2 <- add_predictions2(wine, dataset_for_local_exploration,
+#' local_exploration2 <- add_predictions(wine, dataset_for_local_exploration,
 #'                                       black_box_model = svm_model)
 #' }
 #'
 
-add_predictions2 <- function(to_explain, black_box_model, data = NULL, predict_fun = predict,
+add_predictions <- function(to_explain, black_box_model, data = NULL, predict_fun = predict,
                             hyperparams = list(), ...) {
   if(is.null(data) & is.character(black_box_model))
     stop("Dataset for training black box model must be provided")
-  trained_black_box <- give_predictions2(data = data,
+  trained_black_box <- give_predictions(data = data,
                                         black_box = black_box_model,
                                         explained_var = to_explain$target,
                                         similar = to_explain$data,

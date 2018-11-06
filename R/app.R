@@ -39,17 +39,17 @@ live_shiny <- function(train_data, black_box_model, target, explained_data = tra
     ),
     server = function(input, output) {
       similars <- reactive({
-        sample_locally2(train_data, explained_data[input$instance, ],
-                        target, input$size, input$method,
-                        input$fixed)
+        sample_locally(train_data, explained_data[input$instance, ],
+                       target, input$size, input$method,
+                       input$fixed)
       })
-
+      
       similars2 <- reactive({
-        add_predictions2(similars(), black_box_model)
+        add_predictions(similars(), black_box_model)
       })
       expl <- reactive({
-        fit_explanation2(similars2(), input$whitebox, standardize = input$standardize,
-                         selection = input$selection)
+        fit_explanation(similars2(), input$whitebox, standardize = input$standardize,
+                        selection = input$selection)
       })
       output$main_plot <- renderPlot(plot(expl(), type = "waterfall"))
     }

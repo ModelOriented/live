@@ -88,7 +88,7 @@ select_variables <- function(source_data, target, response_family) {
 #' }
 #'
 
-fit_explanation2 <- function(live_object, white_box = "regr.lm",
+fit_explanation <- function(live_object, white_box = "regr.lm",
                             kernel = gaussian_kernel, standardize = FALSE,
                             selection = FALSE, response_family = "gaussian",
                             predict_type = "response", hyperpars = list()) {

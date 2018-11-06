@@ -4,11 +4,11 @@ test_that("White box model is fitted correctly", {
   expect_is(local_explained, "live_explainer")
   expect_silent(live:::create_task("classif.logreg", X2, "V1"))
   expect_is(mlr::getLearnerModel(local_explained$model), "lm")
-  expect_error(fit_explanation2(sample_locally2(X, X[3, ], "V1", 50)))
+  expect_error(fit_explanation(sample_locally2(X, X[3, ], "V1", 50)))
   local1_tmp <- local1
   local1_tmp$data$V1 <- rep(1, 50)
-  expect_error(fit_explanation2(local1_tmp))
-  expect_silent(fit_explanation2(local1, "regr.glm",
+  expect_error(fit_explanation(local1_tmp))
+  expect_silent(fit_explanation(local1, "regr.glm",
                                  response_family = "gaussian"))
 })
 
@@ -31,13 +31,13 @@ test_that("Plots are created without problems", {
 
 test_that("Generics work", {
   expect_output(print(local1))
-  expect_output(print(sample_locally2(X, X[3, ], "V1", 50)))
+  expect_output(print(sample_locally(X, X[3, ], "V1", 50)))
   expect_output(print(local_explained))
-  expect_output(print(fit_explanation2(local1, selection = T)))
-  expect_output(print(fit_explanation2(local4, selection = T)))
-  expect_output(print(fit_explanation2(local1, kernel = identity_kernel)))
-  expect_output(print(fit_explanation2(local1, "regr.svm")))
-  expect_output(print(add_predictions2(local3, e1071::svm(V1~.,data = X2))))
+  expect_output(print(fit_explanation(local1, selection = T)))
+  expect_output(print(fit_explanation(local4, selection = T)))
+  expect_output(print(fit_explanation(local1, kernel = identity_kernel)))
+  expect_output(print(fit_explanation(local1, "regr.svm")))
+  expect_output(print(add_predictions(local3, e1071::svm(V1~.,data = X2))))
 })
 
 test_that("Shiny app is fine", {
@@ -45,20 +45,20 @@ test_that("Shiny app is fine", {
 })
 
 test_that("Variable selection", {
-  expect_silent(fit_explanation2(local1, selection = TRUE))
-  expect_silent(fit_explanation2(local4, selection = TRUE))
+  expect_silent(fit_explanation(local1, selection = TRUE))
+  expect_silent(fit_explanation(local4, selection = TRUE))
   expect_is(select_variables(X_factors, "V1", "gaussian"), "character")
 })
 
 test_that("Standardize option works", {
   set.seed(17)
   Xs <- as.data.frame(matrix(runif(5500), ncol = 11, nrow = 500))
-  locals <- sample_locally2(Xs, Xs[4, ], "V1", 50)
-  locals <- add_predictions2(locals, "regr.lm", Xs)
-  locals_expl <- fit_explanation2(locals, standardize = TRUE)
+  locals <- sample_locally(Xs, Xs[4, ], "V1", 50)
+  locals <- add_predictions(locals, "regr.lm", Xs)
+  locals_expl <- fit_explanation(locals, standardize = TRUE)
   d1 <- locals$data[, 1:10]
   d2 <- locals_expl$data[, 1:10]
   expect_equal(as.data.frame(sapply(d1, function(x) scale(x, scale = F))), d2[, 1:10])
-  expect_silent(fit_explanation2(local4, standardize = TRUE))
+  expect_silent(fit_explanation(local4, standardize = TRUE))
 })
 

@@ -36,7 +36,7 @@ sample_locally <- function(data, explained_instance, explained_var, size,
   check_conditions(data, explained_instance, size)
   explained_var_col <- which(colnames(data) == explained_var)
   if(method == "live") {
-    similar <- generate_neighbourhood2(data[, -explained_var_col],
+    similar <- generate_neighbourhood(data[, -explained_var_col],
                                       explained_instance[, -explained_var_col], 
                                       size,
                                       fixed_variables,

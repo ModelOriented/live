@@ -61,4 +61,3 @@ test_that("Standardize option works", {
   expect_equal(as.data.frame(sapply(d1, function(x) scale(x, scale = F))), d2[, 1:10])
   expect_silent(fit_explanation(local4, standardize = TRUE))
 })
-

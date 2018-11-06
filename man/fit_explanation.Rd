@@ -42,7 +42,7 @@ Fit white box model to the simulated data.
 }
 \examples{
 \dontrun{
-fitted_explanation <- fit_explanation2(local_exploration1, "regr.lm", selection = TRUE)
+fitted_explanation <- fit_explanation(local_exploration1, "regr.lm", selection = TRUE)
 }
 
 }

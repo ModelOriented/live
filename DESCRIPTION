@@ -38,4 +38,5 @@ Imports: mlr,
     shiny,
     MASS,
     ggplot2,
-    gower
+    gower,
+    e1071

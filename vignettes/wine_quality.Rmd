@@ -50,7 +50,7 @@ This function generates observations that are similar to the observation of inte
 Their number is controled by `size` argument.
 Two method of sampling are available through `method` argument.
 Method "live" changes a value of one variable per new observations,
-method "lime" permutes each column.
+method "permute" permutes each column.
 Object returned by the function is a list that contains the dataset, name of the target variable and the explained instance.
           
 The next step is adding black box model predictions to the similar observations.
@@ -65,7 +65,7 @@ Predictions of each model on a single simulated dataset can be added with the us
 A different object should be created for each model, but the same result of a call to `sample_locally` function should be used a `to_explain` argument.
 Black box model can be passed as a model object or as a name of \pkg{mlr} learner.
 While the object created by `sample_locally` function stores the dataset, explained instance and the name of the response variable, object returned by `add_predictions2` function also stores the fitted black box model.
-The result of applying `sample_locally` functions doesn't contain the response and the result of `add_predictions2` contains a column with model predictions, which has the same name as response in original dataset.
+The result of applying `sample_locally` functions doesn't contain the response and the result of `add_predictions` contains a column with model predictions, which has the same name as response in original dataset.
 If a `mlr` name of a black box model is passed, dataset to train the model needs to be provided, too.
 
 Once the artificial data points around the case of interest are generated, we may fit the white box model to them. Here we fit linear regression model using `fit_explanation2` function.

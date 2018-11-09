@@ -18,7 +18,7 @@ as in data argument. Local exploration will be performed around this observation
 \item{size}{Number of observations is a simulated dataset.}
 
 \item{method}{If "live", new observations will be created by changing one value
-per observation. If "lime", new observation will be created by permuting  all
+per observation. If "permute", new observation will be created by permuting  all
 columns of data. If "normal", numerical features will be sampled from multivariate
 normal distribution specified by ... arguments mu and Sigma.}
 

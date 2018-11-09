@@ -6,7 +6,7 @@
 #' @param explained_var Name of a column with the variable to be predicted.
 #' @param size Number of observations is a simulated dataset.
 #' @param method If "live", new observations will be created by changing one value
-#'        per observation. If "lime", new observation will be created by permuting  all
+#'        per observation. If "permute", new observation will be created by permuting  all
 #'        columns of data. If "normal", numerical features will be sampled from multivariate
 #'        normal distribution specified by ... arguments mu and Sigma.
 #' @param fixed_variables names or numeric indexes of columns which will not be changed
@@ -41,7 +41,7 @@ sample_locally <- function(data, explained_instance, explained_var, size,
                                       size,
                                       fixed_variables,
                                       seed)
-  } else if(method == "lime") {
+  } else if(method == "permute") {
     similar <- permutation_neighbourhood(data[, -explained_var_col],
                                          explained_instance[, -explained_var_col],
                                          size,

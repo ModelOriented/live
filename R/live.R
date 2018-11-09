@@ -32,3 +32,6 @@ NULL
 #' Modeling wine preferences by data mining from physicochemical properties.
 #' In Decision Support Systems, Elsevier, 47(4):547-553, 2009.
 "wine"
+
+#' @importFrom data.table as.data.table rbindlist
+#' @importFrom stats as.formula model.matrix

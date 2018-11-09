@@ -1,12 +1,3 @@
-#' Calculate weights for explanation model
-#'
-#' @param simulated_dataset Dataset simulated by sample_locally function.
-#' @param explained_instance Instance to be explained.
-#' @param kernel Chosen kernel function.
-#'
-#' @return Numeric vector of weights for each row in simulated dataset.
-#'
-
 calculate_weights <- function(simulated_dataset, explained_instance, kernel) {
   for_weights_x <- dplyr::bind_rows(simulated_dataset, explained_instance)
   for_weights_x <- dplyr::mutate_if(for_weights_x, is.character, as.factor)
@@ -20,16 +11,7 @@ calculate_weights <- function(simulated_dataset, explained_instance, kernel) {
          function(x) kernel(explained_instance_coords, x))
 }
 
-#' Select variables for explanation model.
-#'
-#' @param source_data Simulated dataset.
-#' @param target Name of the response variable.
-#' @param response_family Name of distribution family to be used in lasso/glm fit.
-#'
-#' @importFrom stats as.formula model.matrix
-#'
-#' @return Character vector of names of selected variables
-#'
+#' @importFrom stats model.matrix as.formula
 
 select_variables <- function(source_data, target, response_family) {
   form <- as.formula(paste(target, "~."))
@@ -73,10 +55,12 @@ select_variables <- function(source_data, target, response_family) {
 #'        Defaults to "response".
 #' @param hyperpars Optional list of values of hyperparameteres of a model.
 #'
-#' @return List consting of
+#' @return List of class "live_explainer" that consists of
 #' \item{data}{Dataset used to fit explanation model (may have less column than the original)}
 #' \item{model}{Fitted explanation model}
 #' \item{explained_instance}{Instance that is being explained}
+#' \item{weights}{Weights used in model fitting}
+#' \item{selected_variables}{Names of selected variables}
 #'
 #' @export
 #'

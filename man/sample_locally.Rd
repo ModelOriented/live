@@ -30,7 +30,7 @@ while sampling.}
 \item{...}{Mean and covariance matrix for normal sampling method.}
 }
 \value{
-list consisting of
+list of class "live_explorer" consisting of
 \item{data}{Simulated dataset.}
 \item{target}{Name of the response variable.}
 \item{explained_instance}{Instance that is being explained.}

@@ -32,10 +32,12 @@ Defaults to "response".}
 \item{hyperpars}{Optional list of values of hyperparameteres of a model.}
 }
 \value{
-List consting of
+List of class "live_explainer" that consists of
 \item{data}{Dataset used to fit explanation model (may have less column than the original)}
 \item{model}{Fitted explanation model}
 \item{explained_instance}{Instance that is being explained}
+\item{weights}{Weights used in model fitting}
+\item{selected_variables}{Names of selected variables}
 }
 \description{
 Fit white box model to the simulated data.

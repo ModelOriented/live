@@ -41,7 +41,7 @@ test_that("Not too many changes are made", {
 })
 
 test_that("Other sampling methods are okay", {
-  expect_is(sample_locally(X, X[3, ], "V1", 50, method = "lime"), "live_explorer")
+  expect_is(sample_locally(X, X[3, ], "V1", 50, method = "permute"), "live_explorer")
   Xtmp <- X
   expect_is(normal_neighbourhood(Xtmp, Xtmp[3, ], 50, NULL,
                                  mu = rep(1, 11), Sigma = diag(1, 11)),
@@ -92,7 +92,7 @@ test_that("Predictions are added", {
 test_that("Results are reproducible", {
   expect_true(any(sample_locally(X, X[3, ], "V1", 50)$data != sample_locally(X, X[3, ], "V1", 50)$data))
   expect_true(all(sample_locally(X, X[3, ], "V1", 50, seed = 17)$data == sample_locally(X, X[3, ], "V1", 50, seed = 17)$data))
-  expect_true(all(sample_locally(X, X[3, ], "V1", 50, method = "lime", seed = 17)$data == sample_locally(X, X[3, ], "V1", 50, method  = "lime", seed = 17)$data))
+  expect_true(all(sample_locally(X, X[3, ], "V1", 50, method = "permute", seed = 17)$data == sample_locally(X, X[3, ], "V1", 50, method  = "permute", seed = 17)$data))
   expect_true(all(sample_locally(X, X[3, ], "V1", 50, method = "normal", seed = 17, mu = rep(0, 10), Sigma = diag(1, 10))$data == sample_locally(X, X[3, ], "V1", 50, method = "normal", seed = 17, mu = rep(0, 10), Sigma = diag(1, 10))$data))
 })
 

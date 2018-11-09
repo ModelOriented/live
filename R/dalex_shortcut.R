@@ -11,9 +11,9 @@
 #' while fitting the local model. Defaults to "response"
 #' @param kernel_type Function which will be used to calculate distances from
 #' simulated observation to explained instance
-#' @param ... Arguments to be passed to sample_locally2 function
+#' @param ... Arguments to be passed to sample_locally function
 #' 
-#' @return object of class live_explainer. More details in fit_explanation2 function help.
+#' @return object of class live_explainer. More details in fit_explanation function help.
 #'
 #' @export
 #' 

@@ -1,0 +1,12 @@
+# A tibble: 6 x 12
+  fixed_acidity volatile_acidity citric_acid residual_sugar chlorides
+          <dbl>            <dbl>       <dbl>          <dbl>     <dbl>
+1           7.4             0.7         0               1.9     0.076
+2           7.8             0.88        0               2.6     0.098
+3           7.8             0.76        0.04            2.3     0.092
+4          11.2             0.28        0.56            1.9     0.075
+5           7.4             0.7         0               1.9     0.076
+6           7.4             0.66        0               1.8     0.075
+# ... with 7 more variables: free_sulfur_dioxide <dbl>,
+#   total_sulfur_dioxide <dbl>, density <dbl>, pH <dbl>, sulphates <dbl>,
+#   alcohol <dbl>, quality <int>

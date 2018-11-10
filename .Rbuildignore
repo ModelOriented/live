@@ -3,6 +3,7 @@
 ^\.Rproj\.user$
 ^.travis.yml
 ^docs$
+^arepo$
 ^cheatsheet$
 ^cheatsheets$
 ^codecov\.yml$

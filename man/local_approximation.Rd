@@ -28,10 +28,10 @@ while fitting the local model. Defaults to "response"}
 \item{kernel_type}{Function which will be used to calculate distances from
 simulated observation to explained instance}
 
-\item{...}{Arguments to be passed to sample_locally2 function}
+\item{...}{Arguments to be passed to sample_locally function}
 }
 \value{
-object of class live_explainer. More details in fit_explanation2 function help.
+object of class live_explainer. More details in fit_explanation function help.
 }
 \description{
 Fit local model around the observation: shortcut for DALEX explainer objects

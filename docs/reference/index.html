@@ -98,7 +98,7 @@
     <div class="page-header">
       <h1>
         Reference
-        <small>version&nbsp;1.5.8</small>
+        <small>version&nbsp;1.5.9</small>
       </h1>
     </div>
 
@@ -126,36 +126,6 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="add_predictions2.html">add_predictions2()</a></code> </p>
-          </td>
-          <td><p>Add black box predictions to generated dataset</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="calculate_weights.html">calculate_weights()</a></code> </p>
-          </td>
-          <td><p>Calculate weights for explanation model</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="check_conditions.html">check_conditions()</a></code> </p>
-          </td>
-          <td><p>Check if data, explained instance and size make sense.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="check_for_na.html">check_for_na()</a></code> </p>
-          </td>
-          <td><p>Alert user if NAs are present</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="create_task.html">create_task()</a></code> </p>
-          </td>
-          <td><p>Create regression or classification task.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
             <p><code><a href="euclidean_kernel.html">euclidean_kernel()</a></code> </p>
           </td>
           <td><p>LIME kernel equal to the inverse of euclidean distance.</p></td>
@@ -168,39 +138,9 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="fit_explanation2.html">fit_explanation2()</a></code> </p>
-          </td>
-          <td><p>Fit white box model to the simulated data.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
             <p><code><a href="gaussian_kernel.html">gaussian_kernel()</a></code> </p>
           </td>
           <td><p>LIME kernel from the original article with sigma = 1.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="generate_neighbourhood.html">generate_neighbourhood()</a></code> </p>
-          </td>
-          <td><p>LIME: sampling for local exploration</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="generate_neighbourhood2.html">generate_neighbourhood2()</a></code> </p>
-          </td>
-          <td><p>LIME: sampling for local exploration by changing one value per observation.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="give_predictions.html">give_predictions()</a></code> </p>
-          </td>
-          <td><p>Add predictions to generated dataset.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="give_predictions2.html">give_predictions2()</a></code> </p>
-          </td>
-          <td><p>Add predictions to generated dataset.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -223,21 +163,15 @@ observation of interest.</p></td>
         </tr><tr>
           <!--  -->
           <td>
+            <p><code><a href="local_approximation.html">local_approximation()</a></code> </p>
+          </td>
+          <td><p>Fit local model around the observation: shortcut for DALEX explainer objects</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
             <p><code><a href="local_permutation_importance.html">local_permutation_importance()</a></code> </p>
           </td>
           <td><p>Local permutation variable importance</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="normal_neighbourhood.html">normal_neighbourhood()</a></code> </p>
-          </td>
-          <td><p>LIME: sampling for local exploration using normal distribution.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="permutation_neighbourhood.html">permutation_neighbourhood()</a></code> </p>
-          </td>
-          <td><p>LIME: sampling for local exploration by permuting all columns.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -253,25 +187,7 @@ observation of interest.</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="plot_explanation.html">plot_explanation()</a></code> </p>
-          </td>
-          <td><p>Plotting white box models.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="plot_explanation2.html">plot_explanation2()</a></code> </p>
-          </td>
-          <td><p>Plotting white box models.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
             <p><code><a href="plot_regression.html">plot_regression()</a></code> </p>
-          </td>
-          <td><p>Waterfall plot or forestplot for lm/glm explanations.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="plot_regression2.html">plot_regression2()</a></code> </p>
           </td>
           <td><p>Waterfall plot or forestplot for lm/glm explanations.</p></td>
         </tr><tr>
@@ -297,35 +213,7 @@ observation of interest.</p></td>
           <td>
             <p><code><a href="sample_locally.html">sample_locally()</a></code> </p>
           </td>
-          <td><p>Generate dataset for local exploration.
-DEPRECATED. Please refer to sample_locally2 function for updated and improved interface.
-This function will be removed in the future and was left only
-to remain consistent with the examples given in https://arxiv.org/abs/1804.01955.
-For more, see NEWS and vignette.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="sample_locally2.html">sample_locally2()</a></code> </p>
-          </td>
           <td><p>Generate dataset for local exploration.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="select_variables.html">select_variables()</a></code> </p>
-          </td>
-          <td><p>Select variables for explanation model.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="set_constant_dates.html">set_constant_dates()</a></code> </p>
-          </td>
-          <td><p>Set date values to one value</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="set_constant_variables.html">set_constant_variables()</a></code> </p>
-          </td>
-          <td><p>Set date values to one value</p></td>
         </tr><tr>
           <!--  -->
           <td>

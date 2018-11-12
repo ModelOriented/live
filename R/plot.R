@@ -1,15 +1,5 @@
-#' Waterfall plot or forestplot for lm/glm explanations.
-#'
-#' @param plot_type Chr, "forest" or "waterfall" depending
-#'                  on which type of plot is to be created.
-#' @param fitted_model glm or lm object.
-#' @param explained_instance Observation around which model was fitted.
-#' @param classif logical, if TRUE, probabilities will be plotted 
-#'
 #' @importFrom graphics plot
-#'
-#' @return plot (ggplot2 or lattice)
-#'
+
 
 plot_regression <- function(plot_type, fitted_model, explained_instance, classif) {
   if(plot_type == "forest") {

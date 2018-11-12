@@ -1,6 +1,7 @@
 # live 1.5.9
-* Dropped old interface.
 
+* Dropped old interface.
+* Improved distance calculations.
 
 # live 1.5.8
 

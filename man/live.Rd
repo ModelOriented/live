@@ -8,7 +8,7 @@
 \description{
 This package aims to help locally fit and visualize interpretable models similarly to LIME methodology.
 Interface provided by mlr package is used. Tools are provided to create a simulated dataset of
-similar observations, fit a chosen white box models (GLM and CART in particular) and visualize
+similar observations, fit chosen white box models (GLM and CART in particular) and visualize
 them. The methodology is based on Tulio Ribeiro, Singh, Guestrin (2016) <doi:10.1145/2939672.2939778>.
 More details can be found in Staniak, Biecek (2018) https://arxiv.org/abs/1804.01955.
 }

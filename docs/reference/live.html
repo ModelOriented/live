@@ -102,7 +102,7 @@
     
     <p>This package aims to help locally fit and visualize interpretable models similarly to LIME methodology.
 Interface provided by mlr package is used. Tools are provided to create a simulated dataset of
-similar observations, fit a chosen white box models (GLM and CART in particular) and visualize
+similar observations, fit chosen white box models (GLM and CART in particular) and visualize
 them. The methodology is based on Tulio Ribeiro, Singh, Guestrin (2016) &lt;doi:10.1145/2939672.2939778&gt;.
 More details can be found in Staniak, Biecek (2018) https://arxiv.org/abs/1804.01955.</p>
     
@@ -111,10 +111,12 @@ More details can be found in Staniak, Biecek (2018) https://arxiv.org/abs/1804.0
     <h2 class="hasAnchor" id="important-functions"><a class="anchor" href="#important-functions"></a>Important functions</h2>
 
     
-    <p><code><a href='sample_locally2.html'>sample_locally2</a></code> generates a dataset that will be used for local exploration.
-<code><a href='add_predictions2.html'>add_predictions2</a></code> adds black box model predictions to simulated dataset.
-<code><a href='fit_explanation2.html'>fit_explanation2</a></code> fits a chosen white box model to simulated dataset.
-<code>plot</code> visualizes fitted model.</p>
+    <p><code><a href='sample_locally.html'>sample_locally</a></code> generates a dataset that will be used for local exploration.
+<code><a href='add_predictions.html'>add_predictions</a></code> adds black box model predictions to simulated dataset.
+<code><a href='fit_explanation.html'>fit_explanation</a></code> fits a chosen white box model to simulated dataset.
+generic <code>plot</code> function visualizes fitted model.
+<code><a href='local_approximation.html'>local_approximation</a></code> function can be used with DALEX explainers to perform 
+all the steps of local model exploration.</p>
     
     <h2 class="hasAnchor" id="example-datasets"><a class="anchor" href="#example-datasets"></a>Example datasets</h2>
 

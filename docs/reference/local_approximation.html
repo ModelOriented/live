@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate dataset for local exploration. — sample_locally • live</title>
+<title>Fit local model around the observation: shortcut for DALEX explainer objects — local_approximation • live</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -48,7 +48,7 @@
 	  <a class = "navbar-mi2logo" href="http://mi2.mini.pw.edu.pl/">
         <img src = "https://github.com/mi2-warsaw/MI2template/blob/master/inst/pkgdown/assets/MI2logo.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
 	  </a>
-      <a class="navbar-brand navbar-mi2" href="../index.html">Generate dataset for local exploration.</a>
+      <a class="navbar-brand navbar-mi2" href="../index.html">Fit local model around the observation: shortcut for DALEX explainer objects</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="navbar-mi2 nav navbar-nav">
@@ -96,76 +96,74 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate dataset for local exploration.</h1>
+    <h1>Fit local model around the observation: shortcut for DALEX explainer objects</h1>
     </div>
 
     
-    <p>Generate dataset for local exploration.</p>
+    <p>Fit local model around the observation: shortcut for DALEX explainer objects</p>
     
 
-    <pre class="usage"><span class='fu'>sample_locally</span>(<span class='no'>data</span>, <span class='no'>explained_instance</span>, <span class='no'>explained_var</span>, <span class='no'>size</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"live"</span>, <span class='kw'>fixed_variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>local_approximation</span>(<span class='no'>explainer</span>, <span class='no'>observation</span>, <span class='no'>target_variable_name</span>,
+  <span class='no'>n_new_obs</span>, <span class='kw'>local_model</span> <span class='kw'>=</span> <span class='st'>"regr.lm"</span>, <span class='kw'>select_variables</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='st'>"response"</span>, <span class='kw'>kernel_type</span> <span class='kw'>=</span> <span class='no'>gaussian_kernel</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>Data frame from which new dataset will be simulated.</p></td>
+      <th>explainer</th>
+      <td><p>a model to be explained, preprocessed by the DALEX::explain function</p></td>
     </tr>
     <tr>
-      <th>explained_instance</th>
-      <td><p>One row data frame with the same variables
-as in data argument. Local exploration will be performed around this observation.</p></td>
+      <th>observation</th>
+      <td><p>a new observation for which predictions need to be explained</p></td>
     </tr>
     <tr>
-      <th>explained_var</th>
-      <td><p>Name of a column with the variable to be predicted.</p></td>
+      <th>target_variable_name</th>
+      <td><p>name of the response variablea as a character</p></td>
     </tr>
     <tr>
-      <th>size</th>
-      <td><p>Number of observations is a simulated dataset.</p></td>
+      <th>n_new_obs</th>
+      <td><p>Number of observation in the simulated dataset</p></td>
     </tr>
     <tr>
-      <th>method</th>
-      <td><p>If "live", new observations will be created by changing one value
-per observation. If "permute", new observation will be created by permuting  all
-columns of data. If "normal", numerical features will be sampled from multivariate
-normal distribution specified by ... arguments mu and Sigma.</p></td>
+      <th>local_model</th>
+      <td><p>Character specyfing mlr learner to be used as a local model</p></td>
     </tr>
     <tr>
-      <th>fixed_variables</th>
-      <td><p>names or numeric indexes of columns which will not be changed
-while sampling.</p></td>
+      <th>select_variables</th>
+      <td><p>If TRUE, variable selection will be performed while
+fitting the local linear model</p></td>
     </tr>
     <tr>
-      <th>seed</th>
-      <td><p>Seed to set before sampling. If NULL, results will not be reproducible.</p></td>
+      <th>predict_type</th>
+      <td><p>Argument passed to mlr::makeLearner() argument "predict.type"
+while fitting the local model. Defaults to "response"</p></td>
+    </tr>
+    <tr>
+      <th>kernel_type</th>
+      <td><p>Function which will be used to calculate distances from
+simulated observation to explained instance</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Mean and covariance matrix for normal sampling method.</p></td>
+      <td><p>Arguments to be passed to sample_locally function</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list of class "live_explorer" consisting of</p>
-<dt>data</dt><dd><p>Dataset generated by sample_locally function with response variable.</p></dd>
-<dt>target</dt><dd><p>Name of the response variable.</p></dd>
-<dt>explained_instance</dt><dd><p>Instance that is being explained.</p></dd>
-<dt>sampling_method</dt><dd><p>Name of used sampling method</p></dd>
-<dt>fixed_variables</dt><dd><p>Names of variables which were not sampled</p></dd>
-<dt>sdevations</dt><dd><p>Standard deviations of numerical variables</p></dd>
-
+    <p>object of class live_explainer. More details in fit_explanation function help.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>dataset_for_local_exploration</span> <span class='kw'>&lt;-</span> <span class='fu'>sample_locally</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>,
-                                                <span class='kw'>explained_instance</span> <span class='kw'>=</span> <span class='no'>wine</span>[<span class='fl'>5</span>, ],
-                                                <span class='kw'>explained_var</span> <span class='kw'>=</span> <span class='st'>"quality"</span>,
-                                                <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>50</span>)
+<span class='fu'>data</span>(<span class='st'>'wine'</span>)
+<span class='fu'>library</span>(<span class='no'>randomForest</span>)
+<span class='fu'>library</span>(<span class='no'>DALEX</span>)
+<span class='no'>rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='no'>quality</span>~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wine</span>)
+<span class='no'>expl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/DALEX/topics/explain'>explain</a></span>(<span class='no'>rf</span>, <span class='no'>wine</span>, <span class='no'>wine</span>$<span class='no'>quality</span>)
+<span class='no'>live_expl</span> <span class='kw'>&lt;-</span> <span class='fu'>local_approximation</span>(<span class='no'>expl</span>, <span class='no'>wine</span>[<span class='fl'>5</span>, ], <span class='st'>"quality"</span>, <span class='fl'>500</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>

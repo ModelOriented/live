@@ -21,6 +21,8 @@ plot_regression <- function(plot_type, fitted_model, explained_instance, classif
 #'        on which type of plot is to be created.
 #'        if lm/glm model is used as interpretable approximation.
 #' @param ... Additional parameters that will be passed to plot.broken or plot method.
+#'        In particular, when number of features is large, top_features argument can
+#'        be set in plot.broken.
 #'
 #' @return plot (ggplot2 or base)
 #'

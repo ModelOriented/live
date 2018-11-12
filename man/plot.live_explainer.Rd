@@ -13,7 +13,9 @@
 on which type of plot is to be created.
 if lm/glm model is used as interpretable approximation.}
 
-\item{...}{Additional parameters that will be passed to plot.broken or plot method.}
+\item{...}{Additional parameters that will be passed to plot.broken or plot method.
+In particular, when number of features is large, top_features argument can
+be set in plot.broken.}
 }
 \value{
 plot (ggplot2 or base)

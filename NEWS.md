@@ -2,6 +2,7 @@
 
 * Dropped old interface.
 * Improved distance calculations.
+* ... argument added to `plot`.
 
 # live 1.5.8
 

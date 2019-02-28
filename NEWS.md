@@ -1,3 +1,8 @@
+# live 1.5.10
+
+* Updated CITATION.
+* Removed unnecessary dependency.
+
 # live 1.5.9
 
 * Dropped old interface.

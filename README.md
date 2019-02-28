@@ -36,7 +36,7 @@ If you have any bug reports, feature requests or ideas to improve the methodolog
 
 ## Materials
 
-Find the paper about `live` and [breakDown](https://github.com/pbiecek/breakDown) on [arXiv](https://arxiv.org/abs/1804.01955).
+Find the paper about `live` and [breakDown](https://github.com/pbiecek/breakDown) in [R Journal](https://journal.r-project.org/archive/2018/RJ-2018-072/index.html).
 
 Website: https://mi2datalab.github.io/live/
 

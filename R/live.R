@@ -4,7 +4,7 @@
 #' Interface provided by mlr package is used. Tools are provided to create a simulated dataset of
 #' similar observations, fit chosen white box models (GLM and CART in particular) and visualize
 #' them. The methodology is based on Tulio Ribeiro, Singh, Guestrin (2016) <doi:10.1145/2939672.2939778>.
-#' More details can be found in Staniak, Biecek (2018) https://arxiv.org/abs/1804.01955.
+#' More details can be found in Staniak, Biecek (2018) <doi:10.32614/RJ-2018-072>.
 #'
 #' @section Important functions:
 #' \code{\link{sample_locally}} generates a dataset that will be used for local exploration.

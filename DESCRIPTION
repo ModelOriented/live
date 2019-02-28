@@ -1,7 +1,7 @@
 Package: live
 Type: Package
 Title: Local Interpretable (Model-Agnostic) Visual Explanations
-Version: 1.5.9
+Version: 1.5.10
 Authors@R: c(
   person("Mateusz", "Staniak", role = c("cre","aut"),
     email = "mateusz.staniak@math.uni.wroc.pl"),
@@ -14,7 +14,7 @@ Description: Interpretability of complex machine learning models is a growing co
     This is achieved through local approximations that are either based on 
     additive regression like model or CART like model that allows for 
     higher interactions. The methodology is based on Tulio Ribeiro, Singh, Guestrin (2016) <doi:10.1145/2939672.2939778>.
-    More details can be found in Staniak, Biecek (2018) <arXiv:1804.01955>.
+    More details can be found in Staniak, Biecek (2018) <doi:10.32614/RJ-2018-072>.
 URL: https://github.com/MI2DataLab/live
 BugReports: https://github.com/MI2DataLab/live/issues
 License: MIT + file LICENSE
@@ -34,7 +34,6 @@ Imports: mlr,
     breakDown,
     data.table,
     forestmodel,
-    lubridate,
     shiny,
     MASS,
     ggplot2,
